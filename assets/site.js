@@ -58,9 +58,9 @@
   var SHEETS = {
     news: ['소식', { id: '아이디', date: '날짜', cat: '분류', title: '제목', text: '요약', body: '본문', info: '안내', photo: '사진', upcoming: '예정' }],
     activities: ['활동', { status: '상태', period: '기간', title: '사업명', text: '설명', meta: '함께한곳', photo: '사진' }],
-    statements: ['논평', { date: '날짜', kind: '종류', title: '제목', href: '링크' }],
-    docs: ['자료', { date: '날짜', kind: '종류', title: '제목', href: '링크' }],
-    press: ['언론', { date: '날짜', kind: '매체', title: '제목', href: '링크' }],
+    statements: ['논평', { id: '아이디', date: '날짜', kind: '종류', title: '제목', summary: '요약', body: '본문', photo: '사진', file: '첨부', href: '링크' }],
+    docs: ['자료', { id: '아이디', date: '날짜', kind: '종류', title: '제목', summary: '요약', body: '본문', photo: '사진', file: '첨부', href: '링크' }],
+    press: ['언론', { id: '아이디', date: '날짜', kind: '매체', title: '제목', summary: '요약', body: '본문', photo: '사진', file: '첨부', href: '링크' }],
     history: ['연혁', { date: '날짜', text: '내용' }],
     orgs: ['연서명명단', { kind: '유형', name: '이름' }],
     partners: ['협력', { name: '이름', role: '설명' }],
@@ -105,6 +105,10 @@
         n.info = n.info ? n.info.split('\n').filter(Boolean).map(function (l) { var i = l.indexOf(':'); return i > 0 ? [l.slice(0, i).trim(), l.slice(i + 1).trim()] : ['', l.trim()]; }) : null;
         if (!n.id) n.id = (n.date + '-' + n.title).replace(/[^0-9A-Za-z가-힣-]+/g, '-');
       });
+      if (key === 'statements' || key === 'docs' || key === 'press') out.forEach(function (n, i) {
+        n.body = n.body ? n.body.split(/\n\s*\n|\n/) : null;
+        if (!n.id) n.id = key + '-' + (i + 1);
+      });
       if (key === 'orgs') out = out.filter(function (o) { return o.kind !== '개인' && o.name; }).map(function (o) { return o.name; });
       if (key === 'settings') {
         D.guide = D.guide || {};
@@ -112,7 +116,7 @@
           if (/개인/.test(o.key) && /^\d+$/.test(o.value)) D.persons = parseInt(o.value, 10);
           if (/안내서/.test(o.key) && /내려받기/.test(o.key)) D.guide.download = o.value;
           if (/안내서/.test(o.key) && /소개/.test(o.key)) D.guide.about = o.value;
-          if (/안내서/.test(o.key) && /표지/.test(o.key)) D.guide.cover = o.value;
+          if (/안내서/.test(o.key) && /표지/.test(o.key) && o.value) D.guide.cover = o.value;
         });
         return;
       }
@@ -137,8 +141,11 @@
     if (/^[\w./-]+\.(jpe?g|png|webp|gif)$/i.test(v)) return v.indexOf('/') >= 0 ? v : 'assets/photos/' + v;
     return '';
   }
+  function photoList(v) {
+    return String(v || '').split(/[\n,]+/).map(function (x) { return photoSrc(x); }).filter(Boolean);
+  }
   function photoTag(v, cls, alt) {
-    var src = photoSrc(v);
+    var src = photoList(v)[0];
     return src ? '<img class="' + cls + '" src="' + esc(src) + '" alt="' + esc(alt || '') + '" loading="lazy" onerror="this.remove()">' : '';
   }
 
@@ -168,8 +175,9 @@
       var list = D[el.getAttribute('data-key')] || [];
       var lim = parseInt(el.getAttribute('data-limit') || '99', 10);
       el.innerHTML = list.slice(0, lim).map(function (s) {
-        var ext = /^https?:/.test(s.href || '');
-        return '<li><a href="' + esc(safeHref(s.href)) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '><span class="d">' + esc([s.date, s.kind].filter(Boolean).join(' · ')) + '</span><span class="t">' + esc(s.title) + '</span></a></li>';
+        var href = s.id ? 'record.html#' + encodeURIComponent(s.id) : safeHref(s.href);
+        var ext = !s.id && /^https?:/.test(href);
+        return '<li><a href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '><span class="d">' + esc([s.date, s.kind].filter(Boolean).join(' · ')) + '</span><span class="t">' + esc(s.title) + '</span></a></li>';
       }).join('');
     },
     'history': function (el) {
@@ -182,11 +190,36 @@
     'org-grid': function (el) {
       el.innerHTML = (D.orgs || []).map(function (o) { return '<li>' + esc(o) + '</li>'; }).join('');
     },
+    'record': function (el) {
+      var id = decodeURIComponent((location.hash || '').slice(1));
+      var groups = [['statements', '성명·논평', '#statements'], ['docs', '자료집', '#docs'], ['press', '언론 보도', '#press']];
+      var n, g;
+      groups.forEach(function (gr) { (D[gr[0]] || []).forEach(function (x) { if (!n && x.id === id) { n = x; g = gr; } }); });
+      if (!n) { el.innerHTML = '<p class="muted">찾는 글이 없습니다. <a href="statements.html">목소리와 기록 목록</a>으로 돌아가 주세요.</p>'; return; }
+      document.title = n.title + ' - 마포자원순환네트워크';
+      var body = (n.body && n.body.length ? n.body : (n.summary ? [n.summary] : [])).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+      if (!body) body = '<p class="muted">[본문을 넣어 주세요]</p>';
+      var more = photoList(n.photo).slice(1).map(function (src) { return '<img src="' + esc(src) + '" alt="" loading="lazy" onerror="this.remove()">'; }).join('');
+      var btns = '';
+      if (n.file) btns += '<a class="btn lg" href="' + esc(safeHref(n.file)) + '" target="_blank" rel="noopener">자료 내려받기</a>';
+      if (n.href && n.href !== '#') btns += '<a class="btn lg ghost" href="' + esc(safeHref(n.href)) + '" target="_blank" rel="noopener">' + (g[0] === 'press' ? '기사 원문 보기' : '원문 보기') + '</a>';
+      el.innerHTML = '<nav aria-label="위치" class="muted"><a href="statements.html">목소리와 기록</a> › <a href="statements.html' + g[2] + '">' + g[1] + '</a></nav>' +
+        '<div class="meta" style="margin-top:28px"><span class="badge">' + esc(n.kind) + '</span><span>' + esc(n.date) + '</span></div>' +
+        '<h1>' + esc(n.title) + '</h1>' + photoTag(n.photo, 'post-img', n.title) +
+        '<div class="body">' + body + '</div>' + (more ? '<div class="gallery">' + more + '</div>' : '') +
+        (btns ? '<div class="guide-actions">' + btns + '</div>' : '') +
+        '<div class="nav-row"><a class="more" href="statements.html' + g[2] + '">← 목록으로</a><a class="more" href="join.html">연서명으로 함께하기 →</a></div>';
+    },
     'guide': function (el) {
       var g = D.guide || {};
       var cover = el.querySelector('[data-guide-cover]');
       var src = photoSrc(g.cover);
-      if (cover && src) cover.innerHTML = '<img src="' + esc(src) + '" alt="『제로 웨이스트 도시를 위한 안내서』 한국어판 표지" onerror="this.remove()">';
+      if (cover && src) {
+        var im = new Image();
+        im.alt = '『제로 웨이스트 도시를 위한 안내서』 공식 한국어판 표지';
+        im.onload = function () { cover.innerHTML = ''; cover.appendChild(im); cover.classList.add('has-img'); };
+        im.src = src;
+      }
       var dl = el.querySelector('[data-guide-download]');
       if (dl) { if (g.download) { dl.href = safeHref(g.download); dl.hidden = false; } else dl.hidden = true; }
       var ab = el.querySelector('[data-guide-about]');
@@ -199,7 +232,9 @@
     },
     'upcoming': function (el) {
       var u = (D.news || []).filter(function (n) { return n.upcoming; });
-      if (!u.length) { el.innerHTML = '<p class="muted">지금 예정된 일정이 없습니다.</p>'; return; }
+      var sec = el.closest('section');
+      if (sec) sec.hidden = !u.length;
+      if (!u.length) { el.innerHTML = ''; return; }
       el.innerHTML = u.map(function (x) {
         return '<a class="upcoming" href="' + newsHref(x) + '"><div class="when">' + esc(x.date) + '<small>일시 확정 예정</small></div>' +
           '<div class="what"><strong>' + esc(x.title) + '</strong><span>' + esc(x.text) + '</span></div><span>자세히 보기 →</span></a>';
@@ -221,9 +256,10 @@
       document.title = n.title + ' - 마포자원순환네트워크';
       var body = (n.body && n.body.length ? n.body : [n.text]).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
       var info = n.info ? '<dl>' + n.info.map(function (r) { return '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('') + '</dl>' : '';
+      var more = photoList(n.photo).slice(1).map(function (src) { return '<img src="' + esc(src) + '" alt="" loading="lazy" onerror="this.remove()">'; }).join('');
       el.innerHTML = '<nav aria-label="위치" class="muted"><a href="news.html">소식·일정</a> › ' + esc(n.cat) + '</nav>' +
         '<div class="meta" style="margin-top:28px"><span class="badge">' + esc(n.upcoming ? '일정' : n.cat) + '</span><span>' + esc(n.date) + ' · 마포자원순환네트워크</span></div>' +
-        '<h1>' + esc(n.title) + '</h1>' + photoTag(n.photo, 'post-img', n.title) + info + '<div class="body">' + body + '</div>' +
+        '<h1>' + esc(n.title) + '</h1>' + photoTag(n.photo, 'post-img', n.title) + info + '<div class="body">' + body + '</div>' + (more ? '<div class="gallery">' + more + '</div>' : '') +
         '<div class="nav-row"><a class="more" href="news.html">← 소식 목록</a><a class="more" href="join.html">연서명으로 함께하기 →</a></div>';
     }
   };
@@ -315,6 +351,9 @@
   bindFilters();
   bindForm();
   addTopButton();
-  window.addEventListener('hashchange', function () { var p = document.querySelector('[data-render="post"]'); if (p) R.post(p); });
+  window.addEventListener('hashchange', function () {
+    var p = document.querySelector('[data-render="post"]'); if (p) R.post(p);
+    var r = document.querySelector('[data-render="record"]'); if (r) { R.record(r); window.scrollTo(0, 0); }
+  });
   loadAll().then(function () { if (CFG.SHEET_ID) renderAll(); });
 })();

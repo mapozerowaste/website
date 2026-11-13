@@ -12,8 +12,8 @@
   --muted: #45574B;
   --line: #DDE5DA;
   --field: #7E8F83;
-  --head: 'Gothic A1', 'Noto Sans KR', sans-serif;
-  --body: 'Noto Sans KR', sans-serif;
+  --head: 'Pretendard Variable', Pretendard, 'Noto Sans KR', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --body: 'Pretendard Variable', Pretendard, 'Noto Sans KR', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -221,24 +221,39 @@ h1, h2, h3 { font-family: var(--head); margin: 0; letter-spacing: -0.01em; }
 .card-img { display: block; max-width: none; width: calc(100% + 56px); margin: -28px -28px 6px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 18px 18px 0 0; background: var(--mint); }
 .post-img { display: block; width: 100%; margin-top: 32px; border-radius: 20px; aspect-ratio: 16 / 9; object-fit: cover; background: var(--mint); }
 
+[hidden] { display: none !important; }
+.to-top { box-shadow: 0 0 0 2px #fff, 0 6px 18px rgba(18, 38, 27, .25); }
+
 /* 안내서 발간 */
 .guide { background: var(--green); color: #fff; }
-.guide .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 48px 80px; padding-top: 96px; padding-bottom: 96px; }
-.guide .cover { flex: 0 0 260px; aspect-ratio: 3 / 4; border-radius: 6px 14px 14px 6px; overflow: hidden; background: var(--yellow); color: var(--ink); box-shadow: 0 24px 48px rgba(0,0,0,.28), inset 10px 0 0 rgba(18,38,27,.12); display: flex; flex-direction: column; justify-content: space-between; padding: 30px 26px 26px 34px; margin: 0 auto; }
-.guide .cover img { width: calc(100% + 60px); height: calc(100% + 56px); margin: -30px -26px -26px -34px; object-fit: cover; }
-.guide .cover small { font-family: var(--head); font-weight: 800; font-size: 13px; color: var(--green); }
-.guide .cover strong { font-family: var(--head); font-weight: 900; font-size: 30px; line-height: 1.25; }
-.guide .cover span { font-size: 13px; color: var(--ink-2); }
-.guide .text { flex: 1 1 420px; }
-.guide .eyebrow { color: var(--yellow); }
-.guide .eyebrow i { background: var(--yellow); }
-.guide h2 { margin-top: 12px; font-weight: 900; font-size: clamp(26px, 3vw, 38px); line-height: 1.35; }
-.guide p { margin: 18px 0 0; color: #E6EEE3; font-size: 18px; }
-.guide .actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+.guide .wrap { display: grid; grid-template-columns: minmax(200px, 300px) 1fr; align-items: center; gap: 48px 80px; padding-top: 96px; padding-bottom: 96px; }
+.guide-cover { margin: 0; justify-self: center; width: 100%; max-width: 300px; }
+.guide-cover img { display: block; width: 100%; height: auto; border-radius: 4px 10px 10px 4px; box-shadow: 0 24px 48px rgba(0, 0, 0, .32); }
+.guide-fallback { aspect-ratio: 3 / 4; border-radius: 4px 12px 12px 4px; background: var(--yellow); color: var(--ink); box-shadow: 0 24px 48px rgba(0, 0, 0, .3), inset 10px 0 0 rgba(18, 38, 27, .12); display: flex; flex-direction: column; justify-content: space-between; padding: 30px 24px 26px 34px; }
+.guide-fallback small { font-family: var(--head); font-weight: 800; font-size: 13px; color: var(--green); }
+.guide-fallback strong { font-family: var(--head); font-weight: 900; font-size: 28px; line-height: 1.25; }
+.guide-fallback span { font-size: 13px; color: var(--ink-2); }
+.guide-text .eyebrow { color: var(--yellow); }
+.guide-text .eyebrow i { background: var(--yellow); }
+.guide-text h2 { margin-top: 14px; font-weight: 900; font-size: clamp(26px, 3vw, 38px); line-height: 1.35; color: #fff; }
+.guide-text p { margin: 18px 0 0; color: #E6EEE3; font-size: 18px; max-width: 640px; }
+.guide-actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
 .guide .btn { background: var(--yellow); color: var(--ink); }
 .guide .btn:hover { background: #fff; color: var(--ink); }
 .guide .btn.ghost { background: transparent; color: #fff; box-shadow: inset 0 0 0 2px #fff; }
-.guide .btn.ghost:hover { background: rgba(255,255,255,.12); }
-@media (max-width: 600px) { .guide .wrap { padding-top: 64px; padding-bottom: 64px; } .guide .cover { flex-basis: 200px; } .guide .cover strong { font-size: 24px; } }
-[hidden] { display: none !important; }
-.to-top { box-shadow: 0 0 0 2px #fff, 0 6px 18px rgba(18, 38, 27, .25); }
+.guide .btn.ghost:hover { background: rgba(255, 255, 255, .12); }
+@media (max-width: 760px) {
+  .guide .wrap { grid-template-columns: 1fr; padding-top: 64px; padding-bottom: 64px; gap: 36px; }
+  .guide-cover { max-width: 220px; }
+}
+
+/* 사진 여러 장 */
+.gallery { margin-top: 28px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; background: var(--mint); }
+.post .guide-actions .btn.ghost { background: #fff; color: var(--green); box-shadow: inset 0 0 0 2px var(--green); }
+
+/* 글자 또렷하게 */
+body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+.nav { font-weight: 600; letter-spacing: -0.01em; }
+.site-footer strong { font-weight: 800; letter-spacing: -0.01em; }
+@media (max-width: 600px) { .hero .lead br { display: none; } }

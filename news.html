@@ -11,7 +11,8 @@
 <link rel="icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500;700;800;900&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body data-page="news">
@@ -23,7 +24,7 @@
 <h1>지금, 네트워크에서는</h1>
 <p class="lead">다가오는 일정과 지나온 소식을 전합니다.</p>
 </div></section>
-<section class="sec tight"><div class="wrap"><div class="eyebrow"><span>다가오는</span><i aria-hidden="true"></i><span>일정</span></div><div data-render="upcoming"></div></div></section>
+<section class="sec tight" id="upcoming-sec" hidden><div class="wrap"><div class="eyebrow"><span>다가오는</span><i aria-hidden="true"></i><span>일정</span></div><div data-render="upcoming"></div></div></section>
 <section class="sec"><div class="wrap"><div class="eyebrow"><span>지난</span><i aria-hidden="true"></i><span>소식</span></div>
 <div class="filters" data-target="timeline" role="group" aria-label="소식 분류" style="margin-top:20px">
 <button type="button" aria-pressed="true" data-cat="">전체</button><button type="button" aria-pressed="false" data-cat="사업">사업·활동</button><button type="button" aria-pressed="false" data-cat="입장">입장</button><button type="button" aria-pressed="false" data-cat="연대">연대</button><button type="button" aria-pressed="false" data-cat="행사">행사·토론회</button>

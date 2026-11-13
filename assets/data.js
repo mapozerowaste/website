@@ -48,16 +48,16 @@ window.MZ_DATA = {
   },
   {
    "id": "apartment-model",
-   "date": "2026.03.23",
+   "date": "2026.03",
    "cat": "사업",
-   "title": "제로웨이스트 공동주택 모델 만들기 시작",
-   "text": "마포구가 발주한 2026년 제로웨이스트 공동주택 모델 만들기 사업을 마포자원순환네트워크 이름으로 계약해 시작했습니다.",
+   "title": "제로웨이스트 공동주택 모델 만들기",
+   "text": "마포구가 발주한 2026년 제로웨이스트 공동주택 모델 만들기 사업을 마포자원순환네트워크 이름으로 진행했습니다.",
    "upcoming": false,
    "photo": ""
   },
   {
    "id": "modu-network",
-   "date": "2026.03.03",
+   "date": "2026.02",
    "cat": "연대",
    "title": "‘모두!자원순환네트워크’ 첫 모임",
    "text": "서울 자치구의 자원순환 네트워크가 함께하는 연대체 이름을 정하고 첫 모임을 열었습니다.",
@@ -144,14 +144,23 @@ window.MZ_DATA = {
    "text": "마포구의회 다목적실에서 발족을 선언하고 포럼을 열었습니다.",
    "upcoming": false,
    "photo": ""
+  },
+  {
+   "id": "guide",
+   "date": "2025.06",
+   "cat": "발간",
+   "title": "『제로 웨이스트 도시를 위한 안내서』 공식 한국어판 발간",
+   "text": "제로 웨이스트 유럽(ZWE)의 마스터플랜을 한국과 지방정부 현실에 맞게 옮긴 안내서를 펴냈습니다.",
+   "upcoming": false,
+   "photo": ""
   }
  ],
  "activities": [
   {
-   "status": "진행 중",
-   "period": "2026",
+   "status": "사업 종료",
+   "period": "2026.03",
    "title": "제로웨이스트 공동주택 모델 만들기",
-   "text": "마포구가 발주한 2026년 사업입니다. 공동주택 단지와 함께 쓰레기를 줄이는 관리 모델을 만들고, 마포자원순환네트워크 이름으로 계약해 진행합니다.",
+   "text": "마포구가 발주한 2026년 사업입니다. 공동주택 단지와 함께 쓰레기를 줄이는 관리 모델을 만들었고, 마포자원순환네트워크 이름으로 계약해 진행했습니다.",
    "meta": "발주: 마포구",
    "photo": ""
   },
@@ -165,7 +174,7 @@ window.MZ_DATA = {
   },
   {
    "status": "발간",
-   "period": "",
+   "period": "2025.06",
    "title": "『제로 웨이스트 도시를 위한 안내서』 공식 한국어판",
    "text": "제로 웨이스트 유럽(ZWE)의 마스터플랜을 한국과 지방정부 현실에 맞게 번역했습니다. 소각장 없이 자립하는 도시의 해법을 담았습니다.",
    "meta": "원저: Zero Waste Europe",
@@ -181,9 +190,9 @@ window.MZ_DATA = {
   },
   {
    "status": "준비 중",
-   "period": "2026",
+   "period": "2026.02",
    "title": "‘모두!자원순환네트워크’ — 서울 자치구 연대",
-   "text": "자치구마다 생겨나는 자원순환 네트워크와 함께 서울자원순환네트워크를 준비합니다. 2026년 3월 3일 첫 모임을 열었습니다.",
+   "text": "자치구마다 생겨나는 자원순환 네트워크와 함께 서울자원순환네트워크를 준비합니다. 2026년 2월 첫 모임을 열었습니다.",
    "meta": "",
    "photo": ""
   },
@@ -201,25 +210,45 @@ window.MZ_DATA = {
    "date": "2026.02.12",
    "kind": "성명",
    "title": "추가 소각장 ‘설치 취소 판결’을 환영한다",
-   "href": "#"
+   "href": "",
+   "id": "court-statement",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   },
   {
    "date": "2025.11.24",
    "kind": "공동서명",
    "title": "GAIA·#BFFP 국제 공동서한 연명",
-   "href": "#"
+   "href": "",
+   "id": "gaia-bffp-letter",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   },
   {
    "date": "2025.11.14",
    "kind": "성명",
    "title": "‘소각’은 ‘재활용’에서 제외하겠다는 정부의 입장을 환영한다 (국문·영문)",
-   "href": "#"
+   "href": "",
+   "id": "statement-251114",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   },
   {
    "date": "2025.09.10",
    "kind": "논평",
    "title": "마포구는 폐기물 감량에 대한 종합대책을 수립해야",
-   "href": "#"
+   "href": "",
+   "id": "comment-250910",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   }
  ],
  "docs": [
@@ -227,31 +256,56 @@ window.MZ_DATA = {
    "date": "2026.01.30",
    "kind": "자료집",
    "title": "국회 토론회 ‘제로웨이스트로 가는 길: 예산으로 보는 자원순환정책’ 자료집",
-   "href": "#"
+   "href": "",
+   "id": "assembly-forum-book",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   },
   {
    "date": "2025.06.30",
    "kind": "선언문",
    "title": "마포자원순환네트워크 발족 선언문",
-   "href": "#"
+   "href": "",
+   "id": "launch-declaration",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   },
   {
    "date": "2025.06.30",
    "kind": "자료집",
    "title": "포럼 ‘소각장 너머 제로웨이스트 도시로’ 발제 자료집",
-   "href": "#"
+   "href": "",
+   "id": "launch-forum-book",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   },
   {
    "date": "2025",
    "kind": "자료집",
    "title": "서울시 자원순환 정책 돌아보기: 종량제 30주년 포럼 자료집",
-   "href": "#"
+   "href": "",
+   "id": "ppf30-forum-book",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   },
   {
-   "date": "",
+   "date": "2025.06",
    "kind": "안내서",
    "title": "『제로 웨이스트 도시를 위한 안내서』 공식 한국어판",
-   "href": "#"
+   "href": "",
+   "id": "zw-city-guide",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   }
  ],
  "press": [
@@ -259,31 +313,56 @@ window.MZ_DATA = {
    "date": "2026.01.30",
    "kind": "에너지데일리",
    "title": "국회 토론회 ‘제로웨이스트로 가는 길’ 보도",
-   "href": "http://www.energydaily.co.kr/news/articleView.html?idxno=164275"
+   "href": "http://www.energydaily.co.kr/news/articleView.html?idxno=164275",
+   "id": "energydaily-260130",
+   "summary": "국회 토론회 ‘제로웨이스트로 가는 길: 예산으로 보는 자원순환정책’을 다룬 기사입니다.",
+   "body": null,
+   "photo": "",
+   "file": ""
   },
   {
    "date": "2025.11.14",
    "kind": "#BFFP",
    "title": "소각을 재활용 통계에서 제외하기로 한 정부 결정을 환영합니다",
-   "href": "https://www.breakfreefromplastic.org/ko/2025/11/14/mapo-statement-recycling-statistics/"
+   "href": "https://www.breakfreefromplastic.org/ko/2025/11/14/mapo-statement-recycling-statistics/",
+   "id": "bffp-251114",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   },
   {
    "date": "2025.07.10",
    "kind": "슬로우뉴스",
    "title": "“짐승(소각장)을 만들면 계속 먹이(쓰레기)를 줘야 한다.”",
-   "href": "https://slownews.kr/140752"
+   "href": "https://slownews.kr/140752",
+   "id": "slownews-250710",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   },
   {
    "date": "2025.06.30",
    "kind": "데일리한국",
    "title": "포럼 ‘소각장 너머 제로웨이스트 도시로’ 보도",
-   "href": "https://daily.hankooki.com/news/articleView.html?idxno=1236562"
+   "href": "https://daily.hankooki.com/news/articleView.html?idxno=1236562",
+   "id": "hankooki-250630",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   },
   {
    "date": "2025.06.25",
    "kind": "에너지데일리",
    "title": "종량제 30주년 포럼 보도",
-   "href": "https://www.energydaily.co.kr/news/articleView.html?idxno=157321"
+   "href": "https://www.energydaily.co.kr/news/articleView.html?idxno=157321",
+   "id": "energydaily-250625",
+   "summary": "",
+   "body": null,
+   "photo": "",
+   "file": ""
   }
  ],
  "history": [
@@ -294,6 +373,10 @@ window.MZ_DATA = {
   {
    "date": "2025.06.30",
    "text": "마포자원순환네트워크 발족식 (마포구의회 다목적실)"
+  },
+  {
+   "date": "2025.06",
+   "text": "『제로 웨이스트 도시를 위한 안내서』 공식 한국어판 발간"
   },
   {
    "date": "2025.06.30",
@@ -320,12 +403,12 @@ window.MZ_DATA = {
    "text": "서울환경연합 ‘환경디딤돌상’ 수상"
   },
   {
-   "date": "2026.03.03",
+   "date": "2026.02",
    "text": "서울 자치구 연대 ‘모두!자원순환네트워크’ 첫 모임"
   },
   {
-   "date": "2026.03.23",
-   "text": "제로웨이스트 공동주택 모델 만들기 사업 시작 (마포구 발주)"
+   "date": "2026.03",
+   "text": "제로웨이스트 공동주택 모델 만들기 사업 (마포구 발주)"
   },
   {
    "date": "2026.06",
@@ -378,6 +461,6 @@ window.MZ_DATA = {
  "guide": {
   "about": "https://seoulkfem.or.kr/notice/?bmode=view&idx=167096804",
   "download": "",
-  "cover": ""
+  "cover": "assets/guide-cover.png"
  }
 };
