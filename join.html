@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>함께하기 - 마포자원순환네트워크</title>
+<meta name="description" content="연서명으로 마포자원순환네트워크에 함께하세요. 함께할 현장과 활동도 제안해 주세요.">
+<meta property="og:title" content="함께하기 - 마포자원순환네트워크">
+<meta property="og:description" content="연서명으로 마포자원순환네트워크에 함께하세요. 함께할 현장과 활동도 제안해 주세요.">
+<meta property="og:image" content="assets/logo.png">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500;700;800;900&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="join">
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<header id="site-header" class="site-header"></header>
+<main id="main">
+<section class="wave hero"><div class="wrap">
+<div class="kicker"><span>함께</span><i aria-hidden="true"></i><span>하기</span></div>
+<h1>이름을 올리는 것으로<br>연대가 시작됩니다</h1>
+<p class="lead">마포에서 자원순환 활동을 하거나 관심이 있다면 누구나 함께할 수 있습니다. 함께할 현장이나 활동을 제안해 주셔도 좋습니다.</p>
+</div></section>
+<section class="sec tight"><div class="wrap">
+<h2 class="sec-title" style="font-size:34px;margin:0">누가 참여하나요</h2>
+<div class="grid" style="margin-top:28px">
+<div class="card"><h3>단체</h3><p>시민단체, 협동조합, 마을공동체, 학교, 생협 등 마포에서 활동하는 비영리 조직</p></div>
+<div class="card"><h3>기업</h3><p>제로웨이스트 상점, 업사이클·수리·재사용 등 자원순환을 실천하는 기업과 가게</p></div>
+<div class="card"><h3>개인</h3><p>쓰레기 감량과 제로웨이스트 도시에 관심 있는 주민·시민 누구나</p></div>
+</div></div></section>
+<section class="sec"><div class="wrap" style="display:flex;flex-wrap:wrap;gap:48px 72px;align-items:flex-start">
+<div style="flex:1 1 360px">
+<h2 class="sec-title" style="font-size:34px;margin:0">연서명하면<br>이렇게 함께합니다</h2>
+<ol class="steps">
+<li><b>01</b><span><strong>함께하는 사람들에 이름이 실립니다</strong><span>단체·기업은 이름을, 개인은 인원수만 싣습니다.</span></span></li>
+<li><b>02</b><span><strong>소식과 일정을 받습니다</strong><span>회의, 포럼, 토론회, 공동 행동 소식을 전해 드립니다.</span></span></li>
+<li><b>03</b><span><strong>뜻이 맞는 만큼 참여합니다</strong><span>성명 연명, 정책 제안, 현장 조사, 국제 연대 활동에 원하는 만큼 함께합니다.</span></span></li>
+</ol></div>
+<form id="join-form" class="form" aria-labelledby="join-title" style="flex:1 1 440px" novalidate>
+<h2 id="join-title">참여 신청·제안</h2>
+<fieldset><legend>무엇을 하시나요?</legend><div class="radios">
+<label><input type="radio" name="purpose" value="연서명 참여" checked>연서명 참여</label>
+<label><input type="radio" name="purpose" value="현장·활동 제안">현장·활동 제안</label>
+</div></fieldset>
+<fieldset><legend>참여 유형</legend><div class="radios">
+<label><input type="radio" name="kind" value="단체" checked>단체</label>
+<label><input type="radio" name="kind" value="기업">기업</label>
+<label><input type="radio" name="kind" value="개인">개인</label>
+</div></fieldset>
+<div class="field"><label for="f-name">단체·기업명 또는 이름 <span class="muted">(필수)</span></label><input id="f-name" name="name" type="text" required autocomplete="organization"></div>
+<div class="two">
+<div class="field"><label for="f-contact">담당자 이름</label><input id="f-contact" name="contact" type="text" autocomplete="name"></div>
+<div class="field"><label for="f-tel">연락처</label><input id="f-tel" name="tel" type="tel" autocomplete="tel"></div>
+</div>
+<div class="field"><label for="f-email">이메일 <span class="muted">(필수)</span></label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
+<div class="field"><label for="f-msg" id="f-msg-label">함께하고 싶은 활동이나 한마디 (선택)</label><textarea id="f-msg" name="message" rows="3"></textarea></div>
+<div class="hp" aria-hidden="true"><label for="f-web">웹사이트</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+<label class="check"><input type="checkbox" name="publish">(단체·기업) 함께하는 사람들 명단에 이름을 공개하는 데 동의합니다.</label>
+<label class="check"><input type="checkbox" name="privacy">개인정보 수집·이용에 동의합니다. (필수) — 수집 항목: 이름, 담당자, 연락처, 이메일 / 목적: 연서명 확인과 소식 안내 / 보관: 탈퇴 요청 시까지</label>
+<button class="btn lg" type="submit">보내기</button>
+<div id="join-msg" class="notice" role="status" tabindex="-1" hidden></div>
+<p class="muted" style="margin:0;font-size:14px">보내 주시면 운영위원이 확인한 뒤 연락드립니다. 개인은 이름을 공개하지 않고 인원수로만 표시합니다.</p>
+</form>
+</div></section>
+</main>
+<footer id="site-footer" class="site-footer"></footer>
+<script src="assets/config.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
