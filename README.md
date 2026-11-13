@@ -10,7 +10,7 @@ GitHub Pages(무료)에 올리는 정적 홈페이지입니다. 내용은 구글
 | `assets/config.js` | **운영자가 고치는 유일한 설정 파일** — 구글 시트 ID, 신청서 웹앱 주소 |
 | `assets/data.js` | 기본 내용. 시트를 연결하지 않았거나 시트를 못 읽을 때 이 내용을 보여 줍니다 |
 | `assets/style.css`, `assets/site.js` | 디자인과 동작 |
-| `apps-script/Code.gs` | 연서명 신청·현장 제안 → 시트 저장 + support@sslmo.at 알림 메일 |
+| `apps-script/Code.gs` | 연서명 신청·현장 제안 → 시트 저장 + support@sslmo.at·mapozerowaste@gmail.com 알림 메일 |
 
 ## 1. GitHub Pages에 올리기
 

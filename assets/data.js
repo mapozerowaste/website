@@ -6,10 +6,11 @@ window.MZ_DATA = {
    "date": "2026.11",
    "cat": "일정",
    "title": "슈퍼마켓 감사 결과 발표 기자회견",
-   "text": "BFFP와 함께 진행한 슈퍼마켓 감사 결과를 기자회견으로 발표합니다. 일시와 장소는 확정되는 대로 알려드립니다.",
+   "text": "#BFFP와 함께 진행한 슈퍼마켓 감사 결과를 기자회견으로 발표합니다. 일시와 장소는 확정되는 대로 알려드립니다.",
    "upcoming": true,
+   "photo": "",
    "body": [
-    "마포자원순환네트워크는 #BreakFreeFromPlastic(BFFP)과 함께 슈퍼마켓 감사를 진행했습니다. 이 감사는 다정한 재단 ‘다정한 기금’의 지원으로 진행했습니다.",
+    "마포자원순환네트워크는 #BFFP와 함께 2026년 6월 슈퍼마켓 감사를 진행했습니다. 이 감사는 다정한 재단 ‘다정한 기금’의 지원으로 진행했습니다.",
     "[감사 대상과 방법, 주요 결과 요약을 넣어 주세요]",
     "기자회견에서는 감사 결과와 함께 [정책 요구]를 발표합니다. 언론과 시민 여러분의 관심을 부탁드립니다."
    ],
@@ -24,7 +25,7 @@ window.MZ_DATA = {
     ],
     [
      "주최",
-     "마포자원순환네트워크 · #BreakFreeFromPlastic"
+     "마포자원순환네트워크 · #BFFP"
     ],
     [
      "지원",
@@ -38,11 +39,12 @@ window.MZ_DATA = {
   },
   {
    "id": "supermarket-audit",
-   "date": "2026",
+   "date": "2026.06",
    "cat": "활동",
-   "title": "BFFP와 함께 슈퍼마켓 감사를 마쳤습니다",
-   "text": "#BreakFreeFromPlastic과 함께 슈퍼마켓 감사를 진행했습니다. 다정한 재단 ‘다정한 기금’의 지원으로 진행했습니다.",
-   "upcoming": false
+   "title": "#BFFP와 함께 슈퍼마켓 감사를 진행했습니다",
+   "text": "#BFFP와 함께 슈퍼마켓 감사를 진행했습니다. 다정한 재단 ‘다정한 기금’의 지원으로 진행했습니다.",
+   "upcoming": false,
+   "photo": ""
   },
   {
    "id": "apartment-model",
@@ -50,7 +52,8 @@ window.MZ_DATA = {
    "cat": "사업",
    "title": "제로웨이스트 공동주택 모델 만들기 시작",
    "text": "마포구가 발주한 2026년 제로웨이스트 공동주택 모델 만들기 사업을 마포자원순환네트워크 이름으로 계약해 시작했습니다.",
-   "upcoming": false
+   "upcoming": false,
+   "photo": ""
   },
   {
    "id": "modu-network",
@@ -58,7 +61,8 @@ window.MZ_DATA = {
    "cat": "연대",
    "title": "‘모두!자원순환네트워크’ 첫 모임",
    "text": "서울 자치구의 자원순환 네트워크가 함께하는 연대체 이름을 정하고 첫 모임을 열었습니다.",
-   "upcoming": false
+   "upcoming": false,
+   "photo": ""
   },
   {
    "id": "award",
@@ -66,7 +70,8 @@ window.MZ_DATA = {
    "cat": "수상",
    "title": "서울환경연합 ‘환경디딤돌상’ 수상",
    "text": "서울환경연합이 마포자원순환네트워크에 환경디딤돌상을 수여했습니다.",
-   "upcoming": false
+   "upcoming": false,
+   "photo": ""
   },
   {
    "id": "court",
@@ -74,7 +79,8 @@ window.MZ_DATA = {
    "cat": "입장",
    "title": "추가 소각장 ‘설치 취소 판결’을 환영합니다",
    "text": "서울시를 상대로 한 행정소송 2심에서 주민들이 승소했습니다.",
-   "upcoming": false
+   "upcoming": false,
+   "photo": ""
   },
   {
    "id": "assembly-forum",
@@ -82,23 +88,26 @@ window.MZ_DATA = {
    "cat": "토론회",
    "title": "국회 토론회 ‘제로웨이스트로 가는 길: 예산으로 보는 자원순환정책’",
    "text": "예산으로 자원순환정책을 짚어 보는 국회 토론회를 주관했습니다.",
-   "upcoming": false
+   "upcoming": false,
+   "photo": ""
   },
   {
    "id": "gaia-letter",
    "date": "2025.11.24",
    "cat": "연대",
-   "title": "GAIA·BFFP 국제 공동서명 참여",
+   "title": "GAIA·#BFFP 국제 공동서명 참여",
    "text": "소각을 ‘폐기물 에너지화’로 정당화하는 흐름에 항의하는 공동서명에 이름을 올렸습니다.",
-   "upcoming": false
+   "upcoming": false,
+   "photo": ""
   },
   {
    "id": "statement-1114",
    "date": "2025.11.14",
    "cat": "입장",
    "title": "‘소각’을 재활용에서 제외하겠다는 정부 입장 환영 성명",
-   "text": "국문과 영문으로 발표했고, BFFP 누리집에도 실렸습니다.",
-   "upcoming": false
+   "text": "국문과 영문으로 발표했고, #BFFP 누리집에도 실렸습니다.",
+   "upcoming": false,
+   "photo": ""
   },
   {
    "id": "comment-0910",
@@ -106,15 +115,17 @@ window.MZ_DATA = {
    "cat": "입장",
    "title": "논평: 마포구는 폐기물 감량 종합대책을 수립해야",
    "text": "1회용품 반입 금지 조례가 없는 마포구에 종합대책을 요구했습니다.",
-   "upcoming": false
+   "upcoming": false,
+   "photo": ""
   },
   {
    "id": "bffp",
    "date": "2025.09.04",
    "cat": "연대",
-   "title": "#BreakFreeFromPlastic 멤버 가입",
+   "title": "#BFFP 멤버 가입",
    "text": "",
-   "upcoming": false
+   "upcoming": false,
+   "photo": ""
   },
   {
    "id": "gaia",
@@ -122,7 +133,8 @@ window.MZ_DATA = {
    "cat": "연대",
    "title": "세계소각대안연맹(GAIA) 회원단체 승인",
    "text": "",
-   "upcoming": false
+   "upcoming": false,
+   "photo": ""
   },
   {
    "id": "launch",
@@ -130,7 +142,8 @@ window.MZ_DATA = {
    "cat": "행사",
    "title": "마포자원순환네트워크 발족식과 포럼 ‘소각장 너머 제로웨이스트 도시로’",
    "text": "마포구의회 다목적실에서 발족을 선언하고 포럼을 열었습니다.",
-   "upcoming": false
+   "upcoming": false,
+   "photo": ""
   }
  ],
  "activities": [
@@ -139,42 +152,48 @@ window.MZ_DATA = {
    "period": "2026",
    "title": "제로웨이스트 공동주택 모델 만들기",
    "text": "마포구가 발주한 2026년 사업입니다. 공동주택 단지와 함께 쓰레기를 줄이는 관리 모델을 만들고, 마포자원순환네트워크 이름으로 계약해 진행합니다.",
-   "meta": "발주: 마포구"
+   "meta": "발주: 마포구",
+   "photo": ""
   },
   {
    "status": "기자회견 예정",
-   "period": "2026",
+   "period": "2026.06",
    "title": "슈퍼마켓 감사",
-   "text": "#BreakFreeFromPlastic(BFFP)과 함께 슈퍼마켓 감사를 진행했습니다. 결과는 곧 기자회견으로 발표합니다.",
-   "meta": "함께한 곳: BFFP · 지원: 다정한 재단 ‘다정한 기금’"
+   "text": "#BFFP와 함께 2026년 6월 슈퍼마켓 감사를 진행했습니다. 결과는 곧 기자회견으로 발표합니다.",
+   "meta": "함께한 곳: #BFFP · 지원: 다정한 재단 ‘다정한 기금’",
+   "photo": ""
   },
   {
    "status": "발간",
    "period": "",
    "title": "『제로 웨이스트 도시를 위한 안내서』 공식 한국어판",
    "text": "제로 웨이스트 유럽(ZWE)의 마스터플랜을 한국과 지방정부 현실에 맞게 번역했습니다. 소각장 없이 자립하는 도시의 해법을 담았습니다.",
-   "meta": "원저: Zero Waste Europe"
+   "meta": "원저: Zero Waste Europe",
+   "photo": ""
   },
   {
    "status": "상시",
    "period": "2025–",
    "title": "정책 포럼과 토론회",
    "text": "발족 포럼(2025.6.30), 서울환경연합과 함께한 종량제 30주년 포럼 시리즈, 국회 토론회(2026.1.30) 등 정책을 바꾸는 공론장을 엽니다.",
-   "meta": "함께한 곳: 마포구의회 · 서울환경연합"
+   "meta": "함께한 곳: 마포구의회 · 서울환경연합",
+   "photo": ""
   },
   {
    "status": "준비 중",
    "period": "2026",
    "title": "‘모두!자원순환네트워크’ — 서울 자치구 연대",
    "text": "자치구마다 생겨나는 자원순환 네트워크와 함께 서울자원순환네트워크를 준비합니다. 2026년 3월 3일 첫 모임을 열었습니다.",
-   "meta": ""
+   "meta": "",
+   "photo": ""
   },
   {
    "status": "상시",
    "period": "2025–",
    "title": "국제 연대",
-   "text": "세계소각대안연맹(GAIA) 회원단체이자 #BreakFreeFromPlastic 멤버로, 세계의 제로웨이스트 도시·단체와 정책을 나누고 공동서명에 참여합니다.",
-   "meta": "GAIA 회원 (2025.7.17) · BFFP 멤버 (2025.9.4)"
+   "text": "세계소각대안연맹(GAIA) 회원단체이자 #BFFP 멤버로, 세계의 제로웨이스트 도시·단체와 정책을 나누고 공동서명에 참여합니다.",
+   "meta": "GAIA 회원 (2025.7.17) · #BFFP 멤버 (2025.9.4)",
+   "photo": ""
   }
  ],
  "statements": [
@@ -187,7 +206,7 @@ window.MZ_DATA = {
   {
    "date": "2025.11.24",
    "kind": "공동서명",
-   "title": "GAIA·BFFP 국제 공동서한 연명",
+   "title": "GAIA·#BFFP 국제 공동서한 연명",
    "href": "#"
   },
   {
@@ -244,7 +263,7 @@ window.MZ_DATA = {
   },
   {
    "date": "2025.11.14",
-   "kind": "Break Free From Plastic",
+   "kind": "#BFFP",
    "title": "소각을 재활용 통계에서 제외하기로 한 정부 결정을 환영합니다",
    "href": "https://www.breakfreefromplastic.org/ko/2025/11/14/mapo-statement-recycling-statistics/"
   },
@@ -286,7 +305,7 @@ window.MZ_DATA = {
   },
   {
    "date": "2025.09.04",
-   "text": "#BreakFreeFromPlastic 멤버 가입"
+   "text": "#BFFP 멤버 가입"
   },
   {
    "date": "2025.11.14",
@@ -309,8 +328,8 @@ window.MZ_DATA = {
    "text": "제로웨이스트 공동주택 모델 만들기 사업 시작 (마포구 발주)"
   },
   {
-   "date": "2026",
-   "text": "BFFP와 함께 슈퍼마켓 감사 진행 (다정한 재단 ‘다정한 기금’ 지원)"
+   "date": "2026.06",
+   "text": "#BFFP와 함께 슈퍼마켓 감사 진행 (다정한 재단 ‘다정한 기금’ 지원)"
   }
  ],
  "orgs": [
@@ -344,7 +363,7 @@ window.MZ_DATA = {
    "role": "회원단체 (2025.7.17)"
   },
   {
-   "name": "#BreakFreeFromPlastic",
+   "name": "#BFFP",
    "role": "멤버 (2025.9.4), 슈퍼마켓 감사 협력"
   },
   {
@@ -355,5 +374,10 @@ window.MZ_DATA = {
    "name": "다정한 재단",
    "role": "‘다정한 기금’으로 슈퍼마켓 감사 지원"
   }
- ]
+ ],
+ "guide": {
+  "about": "https://seoulkfem.or.kr/notice/?bmode=view&idx=167096804",
+  "download": "",
+  "cover": ""
+ }
 };

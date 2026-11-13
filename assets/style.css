@@ -216,3 +216,29 @@ h1, h2, h3 { font-family: var(--head); margin: 0; letter-spacing: -0.01em; }
 .to-top svg { margin-bottom: 2px; }
 @media (max-width: 600px) { .to-top { right: 16px; bottom: 16px; width: 48px; height: 48px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .to-top { transition: none; } }
+
+/* 사진 */
+.card-img { display: block; max-width: none; width: calc(100% + 56px); margin: -28px -28px 6px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 18px 18px 0 0; background: var(--mint); }
+.post-img { display: block; width: 100%; margin-top: 32px; border-radius: 20px; aspect-ratio: 16 / 9; object-fit: cover; background: var(--mint); }
+
+/* 안내서 발간 */
+.guide { background: var(--green); color: #fff; }
+.guide .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 48px 80px; padding-top: 96px; padding-bottom: 96px; }
+.guide .cover { flex: 0 0 260px; aspect-ratio: 3 / 4; border-radius: 6px 14px 14px 6px; overflow: hidden; background: var(--yellow); color: var(--ink); box-shadow: 0 24px 48px rgba(0,0,0,.28), inset 10px 0 0 rgba(18,38,27,.12); display: flex; flex-direction: column; justify-content: space-between; padding: 30px 26px 26px 34px; margin: 0 auto; }
+.guide .cover img { width: calc(100% + 60px); height: calc(100% + 56px); margin: -30px -26px -26px -34px; object-fit: cover; }
+.guide .cover small { font-family: var(--head); font-weight: 800; font-size: 13px; color: var(--green); }
+.guide .cover strong { font-family: var(--head); font-weight: 900; font-size: 30px; line-height: 1.25; }
+.guide .cover span { font-size: 13px; color: var(--ink-2); }
+.guide .text { flex: 1 1 420px; }
+.guide .eyebrow { color: var(--yellow); }
+.guide .eyebrow i { background: var(--yellow); }
+.guide h2 { margin-top: 12px; font-weight: 900; font-size: clamp(26px, 3vw, 38px); line-height: 1.35; }
+.guide p { margin: 18px 0 0; color: #E6EEE3; font-size: 18px; }
+.guide .actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+.guide .btn { background: var(--yellow); color: var(--ink); }
+.guide .btn:hover { background: #fff; color: var(--ink); }
+.guide .btn.ghost { background: transparent; color: #fff; box-shadow: inset 0 0 0 2px #fff; }
+.guide .btn.ghost:hover { background: rgba(255,255,255,.12); }
+@media (max-width: 600px) { .guide .wrap { padding-top: 64px; padding-bottom: 64px; } .guide .cover { flex-basis: 200px; } .guide .cover strong { font-size: 24px; } }
+[hidden] { display: none !important; }
+.to-top { box-shadow: 0 0 0 2px #fff, 0 6px 18px rgba(18, 38, 27, .25); }

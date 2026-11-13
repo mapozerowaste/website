@@ -56,8 +56,8 @@
   /* ---------- 구글 시트 불러오기 (선택) ---------- */
   // 시트 탭 이름과 열 이름(첫 줄). 운영위원이 보기 쉽게 한글로 둡니다.
   var SHEETS = {
-    news: ['소식', { id: '아이디', date: '날짜', cat: '분류', title: '제목', text: '요약', body: '본문', info: '안내', upcoming: '예정' }],
-    activities: ['활동', { status: '상태', period: '기간', title: '사업명', text: '설명', meta: '함께한곳' }],
+    news: ['소식', { id: '아이디', date: '날짜', cat: '분류', title: '제목', text: '요약', body: '본문', info: '안내', photo: '사진', upcoming: '예정' }],
+    activities: ['활동', { status: '상태', period: '기간', title: '사업명', text: '설명', meta: '함께한곳', photo: '사진' }],
     statements: ['논평', { date: '날짜', kind: '종류', title: '제목', href: '링크' }],
     docs: ['자료', { date: '날짜', kind: '종류', title: '제목', href: '링크' }],
     press: ['언론', { date: '날짜', kind: '매체', title: '제목', href: '링크' }],
@@ -107,7 +107,13 @@
       });
       if (key === 'orgs') out = out.filter(function (o) { return o.kind !== '개인' && o.name; }).map(function (o) { return o.name; });
       if (key === 'settings') {
-        out.forEach(function (o) { if (/개인/.test(o.key) && /^\d+$/.test(o.value)) D.persons = parseInt(o.value, 10); });
+        D.guide = D.guide || {};
+        out.forEach(function (o) {
+          if (/개인/.test(o.key) && /^\d+$/.test(o.value)) D.persons = parseInt(o.value, 10);
+          if (/안내서/.test(o.key) && /내려받기/.test(o.key)) D.guide.download = o.value;
+          if (/안내서/.test(o.key) && /소개/.test(o.key)) D.guide.about = o.value;
+          if (/안내서/.test(o.key) && /표지/.test(o.key)) D.guide.cover = o.value;
+        });
         return;
       }
       if (out.length) D[key] = out;
@@ -120,13 +126,29 @@
     }));
   }
 
+  /* ---------- 사진 주소 ---------- */
+  // 구글 드라이브 공유 링크(링크가 있는 모든 사용자 보기)나 assets/photos/ 안의 파일 이름을 받아 이미지 주소로 바꿉니다.
+  function photoSrc(v) {
+    v = String(v || '').trim();
+    if (!v) return '';
+    var m = v.match(/\/d\/([\w-]{20,})/) || v.match(/[?&]id=([\w-]{20,})/);
+    if (m) return 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w1600';
+    if (/^https?:\/\//.test(v)) return v;
+    if (/^[\w./-]+\.(jpe?g|png|webp|gif)$/i.test(v)) return v.indexOf('/') >= 0 ? v : 'assets/photos/' + v;
+    return '';
+  }
+  function photoTag(v, cls, alt) {
+    var src = photoSrc(v);
+    return src ? '<img class="' + cls + '" src="' + esc(src) + '" alt="' + esc(alt || '') + '" loading="lazy" onerror="this.remove()">' : '';
+  }
+
   /* ---------- 목록 그리기 ---------- */
   function newsHref(n) { return 'post.html#' + encodeURIComponent(n.id); }
   var R = {
     'news-cards': function (el) {
       var n = parseInt(el.getAttribute('data-limit') || '3', 10);
       el.innerHTML = (D.news || []).slice(0, n).map(function (x, i) {
-        return '<article class="card' + (x.upcoming ? ' feature' : '') + '"><div class="meta"><span class="badge">' + esc(x.upcoming ? '곧 열려요' : x.cat) + '</span><span>' + esc(x.date) + '</span></div>' +
+        return '<article class="card' + (x.upcoming ? ' feature' : '') + '">' + photoTag(x.photo, 'card-img', '') + '<div class="meta"><span class="badge">' + esc(x.upcoming ? '곧 열려요' : x.cat) + '</span><span>' + esc(x.date) + '</span></div>' +
           '<h3>' + esc(x.title) + '</h3><p>' + esc(x.text) + '</p><a class="more" href="' + newsHref(x) + '">자세히 보기</a></article>';
       }).join('');
     },
@@ -138,7 +160,7 @@
     },
     'activity-cards': function (el) {
       el.innerHTML = (D.activities || []).map(function (a) {
-        return '<article class="card"><div class="meta"><span class="badge">' + esc(a.status) + '</span>' + (a.period ? '<span>' + esc(a.period) + '</span>' : '') + '</div>' +
+        return '<article class="card">' + photoTag(a.photo, 'card-img', '') + '<div class="meta"><span class="badge">' + esc(a.status) + '</span>' + (a.period ? '<span>' + esc(a.period) + '</span>' : '') + '</div>' +
           '<h3>' + esc(a.title) + '</h3><p>' + esc(a.text) + '</p>' + (a.meta ? '<p class="foot">' + esc(a.meta) + '</p>' : '') + '</article>';
       }).join('');
     },
@@ -159,6 +181,16 @@
     },
     'org-grid': function (el) {
       el.innerHTML = (D.orgs || []).map(function (o) { return '<li>' + esc(o) + '</li>'; }).join('');
+    },
+    'guide': function (el) {
+      var g = D.guide || {};
+      var cover = el.querySelector('[data-guide-cover]');
+      var src = photoSrc(g.cover);
+      if (cover && src) cover.innerHTML = '<img src="' + esc(src) + '" alt="『제로 웨이스트 도시를 위한 안내서』 한국어판 표지" onerror="this.remove()">';
+      var dl = el.querySelector('[data-guide-download]');
+      if (dl) { if (g.download) { dl.href = safeHref(g.download); dl.hidden = false; } else dl.hidden = true; }
+      var ab = el.querySelector('[data-guide-about]');
+      if (ab) { if (g.about) { ab.href = safeHref(g.about); ab.hidden = false; } else ab.hidden = true; }
     },
     'count-orgs': function (el) { el.textContent = (D.orgs || []).length + '곳'; },
     'count-persons': function (el) { el.textContent = (D.persons || 0) + '명'; },
@@ -191,7 +223,7 @@
       var info = n.info ? '<dl>' + n.info.map(function (r) { return '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('') + '</dl>' : '';
       el.innerHTML = '<nav aria-label="위치" class="muted"><a href="news.html">소식·일정</a> › ' + esc(n.cat) + '</nav>' +
         '<div class="meta" style="margin-top:28px"><span class="badge">' + esc(n.upcoming ? '일정' : n.cat) + '</span><span>' + esc(n.date) + ' · 마포자원순환네트워크</span></div>' +
-        '<h1>' + esc(n.title) + '</h1>' + info + '<div class="body">' + body + '</div>' +
+        '<h1>' + esc(n.title) + '</h1>' + photoTag(n.photo, 'post-img', n.title) + info + '<div class="body">' + body + '</div>' +
         '<div class="nav-row"><a class="more" href="news.html">← 소식 목록</a><a class="more" href="join.html">연서명으로 함께하기 →</a></div>';
     }
   };
