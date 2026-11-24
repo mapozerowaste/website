@@ -153,6 +153,69 @@
     return src ? '<img class="' + cls + '" src="' + esc(src) + '" alt="' + esc(alt || '') + '" loading="lazy" onerror="this.remove()">' : '';
   }
 
+
+  /* ---------- 신청 후 내려받는 자료 (안내서) ---------- */
+  function renderGated(el, id, n, G) {
+    var title = n.title || '『제로 웨이스트 도시를 위한 안내서』 공식 한국어판';
+    document.title = title + ' - 마포자원순환네트워크';
+    var done = false;
+    try { done = localStorage.getItem('mz-dl-' + id) === '1'; } catch (e) {}
+    var body = (G.body || []).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+    el.className = 'post gated';
+    el.innerHTML = '<nav aria-label="위치" class="muted"><a href="statements.html">목소리와 기록</a> › <a href="statements.html#docs">자료집</a></nav>' +
+      '<div class="meta" style="margin-top:28px"><span class="badge">' + esc(n.kind || '안내서') + '</span><span>' + esc(n.date || '2025.06.30') + ' 발간</span></div>' +
+      '<h1>' + esc(title) + '</h1>' + (G.lead ? '<p class="gated-lead">' + esc(G.lead) + '</p>' : '') +
+      (G.image ? '<img class="gated-img" src="' + esc(G.image) + '" alt="' + esc(title) + ' 소개 이미지">' : '') +
+      '<div class="body">' + body + '</div>' +
+      (G.quote ? '<blockquote class="gated-quote"><p>' + esc(G.quote) + '</p><cite>— ' + esc(G.quoteBy || '') + '</cite></blockquote>' : '') +
+      '<section class="dl-box" id="download" aria-labelledby="dl-title">' +
+        '<h2 id="dl-title">안내서 내려받기</h2>' +
+        '<p class="muted">이름과 이메일을 남겨 주시면 바로 내려받을 수 있습니다. 남겨 주신 정보는 안내서 활용 현황을 파악하고, 동의하신 경우 관련 소식을 전하는 데만 씁니다.</p>' +
+        '<div class="dl-ready"' + (done ? '' : ' hidden') + '><a class="btn lg" href="' + esc(G.file) + '" target="_blank" rel="noopener">PDF 내려받기</a>' +
+          '<a class="btn lg ghost" href="' + esc(G.fileView || G.file) + '" target="_blank" rel="noopener">바로 보기</a><p class="muted" style="margin:12px 0 0;font-size:14px">' + esc(G.fileName || '') + '</p></div>' +
+        '<form class="form dl-form" novalidate' + (done ? ' hidden' : '') + '>' +
+          '<div class="two"><div class="field"><label for="dl-name">이름 <span class="muted">(필수)</span></label><input id="dl-name" name="name" type="text" required autocomplete="name"></div>' +
+          '<div class="field"><label for="dl-email">이메일 <span class="muted">(필수)</span></label><input id="dl-email" name="email" type="email" required autocomplete="email"></div></div>' +
+          '<div class="two"><div class="field"><label for="dl-org">소속 (선택)</label><input id="dl-org" name="org" type="text" autocomplete="organization"></div>' +
+          '<div class="field"><label for="dl-use">활용 목적 (선택)</label><select id="dl-use" name="use"><option value="">선택해 주세요</option><option>지방정부·의회</option><option>시민단체·활동</option><option>연구·교육</option><option>기업</option><option>개인 학습</option><option>기타</option></select></div></div>' +
+          '<div class="hp" aria-hidden="true"><label for="dl-web">웹사이트</label><input id="dl-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>' +
+          '<label class="check"><input type="checkbox" name="news">마포자원순환네트워크의 소식을 이메일로 받겠습니다. (선택)</label>' +
+          '<label class="check"><input type="checkbox" name="privacy">개인정보 수집·이용에 동의합니다. (필수) — 수집 항목: 이름, 이메일, 소속 / 목적: 안내서 배포 현황 파악과 소식 안내 / 보관: 삭제 요청 시까지</label>' +
+          '<button class="btn lg" type="submit">정보 남기고 내려받기</button>' +
+          '<div class="notice" role="status" tabindex="-1" hidden></div>' +
+        '</form>' +
+      '</section>' +
+      '<div class="nav-row"><a class="more" href="statements.html#docs">← 자료집 목록</a><a class="more" href="join.html">연서명으로 함께하기 →</a></div>';
+    var form = el.querySelector('.dl-form'), ready = el.querySelector('.dl-ready'), msg = form.querySelector('.notice');
+    function show(kind, text) { msg.className = 'notice ' + kind; msg.textContent = text; msg.hidden = false; msg.focus(); }
+    function unlock() {
+      try { localStorage.setItem('mz-dl-' + id, '1'); } catch (e) {}
+      form.hidden = true; ready.hidden = false;
+      var a = ready.querySelector('a'); if (a) a.focus();
+    }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (form.website.value) return;
+      if (!form.name.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value.trim())) { show('err', '이름과 올바른 이메일을 입력해 주세요.'); return; }
+      if (!form.privacy.checked) { show('err', '개인정보 수집·이용에 동의해 주셔야 내려받을 수 있습니다.'); return; }
+      var data = new URLSearchParams();
+      data.append('purpose', '안내서 내려받기');
+      data.append('doc', id);
+      data.append('name', form.name.value.trim());
+      data.append('email', form.email.value.trim());
+      data.append('org', form.org.value.trim());
+      data.append('use', form.use.value);
+      data.append('news', form.news.checked ? '동의' : '미동의');
+      data.append('privacy', '동의');
+      if (!CFG.FORM_ENDPOINT) { unlock(); return; }
+      var btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true; btn.textContent = '보내는 중…';
+      fetch(CFG.FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
+        .then(unlock)
+        .catch(function () { btn.disabled = false; btn.textContent = '정보 남기고 내려받기'; show('err', '전송하지 못했습니다. 잠시 뒤 다시 시도해 주세요.'); });
+    });
+  }
+
   /* ---------- 목록 그리기 ---------- */
   function newsHref(n) { return 'post.html#' + encodeURIComponent(n.id); }
   var R = {
@@ -223,6 +286,8 @@
       var groups = [['statements', '성명·논평', '#statements'], ['docs', '자료집', '#docs'], ['press', '언론 보도', '#press']];
       var n, g;
       groups.forEach(function (gr) { (D[gr[0]] || []).forEach(function (x) { if (!n && x.id === id) { n = x; g = gr; } }); });
+      var G = (D.gated || {})[id];
+      if (G) { renderGated(el, id, n || {}, G); return; }
       if (!n) { el.innerHTML = '<p class="muted">찾는 글이 없습니다. <a href="statements.html">목소리와 기록 목록</a>으로 돌아가 주세요.</p>'; return; }
       document.title = n.title + ' - 마포자원순환네트워크';
       var body = (n.body && n.body.length ? n.body : (n.summary ? [n.summary] : [])).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');

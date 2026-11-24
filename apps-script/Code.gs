@@ -1,5 +1,5 @@
 /**
- * 마포자원순환네트워크 — 연서명 신청·현장 제안 받기
+ * 마포자원순환네트워크 — 연서명 신청·현장 제안·안내서 내려받기 신청 받기
  *
  * 하는 일
  *  1. 홈페이지 '함께하기' 양식에서 보낸 신청을 이 스프레드시트의 '신청' 탭에 한 줄씩 쌓습니다.
@@ -23,6 +23,8 @@ var SHEET_NAME = '신청';
 // 신청을 쌓을 '연서명 신청' 스프레드시트의 ID (주소의 /d/ 와 /edit 사이).
 // 시트 메뉴 [확장 프로그램 → Apps Script]로 만든 스크립트라면 비워 둬도 되지만, 적어 두는 것이 가장 확실합니다.
 var SPREADSHEET_ID = '';
+var DOWNLOAD_SHEET = '안내서 신청';
+var DOWNLOAD_HEADERS = ['접수일시', '자료', '이름', '이메일', '소속', '활용 목적', '소식 수신', '개인정보 동의'];
 var HEADERS = ['접수일시', '구분', '유형', '이름(단체·기업명)', '담당자', '연락처', '이메일', '한마디', '명단 공개', '개인정보 동의', '처리 상태'];
 
 function doPost(e) {
@@ -30,6 +32,19 @@ function doPost(e) {
   // 스팸 방지: 사람에게는 보이지 않는 칸이 채워져 있으면 무시합니다.
   if (p.website) return json_({ ok: true });
   if (!p.name || !p.email || p.privacy !== '동의') return json_({ ok: false, error: 'missing' });
+
+  // 안내서 내려받기 신청은 '안내서 신청' 탭에 따로 쌓고, 알림 메일은 보내지 않습니다.
+  if (p.purpose === '안내서 내려받기') {
+    var l = LockService.getScriptLock();
+    l.waitLock(10000);
+    try {
+      var dsh = tab_(DOWNLOAD_SHEET, DOWNLOAD_HEADERS);
+      dsh.appendRow([new Date(), clean_(p.doc), clean_(p.name), clean_(p.email), clean_(p.org), clean_(p.use), clean_(p.news), clean_(p.privacy)]);
+    } finally {
+      l.releaseLock();
+    }
+    return json_({ ok: true });
+  }
 
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
@@ -95,6 +110,18 @@ function sheet_() {
     sh.appendRow(HEADERS);
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
+  }
+  return sh;
+}
+
+// 이름으로 탭을 찾고, 없으면 만들어 머리줄을 넣습니다.
+function tab_(name, headers) {
+  var ss = book_();
+  var sh = ss.getSheetByName(name) || ss.insertSheet(name);
+  if (sh.getLastRow() === 0) {
+    sh.appendRow(headers);
+    sh.setFrozenRows(1);
+    sh.getRange(1, 1, 1, headers.length).setFontWeight('bold');
   }
   return sh;
 }
