@@ -193,7 +193,7 @@ function monthlyGuideReport() {
 // 설치: Apps Script 편집기에서 setupEventReminder 를 한 번 실행하고 권한을 허용합니다. 매일 오전 9시쯤 확인합니다.
 var CONTENT_SHEET_ID = '1i24yLSGl4WRKnW11hjZYUp4YwMKPXD4aPDgib-DytWQ';  // 홈페이지 콘텐츠 시트(assets/config.js 의 SHEET_ID 와 같음)
 var NEWS_TAB = '소식';
-var SITE_URL = 'https://mapozerowaste.github.io/website/';
+var SITE_URL = 'https://mapozerowaste.org/';
 
 function setupEventReminder() {
   ScriptApp.getProjectTriggers().forEach(function (t) {
