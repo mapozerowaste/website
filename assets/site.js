@@ -186,10 +186,9 @@
             '<table class="consent-table"><tbody>' +
               '<tr><th scope="row">수집·이용 목적</th><td>안내서 내려받기 제공, 안내서 배포·활용 현황 파악(월별 집계)</td></tr>' +
               '<tr><th scope="row">수집 항목</th><td>이름, 이메일, 소속, 활용 목적, 신청 일시</td></tr>' +
-              '<tr><th scope="row">보유·이용 기간</th><td><strong>수집일로부터 2년</strong>. 기간이 끝나거나 삭제를 요청하시면 지체 없이 파기합니다.</td></tr>' +
+              '<tr><th scope="row">보유·이용 기간</th><td><strong>수집일로부터 2년</strong></td></tr>' +
               '<tr><th scope="row">동의 거부 권리</th><td>동의를 거부하실 수 있습니다. 다만 거부하시면 이 페이지에서 안내서를 내려받으실 수 없습니다.</td></tr>' +
             '</tbody></table>' +
-            '<p class="consent-note">수집한 정보는 마포자원순환네트워크가 관리하는 구글 스프레드시트에 저장되며, 다른 곳에 제공하지 않습니다. 열람·정정·삭제 요청: mapozerowaste@gmail.com</p>' +
             '<label class="check"><input type="checkbox" name="privacy" required>위 내용을 확인했으며 개인정보 수집·이용에 동의합니다.</label>' +
           '</fieldset>' +
           '<fieldset class="consent"><legend>[선택] 소식 받기 동의</legend>' +
@@ -201,7 +200,7 @@
             '</tbody></table>' +
             '<label class="check"><input type="checkbox" name="news">마포자원순환네트워크의 소식을 이메일로 받겠습니다.</label>' +
           '</fieldset>' +
-          '<button class="btn lg" type="submit">정보 남기고 내려받기</button>' +
+          '<button class="btn lg" type="submit">안내서 받기</button>' +
           '<div class="notice" role="status" tabindex="-1" hidden></div>' +
         '</form>' +
       '</section>' +
@@ -234,7 +233,7 @@
       btn.disabled = true; btn.textContent = '보내는 중…';
       fetch(CFG.FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
         .then(unlock)
-        .catch(function () { btn.disabled = false; btn.textContent = '정보 남기고 내려받기'; show('err', '전송하지 못했습니다. 잠시 뒤 다시 시도해 주세요.'); });
+        .catch(function () { btn.disabled = false; btn.textContent = '안내서 받기'; show('err', '전송하지 못했습니다. 잠시 뒤 다시 시도해 주세요.'); });
     });
   }
 
