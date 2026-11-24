@@ -409,7 +409,14 @@
         var w = parseWhen(x), day, time;
         if (w) {
           day = w.mo + '월 ' + w.d + '일 (' + WD[new Date(Date.UTC(w.y, w.mo - 1, w.d)).getUTCDay()] + ')';
-          time = w.hasTime ? (w.h < 12 ? '오전 ' : '오후 ') + (w.h % 12 || 12) + '시' + (w.mi ? ' ' + w.mi + '분' : '') : '시간 확정 예정';
+          var h = w.h, mi = w.mi, ok = w.hasTime;
+          if (!ok) { // 일시 칸이 없으면 안내의 ‘일시’ 줄에서 시간을 찾습니다 (오전 11시 / 14:30)
+            var row = (x.info || []).filter(function (r) { return r[0] === '일시'; })[0], t = row && String(row[1]);
+            var k = t && (t.match(/(오전|오후)\s*(\d{1,2})\s*시(?:\s*(\d{1,2})\s*분)?/) || null);
+            if (k) { h = (+k[2] % 12) + (k[1] === '오후' ? 12 : 0); mi = +k[3] || 0; ok = true; }
+            else if (t && (k = t.match(/(\d{1,2}):(\d{2})/))) { h = +k[1]; mi = +k[2]; ok = true; }
+          }
+          time = ok ? (h < 12 ? '오전 ' : '오후 ') + (h % 12 || 12) + '시' + (mi ? ' ' + mi + '분' : '') : '';
         } else { day = x.date; time = '일시 확정 예정'; }
         var place = (x.info || []).filter(function (r) { return r[0] === '장소'; })[0];
         return '<a class="upcoming" href="' + newsHref(x) + '"><div class="when">' + esc(day) + '<small>' + esc(time) + '</small></div>' +
