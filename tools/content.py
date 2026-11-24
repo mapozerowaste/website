@@ -4,7 +4,7 @@ PERSONS = 7
 LOGOS = {'(사)사람과마을':'assets/logos/saram-maeul.png','동네책방 개똥이네 책놀이터':'assets/logos/gaeddong-books.png','개똥이네 문화놀이터':'assets/logos/gaeddong-culture.png','우리동네나무그늘협동조합':'assets/logos/woori-shade.png','(사)마포사회적경제네트워크':'assets/logos/mapo-sen.png','알맹상점':'assets/logos/almang.png','울림두레생협':'assets/logos/urim-dure.png','해빗투게더협동조합':'assets/logos/habit-together.png','마포FM':'assets/logos/mapofm.png','쓸모업사이클':'assets/logos/sslmo-upcycle.png','무지개의원':'assets/logos/rainbow-clinic.png','성미산학교':'assets/logos/sungmisan-school.png','지구샵':'assets/logos/jigushop.png','발달장애청년허브 사부작 사회적협동조합':'assets/logos/sabujak.png','백의민족':'assets/logos/baekuiminjok.png','제로웨이스트도시랩':'assets/logos/zerowaste-city-lab.png','민트협동조합 봄봄마을정원사모임':'assets/logos/mint-bombom.png'}
 
 NEWS = [
- dict(id='press-supermarket', date='2026.11', cat='일정', title='슈퍼마켓 감사 결과 발표 기자회견', text='#BFFP와 함께 진행한 슈퍼마켓 감사 결과를 기자회견으로 발표합니다. 일시와 장소는 확정되는 대로 알려드립니다.', upcoming=True),
+ dict(id='press-supermarket', date='2026.11.25', cat='기자회견', title='‘2026 BFFP 슈퍼마켓 감사’ 한국 결과 발표 기자회견', text='스티로폼 92%, 리필 코너 0곳 — 5대 대형마트에 포장 감축을 요구합니다. 11월 25일(수) 오전 11시, 이마트 본사 앞에서 엽니다.', upcoming=True, when='2026-11-25 11:00'),
  dict(id='supermarket-audit', date='2026.06', cat='활동', title='#BFFP와 함께 슈퍼마켓 감사를 진행했습니다', text='#BFFP와 함께 슈퍼마켓 감사를 진행했습니다. 다정한 재단 ‘다정한 기금’의 지원으로 진행했습니다.'),
  dict(id='apartment-model', date='2026.03', cat='사업', title='제로웨이스트 공동주택 모델 만들기', text='마포구가 발주한 2026년 제로웨이스트 공동주택 모델 만들기 사업을 마포자원순환네트워크 이름으로 진행했습니다.'),
  dict(id='modu-network', date='2026.02', cat='연대', title='‘모두!자원순환네트워크’ 첫 모임', text='서울 자치구의 자원순환 네트워크가 함께하는 연대체 이름을 정하고 첫 모임을 열었습니다.'),
@@ -22,7 +22,7 @@ NEWS = [
 
 ACTIVITIES = [
  dict(cat='시민행동', status='사업 종료', period='2026.03', title='제로웨이스트 공동주택 모델 만들기', text='마포구가 발주한 2026년 사업입니다. 공동주택 단지와 함께 쓰레기를 줄이는 관리 모델을 만들었고, 마포자원순환네트워크 이름으로 계약해 진행했습니다.', meta='발주: 마포구'),
- dict(cat='시민행동', status='기자회견 예정', period='2026.06', title='슈퍼마켓 감사', text='#BFFP와 함께 2026년 6월 슈퍼마켓 감사를 진행했습니다. 결과는 곧 기자회견으로 발표합니다.', meta='함께한 곳: #BFFP · 지원: 다정한 재단 ‘다정한 기금’'),
+ dict(cat='시민행동', status='기자회견', period='2026.06', title='슈퍼마켓 감사', text='#BFFP와 함께 전국 10개 시·도 53개 매장의 포장 실태를 시민이 직접 조사했습니다. 결과는 2026년 11월 25일 기자회견으로 발표합니다.', meta='함께한 곳: #BFFP · 지원: 다정한 재단 ‘다정한 기금’'),
  dict(cat='도시선언', status='발간', period='2025.06.30', title='『제로 웨이스트 도시를 위한 안내서』 공식 한국어판', text='제로 웨이스트 유럽(Zero Waste Europe)이 펴낸 「The Zero Waste Masterplan」을 서울환경연합과 함께 번역했습니다. 유럽 도시들의 제로웨이스트 전환 경험을 담은 안내서를 누구나 내려받을 수 있습니다.', meta='함께 옮긴 곳: 서울환경연합 · 원저: Zero Waste Europe'),
  dict(cat='정책전환', status='상시', period='2025–', title='정책 포럼과 토론회', text='발족 포럼(2025.6.30), 서울환경연합과 함께한 종량제 30주년 포럼 시리즈, 국회 토론회(2026.1.30) 등 정책을 바꾸는 공론장을 엽니다.', meta='함께한 곳: 마포구의회 · 서울환경연합'),
  dict(cat='연대 확장', status='준비 중', period='2026.02', title='‘모두!자원순환네트워크’ — 서울 자치구 연대', text='자치구마다 생겨나는 자원순환 네트워크와 함께 서울자원순환네트워크를 준비합니다. 2026년 2월 첫 모임을 열었습니다.', meta=''),

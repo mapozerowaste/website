@@ -64,6 +64,10 @@ page('index.html', 'home', '마포자원순환네트워크 — 제로웨이스�
 <div class="stat"><b>2025.06</b><span>마포자원순환네트워크 출범</span></div>
 <div class="stat"><b style="font-size:32px">GAIA · #BFFP</b><span>국제 연대 네트워크 회원</span></div>
 </div></section>
+<section class="sec tight" id="home-upcoming" hidden><div class="wrap">
+<div class="sec-head"><div>{eb('다가오는','일정')}<h2 class="sec-title">곧 열리는 일정</h2></div><a class="more" href="news.html">소식·일정 전체 보기</a></div>
+<div data-render="upcoming"></div>
+</div></section>
 <section class="sec"><div class="wrap">
 <div class="sec-head"><div>{eb('소식','일정')}<h2 class="sec-title">지금, 네트워크에서는</h2></div><a class="more" href="news.html">소식 전체 보기</a></div>
 <div class="grid" data-render="news-cards" data-limit="3"></div>
@@ -138,8 +142,7 @@ page('activities.html', 'activities', '활동 - 마포자원순환네트워크',
 <section class="sec"><div class="wrap">
 {eb('활동','기록')}<h2 class="sec-title">사업과 활동</h2>
 <p class="muted" style="margin:12px 0 0">네트워크의 네 가지 미션에 따라 활동을 나눴습니다.</p>
-<nav class="tabs" aria-label="미션별 활동" style="margin-top:24px"><a href="#m-policy">정책전환</a><a href="#m-solidarity">연대 확장</a><a href="#m-action">시민행동</a><a href="#m-declare">도시선언</a></nav>
-<div data-render="activity-groups"></div>
+<div data-render="activity-board"></div>
 </div></section>
 <section class="bg-cream"><div class="wrap" style="padding-top:72px;padding-bottom:72px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px">
 <div><h2 style="font-weight:900;font-size:30px">함께할 동료를 찾고 있습니다</h2><p class="muted" style="margin:6px 0 0">쓰레기 줄이기를 함께 고민하고 실천할 이웃과 단체, 그리고 함께 바꿔 볼 아파트·가게·기관·모임을 기다립니다.</p></div><a class="btn lg" href="join.html#propose">제안합니다</a>

@@ -24,6 +24,23 @@
     return /^(https?:|mailto:|#|[a-z0-9_-]+\.html)/i.test(h) ? h : '#';
   }
 
+  /* ---------- 일정이 지나면 ‘다가오는 일정’에서 자동으로 빠지기 ---------- */
+  // 일시("2026-11-25 11:00", 한국 시간)가 있으면 시작 3시간 뒤, 날짜만 있으면 그날 자정에 지난 소식으로 넘어갑니다.
+  // 일시 칸이 없으면 날짜(2026.11.25 꼴)로 판단하고, 날짜를 알 수 없으면 ‘예정’ 칸(Y/N)을 따릅니다.
+  function parseWhen(n) {
+    var m = String(n.when || '').match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})(?:\D+(\d{1,2}):(\d{2}))?/);
+    if (!m) m = String(n.date || '').trim().match(/^(\d{4})\.(\d{1,2})\.(\d{1,2})$/);
+    if (!m) return null;
+    var y = +m[1], mo = +m[2], d = +m[3], t = m[4] != null, h = t ? +m[4] : 0, mi = t ? +m[5] : 0;
+    var start = Date.UTC(y, mo - 1, d, h - 9, mi);
+    return { y: y, mo: mo, d: d, h: h, mi: mi, hasTime: t, start: start, end: t ? start + 3 * 3600000 : Date.UTC(y, mo - 1, d + 1, -9, 0) };
+  }
+  function isUpcoming(n) {
+    if (!n.upcoming) return false;
+    var w = parseWhen(n);
+    return !w || Date.now() < w.end;
+  }
+
   /* ---------- 머리글·바닥글 ---------- */
   function renderChrome() {
     var h = document.getElementById('site-header');
@@ -58,7 +75,7 @@
   /* ---------- 구글 시트 불러오기 (선택) ---------- */
   // 시트 탭 이름과 열 이름(첫 줄). 운영위원이 보기 쉽게 한글로 둡니다.
   var SHEETS = {
-    news: ['소식', { id: '아이디', date: '날짜', cat: '분류', title: '제목', text: '요약', body: '본문', info: '안내', photo: '사진', upcoming: '예정' }],
+    news: ['소식', { id: '아이디', date: '날짜', cat: '분류', title: '제목', text: '요약', body: '본문', info: '안내', photo: '사진', upcoming: '예정', when: '일시' }],
     activities: ['활동', { cat: '구분', status: '상태', period: '기간', title: '사업명', text: '설명', meta: '함께한곳', photo: '사진' }],
     statements: ['논평', { id: '아이디', date: '날짜', kind: '종류', title: '제목', summary: '요약', body: '본문', photo: '사진', file: '첨부', href: '링크' }],
     docs: ['자료', { id: '아이디', date: '날짜', kind: '종류', title: '제목', summary: '요약', body: '본문', photo: '사진', file: '첨부', href: '링크' }],
@@ -242,8 +259,8 @@
   var R = {
     'news-cards': function (el) {
       var n = parseInt(el.getAttribute('data-limit') || '3', 10);
-      el.innerHTML = (D.news || []).slice(0, n).map(function (x, i) {
-        return '<article class="card' + (x.upcoming ? ' feature' : '') + '">' + photoTag(x.photo, 'card-img', '') + '<div class="meta"><span class="badge">' + esc(x.upcoming ? '곧 열려요' : x.cat) + '</span><span>' + esc(x.date) + '</span></div>' +
+      el.innerHTML = (D.news || []).filter(function (x) { return !isUpcoming(x); }).slice(0, n).map(function (x, i) {
+        return '<article class="card">' + photoTag(x.photo, 'card-img', '') + '<div class="meta"><span class="badge">' + esc(x.cat) + '</span><span>' + esc(x.date) + '</span></div>' +
           '<h3>' + esc(x.title) + '</h3><p>' + esc(x.text) + '</p><a class="more" href="' + newsHref(x) + '">자세히 보기</a></article>';
       }).join('');
     },
@@ -275,21 +292,56 @@
       el.innerHTML = (D.orgs || []).map(function (o) { return '<li>' + esc(o) + '</li>'; }).join('') +
         '<li class="extra">그리고 개인 ' + esc(D.persons || 0) + '명</li>';
     },
-    'activity-groups': function (el) {
-      var M = [['정책전환', 'm-policy', '소각 중심 행정에서 감량 중심 정책으로 전환합니다.'],
-               ['연대 확장', 'm-solidarity', '자치구 연대로 서울자원순환네트워크를 구축합니다.'],
-               ['시민행동', 'm-action', '시민의 실천을 모아 정책에 반영합니다.'],
-               ['도시선언', 'm-declare', '지속가능한 서울의 미래를 위한 제로웨이스트 도시를 선언합니다.']];
-      var acts = D.activities || [];
-      el.innerHTML = M.map(function (m, i) {
-        var list = acts.filter(function (a) { return (a.cat || a.status) === m[0]; });
+    'activity-board': function (el) {
+      var I = {
+        '정책전환': '<path d="M4 7h13l-3-3M17 7l-3 3M20 17H7l3-3M7 17l3 3"/>',
+        '연대 확장': '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5M15.5 14.2c3 0 5.5 1.6 5.5 4.8"/>',
+        '시민행동': '<path d="M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1zM15 9a4 4 0 010 6M18 6.5a8 8 0 010 11"/>',
+        '도시선언': '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'
+      };
+      function ico(c) { return '<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + (I[c] || '') + '</svg>'; }
+      var M = [['정책전환', 'm-policy', 'policy', '소각 중심 행정에서 감량 중심 정책으로 전환합니다.'],
+               ['연대 확장', 'm-solidarity', 'solidarity', '자치구 연대로 서울자원순환네트워크를 구축합니다.'],
+               ['시민행동', 'm-action', 'action', '시민의 실천을 모아 정책에 반영합니다.'],
+               ['도시선언', 'm-declare', 'declare', '지속가능한 서울의 미래를 위한 제로웨이스트 도시를 선언합니다.']];
+      function key(a) {
+        var m = String(a.period || '').match(/(\d{4})(?:\.(\d{1,2}))?(?:\.(\d{1,2}))?/);
+        return m ? (+m[1]) * 10000 + (+m[2] || 0) * 100 + (+m[3] || 0) : 0;
+      }
+      // 기간이 늦은 것부터(내림차순). 같으면 시트에 적은 순서를 지킵니다.
+      var acts = (D.activities || []).map(function (a, i) { return { a: a, i: i, k: key(a) }; })
+        .sort(function (x, y) { return y.k - x.k || x.i - y.i; }).map(function (x) { return x.a; });
+      function cat(a) { return a.cat || a.status; }
+      function find(c) { return M.filter(function (m) { return m[0] === c; })[0]; }
+      var sel = '';
+      (function () { var h = (location.hash || '').slice(1); M.forEach(function (m) { if (m[1] === h) sel = m[0]; }); })();
+      function draw() {
+        var tabs = '<div class="tabs mtabs" role="group" aria-label="미션별 활동 보기"><button type="button" data-m="" aria-pressed="' + (sel === '' ? 'true' : 'false') + '">전체</button>' +
+          M.map(function (m) { return '<button type="button" data-m="' + esc(m[0]) + '" aria-pressed="' + (sel === m[0] ? 'true' : 'false') + '">' + ico(m[0]) + esc(m[0]) + '</button>'; }).join('') + '</div>';
+        var list = acts.filter(function (a) { return !sel || cat(a) === sel; });
+        var cur = find(sel);
+        var panel = cur
+          ? '<div class="mission-panel c-' + cur[2] + '"><span class="cat-ico c-' + cur[2] + '">' + ico(cur[0]) + '</span><div><small>미션 0' + (M.indexOf(cur) + 1) + '</small><h3>' + esc(cur[0]) + '</h3><p>' + esc(cur[3]) + '</p><em>이 미션의 활동 ' + list.length + '건</em></div></div>'
+          : '<div class="mission-panel"><div><small>네트워크의 네 가지 미션</small><h3>전체 활동</h3><p>미션을 고르면 그 미션의 설명과 해당 활동만 볼 수 있습니다.</p><em>활동 ' + list.length + '건 · 최근 순</em></div></div>';
         var cards = list.map(function (a) {
-          return '<article class="card">' + photoTag(a.photo, 'card-img', '') + (a.period ? '<div class="meta"><span>' + esc(a.period) + '</span></div>' : '') +
+          var m = find(cat(a)), src = photoList(a.photo)[0];
+          var tag = m ? '<span class="cat-tag c-' + m[2] + '"><span class="cat-ico c-' + m[2] + '">' + ico(m[0]) + '</span>' + esc(m[0]) + '</span>' : '';
+          return '<article class="card act' + (src ? ' has-photo' : '') + '">' + (src ? photoTag(a.photo, 'card-img', '') : '') + tag +
+            (a.period ? '<div class="meta"><span>' + esc(a.period) + '</span></div>' : '') +
             '<h3>' + esc(a.title) + '</h3><p>' + esc(a.text) + '</p>' + (a.meta ? '<p class="foot">' + esc(a.meta) + '</p>' : '') + '</article>';
         }).join('') || '<p class="muted">준비 중인 활동입니다.</p>';
-        return '<section class="mission-group" id="' + m[1] + '"><div class="mission-head"><b>0' + (i + 1) + '</b><h3>' + m[0] + '</h3><p>' + m[2] + '</p></div>' +
-          '<div class="grid" style="margin-top:20px">' + cards + '</div></section>';
-      }).join('');
+        el.innerHTML = tabs + panel + '<div class="grid" style="margin-top:28px">' + cards + '</div>';
+      }
+      el.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-m]');
+        if (!b) return;
+        sel = b.getAttribute('data-m');
+        var m = find(sel);
+        try { history.replaceState(null, '', m ? '#' + m[1] : location.pathname + location.search); } catch (x) {}
+        draw();
+        var nb = el.querySelector('button[aria-pressed="true"]'); if (nb) nb.focus();
+      });
+      draw();
     },
     'org-logos': function (el) {
       var L = D.logos || {};
@@ -345,19 +397,29 @@
       el.innerHTML = (D.partners || []).map(function (p) { return '<div><h3>' + esc(p.name) + '</h3><p>' + esc(p.role) + '</p></div>'; }).join('');
     },
     'upcoming': function (el) {
-      var u = (D.news || []).filter(function (n) { return n.upcoming; });
+      var u = (D.news || []).filter(isUpcoming).sort(function (x, y) {
+        var a = parseWhen(x), b = parseWhen(y);
+        return (a ? a.start : Infinity) - (b ? b.start : Infinity);
+      });
       var sec = el.closest('section');
       if (sec) sec.hidden = !u.length;
       if (!u.length) { el.innerHTML = ''; return; }
+      var WD = ['일', '월', '화', '수', '목', '금', '토'];
       el.innerHTML = u.map(function (x) {
-        return '<a class="upcoming" href="' + newsHref(x) + '"><div class="when">' + esc(x.date) + '<small>일시 확정 예정</small></div>' +
-          '<div class="what"><strong>' + esc(x.title) + '</strong><span>' + esc(x.text) + '</span></div><span>자세히 보기 →</span></a>';
+        var w = parseWhen(x), day, time;
+        if (w) {
+          day = w.mo + '월 ' + w.d + '일 (' + WD[new Date(Date.UTC(w.y, w.mo - 1, w.d)).getUTCDay()] + ')';
+          time = w.hasTime ? (w.h < 12 ? '오전 ' : '오후 ') + (w.h % 12 || 12) + '시' + (w.mi ? ' ' + w.mi + '분' : '') : '시간 확정 예정';
+        } else { day = x.date; time = '일시 확정 예정'; }
+        var place = (x.info || []).filter(function (r) { return r[0] === '장소'; })[0];
+        return '<a class="upcoming" href="' + newsHref(x) + '"><div class="when">' + esc(day) + '<small>' + esc(time) + '</small></div>' +
+          '<div class="what"><strong>' + esc(x.title) + '</strong><span>' + esc(x.text) + '</span>' + (place ? '<span class="where">장소 · ' + esc(place[1]) + '</span>' : '') + '</div><span>자세히 보기 →</span></a>';
       }).join('');
     },
     'news-timeline': function (el) {
       var cat = el.getAttribute('data-cat') || '';
-      var groups = { '사업': ['사업', '활동'], '입장': ['입장'], '연대': ['연대'], '행사': ['행사', '토론회', '수상'] };
-      var list = (D.news || []).filter(function (n) { return !n.upcoming && (!cat || (groups[cat] || [cat]).indexOf(n.cat) >= 0); });
+      var groups = { '사업': ['사업', '활동'], '입장': ['입장'], '연대': ['연대'], '행사': ['행사', '토론회', '수상', '기자회견'] };
+      var list = (D.news || []).filter(function (n) { return !isUpcoming(n) && (!cat || (groups[cat] || [cat]).indexOf(n.cat) >= 0); });
       el.innerHTML = list.map(function (n) {
         return '<li><div class="when"><b>' + esc(n.date) + '</b><span class="badge">' + esc(n.cat) + '</span></div><div class="what"><h3><a href="' + newsHref(n) + '">' + esc(n.title) + '</a></h3>' + (n.text ? '<p>' + esc(n.text) + '</p>' : '') + '</div></li>';
       }).join('') || '<li><p class="muted">해당하는 소식이 없습니다.</p></li>';
@@ -372,7 +434,7 @@
       var info = n.info ? '<dl>' + n.info.map(function (r) { return '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('') + '</dl>' : '';
       var more = photoList(n.photo).slice(1).map(function (src) { return '<img src="' + esc(src) + '" alt="" loading="lazy" onerror="this.remove()">'; }).join('');
       el.innerHTML = '<nav aria-label="위치" class="muted"><a href="news.html">소식·일정</a> › ' + esc(n.cat) + '</nav>' +
-        '<div class="meta" style="margin-top:28px"><span class="badge">' + esc(n.upcoming ? '일정' : n.cat) + '</span><span>' + esc(n.date) + ' · 마포자원순환네트워크</span></div>' +
+        '<div class="meta" style="margin-top:28px"><span class="badge">' + esc(isUpcoming(n) ? '일정' : n.cat) + '</span><span>' + esc(n.date) + ' · 마포자원순환네트워크</span></div>' +
         '<h1>' + esc(n.title) + '</h1>' + photoTag(n.photo, 'post-img', n.title) + info + '<div class="body">' + body + '</div>' + (more ? '<div class="gallery">' + more + '</div>' : '') +
         '<div class="nav-row"><a class="more" href="news.html">← 소식 목록</a><a class="more" href="join.html">연서명으로 함께하기 →</a></div>';
     }
