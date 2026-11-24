@@ -5,6 +5,7 @@
   var DEFAULT_CAT = {};
   (D.activities || []).forEach(function (x) { if (x.cat) DEFAULT_CAT[x.title] = x.cat; });
   // 시트에 링크·사진 칸이 비어 있으면 기본값(data.js)의 것을 씁니다.
+  var DEF_REC = {}; ['news', 'statements', 'docs', 'press'].forEach(function (k) { (D[k] || []).forEach(function (x) { if (x.id) DEF_REC[k + ':' + x.id] = x; }); });
   var DEFAULT_ACT_LINK = {}, DEFAULT_NEWS = {};
   (D.activities || []).forEach(function (x) { if (x.link) DEFAULT_ACT_LINK[x.title] = x.link; });
   (D.news || []).forEach(function (x) { if (x.link || x.photo) DEFAULT_NEWS[x.id] = x; });
@@ -25,7 +26,7 @@
   }
   function safeHref(h) {
     h = String(h || '').trim();
-    return /^(https?:|mailto:|#|[a-z0-9_-]+\.html)/i.test(h) ? h : '#';
+    return /^(https?:|mailto:|#|assets\/[\w./%-]+$|[a-z0-9_-]+\.html)/i.test(h) ? h : '#';
   }
 
   /* ---------- 일정이 지나면 ‘다가오는 일정’에서 자동으로 빠지기 ---------- */
@@ -129,7 +130,14 @@
         if (!n.id) n.id = (n.date + '-' + n.title).replace(/[^0-9A-Za-z가-힣-]+/g, '-');
       });
       if (key === 'activities') out.forEach(function (a) { if (!a.cat) a.cat = DEFAULT_CAT[a.title] || ''; if (!a.link) a.link = DEFAULT_ACT_LINK[a.title] || ''; });
-      if (key === 'news') out.forEach(function (n) { var d = DEFAULT_NEWS[n.id]; if (d) { if (!n.link) n.link = d.link || ''; if (!n.photo) n.photo = d.photo || ''; } });
+      // 시트에서 비워 둔 사진·링크·본문·첨부 칸은 기본값(data.js)으로 채웁니다.
+      if (key === 'news' || key === 'statements' || key === 'docs' || key === 'press') out.forEach(function (n) {
+        var d = DEF_REC[key + ':' + n.id]; if (!d) return;
+        ['photo', 'link', 'linkText', 'file'].forEach(function (f) { if (!n[f] && d[f]) n[f] = d[f]; });
+        if (!n.summary && d.summary) n.summary = d.summary;
+        if ((!n.body || !n.body.length) && d.body) n.body = d.body;
+        if (!n.info && d.info) n.info = d.info;
+      });
       if (key === 'statements' || key === 'docs' || key === 'press') out.forEach(function (n, i) {
         n.body = n.body ? n.body.split(/\n\s*\n|\n/) : null;
         if (!n.id) n.id = key + '-' + (i + 1);
@@ -448,7 +456,7 @@
       el.innerHTML = '<nav aria-label="위치" class="muted"><a href="news.html">소식·일정</a> › ' + esc(n.cat) + '</nav>' +
         '<div class="meta" style="margin-top:28px"><span class="badge">' + esc(isUpcoming(n) ? '일정' : n.cat) + '</span><span>' + esc(n.date) + ' · 마포자원순환네트워크</span></div>' +
         '<h1>' + esc(n.title) + '</h1>' + photoTag(n.photo, 'post-img', n.title) + info + '<div class="body">' + body + '</div>' + (more ? '<div class="gallery">' + more + '</div>' : '') +
-        (n.link ? '<div class="guide-actions"><a class="btn lg"' + linkAttrs(n.link) + '>자세한 소식</a></div>' : '') +
+        (n.link ? '<div class="guide-actions"><a class="btn lg"' + linkAttrs(n.link) + '>' + esc(n.linkText || '자세한 소식') + '</a></div>' : '') +
         '<div class="nav-row"><a class="more" href="news.html">← 소식 목록</a><a class="more" href="join.html">연서명으로 함께하기 →</a></div>';
     }
   };
