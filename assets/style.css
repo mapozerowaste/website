@@ -257,3 +257,19 @@ body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
 .nav { font-weight: 600; letter-spacing: -0.01em; }
 .site-footer strong { font-weight: 800; letter-spacing: -0.01em; }
 @media (max-width: 600px) { .hero .lead br { display: none; } }
+
+/* 미션별 활동 */
+.mission-group { margin-top: 56px; scroll-margin-top: 96px; }
+.mission-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+.mission-head b { font-family: var(--head); font-weight: 900; color: var(--green); }
+.mission-head h3 { font-weight: 900; font-size: 26px; }
+.mission-head p { margin: 0; color: var(--muted); font-size: 16px; flex: 1 1 280px; }
+
+/* 연서명 단체 로고 */
+.logos { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.logos li { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 16px; background: #fff; overflow: hidden; }
+.logo-box { height: 120px; display: flex; align-items: center; justify-content: center; padding: 18px 22px; }
+.logo-box img { max-width: 100%; max-height: 84px; object-fit: contain; }
+.logo-box.no-img { background: var(--mint); }
+.logo-box.no-img::before { content: ''; width: 36px; height: 36px; border-radius: 50%; background: var(--leaf-soft); box-shadow: inset 0 0 0 10px var(--leaf); }
+.logo-name { padding: 12px 16px; border-top: 1px solid var(--line); font-family: var(--head); font-weight: 700; font-size: 15px; line-height: 1.4; text-align: center; min-height: 64px; display: flex; align-items: center; justify-content: center; }

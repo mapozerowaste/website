@@ -57,12 +57,12 @@
   // 시트 탭 이름과 열 이름(첫 줄). 운영위원이 보기 쉽게 한글로 둡니다.
   var SHEETS = {
     news: ['소식', { id: '아이디', date: '날짜', cat: '분류', title: '제목', text: '요약', body: '본문', info: '안내', photo: '사진', upcoming: '예정' }],
-    activities: ['활동', { status: '상태', period: '기간', title: '사업명', text: '설명', meta: '함께한곳', photo: '사진' }],
+    activities: ['활동', { cat: '구분', status: '상태', period: '기간', title: '사업명', text: '설명', meta: '함께한곳', photo: '사진' }],
     statements: ['논평', { id: '아이디', date: '날짜', kind: '종류', title: '제목', summary: '요약', body: '본문', photo: '사진', file: '첨부', href: '링크' }],
     docs: ['자료', { id: '아이디', date: '날짜', kind: '종류', title: '제목', summary: '요약', body: '본문', photo: '사진', file: '첨부', href: '링크' }],
     press: ['언론', { id: '아이디', date: '날짜', kind: '매체', title: '제목', summary: '요약', body: '본문', photo: '사진', file: '첨부', href: '링크' }],
     history: ['연혁', { date: '날짜', text: '내용' }],
-    orgs: ['연서명명단', { kind: '유형', name: '이름' }],
+    orgs: ['연서명명단', { kind: '유형', name: '이름', logo: '로고' }],
     partners: ['협력', { name: '이름', role: '설명' }],
     settings: ['설정', { key: '항목', value: '값' }]
   };
@@ -109,6 +109,7 @@
         n.body = n.body ? n.body.split(/\n\s*\n|\n/) : null;
         if (!n.id) n.id = key + '-' + (i + 1);
       });
+      if (key === 'orgs') { D.logos = D.logos || {}; out.forEach(function (o) { if (o.logo) D.logos[o.name] = o.logo; }); }
       if (key === 'orgs') out = out.filter(function (o) { return o.kind !== '개인' && o.name; }).map(function (o) { return o.name; });
       if (key === 'settings') {
         D.guide = D.guide || {};
@@ -181,11 +182,35 @@
       }).join('');
     },
     'history': function (el) {
-      el.innerHTML = (D.history || []).map(function (h) { return '<li><b>' + esc(h.date) + '</b><span>' + esc(h.text) + '</span></li>'; }).join('');
+      el.innerHTML = (D.history || []).map(function (h) { return '<li><b>' + esc(h.date) + '</b><span>' + esc(h.text).replace(/\n/g, '<br>') + '</span></li>'; }).join('');
     },
     'org-chips': function (el) {
       el.innerHTML = (D.orgs || []).map(function (o) { return '<li>' + esc(o) + '</li>'; }).join('') +
         '<li class="extra">그리고 개인 ' + esc(D.persons || 0) + '명</li>';
+    },
+    'activity-groups': function (el) {
+      var M = [['정책전환', 'm-policy', '소각 중심 행정에서 감량 중심 정책으로 전환합니다.'],
+               ['연대 확장', 'm-solidarity', '자치구 연대로 서울자원순환네트워크를 구축합니다.'],
+               ['시민행동', 'm-action', '시민의 실천을 모아 정책에 반영합니다.'],
+               ['도시선언', 'm-declare', '지속가능한 서울의 미래를 위한 제로웨이스트 도시를 선언합니다.']];
+      var acts = D.activities || [];
+      el.innerHTML = M.map(function (m, i) {
+        var list = acts.filter(function (a) { return (a.cat || a.status) === m[0]; });
+        var cards = list.map(function (a) {
+          return '<article class="card">' + photoTag(a.photo, 'card-img', '') + (a.period ? '<div class="meta"><span>' + esc(a.period) + '</span></div>' : '') +
+            '<h3>' + esc(a.title) + '</h3><p>' + esc(a.text) + '</p>' + (a.meta ? '<p class="foot">' + esc(a.meta) + '</p>' : '') + '</article>';
+        }).join('') || '<p class="muted">준비 중인 활동입니다.</p>';
+        return '<section class="mission-group" id="' + m[1] + '"><div class="mission-head"><b>0' + (i + 1) + '</b><h3>' + m[0] + '</h3><p>' + m[2] + '</p></div>' +
+          '<div class="grid" style="margin-top:20px">' + cards + '</div></section>';
+      }).join('');
+    },
+    'org-logos': function (el) {
+      var L = D.logos || {};
+      el.innerHTML = (D.orgs || []).map(function (o) {
+        var src = photoSrc(L[o]);
+        return '<li>' + (src ? '<span class="logo-box"><img src="' + esc(src) + '" alt="' + esc(o) + ' 로고" loading="lazy" onerror="this.parentNode.classList.add(\'no-img\');this.remove()"></span>' : '<span class="logo-box no-img"></span>') +
+          '<span class="logo-name">' + esc(o) + '</span></li>';
+      }).join('');
     },
     'org-grid': function (el) {
       el.innerHTML = (D.orgs || []).map(function (o) { return '<li>' + esc(o) + '</li>'; }).join('');

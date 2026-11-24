@@ -122,7 +122,7 @@ window.MZ_DATA = {
    "id": "bffp",
    "date": "2025.09.04",
    "cat": "연대",
-   "title": "#BFFP 멤버 가입",
+   "title": "#BFFP 핵심 멤버 가입",
    "text": "",
    "upcoming": false,
    "photo": ""
@@ -147,7 +147,7 @@ window.MZ_DATA = {
   },
   {
    "id": "guide",
-   "date": "2025.06",
+   "date": "2025.06.30",
    "cat": "발간",
    "title": "『제로 웨이스트 도시를 위한 안내서』 공식 한국어판 발간",
    "text": "제로 웨이스트 유럽(ZWE)의 마스터플랜을 한국과 지방정부 현실에 맞게 옮긴 안내서를 펴냈습니다.",
@@ -157,6 +157,7 @@ window.MZ_DATA = {
  ],
  "activities": [
   {
+   "cat": "시민행동",
    "status": "사업 종료",
    "period": "2026.03",
    "title": "제로웨이스트 공동주택 모델 만들기",
@@ -165,6 +166,7 @@ window.MZ_DATA = {
    "photo": ""
   },
   {
+   "cat": "시민행동",
    "status": "기자회견 예정",
    "period": "2026.06",
    "title": "슈퍼마켓 감사",
@@ -173,14 +175,16 @@ window.MZ_DATA = {
    "photo": ""
   },
   {
+   "cat": "도시선언",
    "status": "발간",
-   "period": "2025.06",
+   "period": "2025.06.30",
    "title": "『제로 웨이스트 도시를 위한 안내서』 공식 한국어판",
    "text": "제로 웨이스트 유럽(ZWE)의 마스터플랜을 한국과 지방정부 현실에 맞게 번역했습니다. 소각장 없이 자립하는 도시의 해법을 담았습니다.",
    "meta": "원저: Zero Waste Europe",
    "photo": ""
   },
   {
+   "cat": "정책전환",
    "status": "상시",
    "period": "2025–",
    "title": "정책 포럼과 토론회",
@@ -189,6 +193,7 @@ window.MZ_DATA = {
    "photo": ""
   },
   {
+   "cat": "연대 확장",
    "status": "준비 중",
    "period": "2026.02",
    "title": "‘모두!자원순환네트워크’ — 서울 자치구 연대",
@@ -197,11 +202,12 @@ window.MZ_DATA = {
    "photo": ""
   },
   {
+   "cat": "연대 확장",
    "status": "상시",
    "period": "2025–",
    "title": "국제 연대",
-   "text": "세계소각대안연맹(GAIA) 회원단체이자 #BFFP 멤버로, 세계의 제로웨이스트 도시·단체와 정책을 나누고 공동서명에 참여합니다.",
-   "meta": "GAIA 회원 (2025.7.17) · #BFFP 멤버 (2025.9.4)",
+   "text": "세계소각대안연맹(GAIA) 회원단체이자 #BFFP 핵심 멤버로, 세계의 제로웨이스트 도시·단체와 정책을 나누고 공동서명에 참여합니다.",
+   "meta": "GAIA 회원단체 · #BFFP 핵심 멤버",
    "photo": ""
   }
  ],
@@ -297,7 +303,7 @@ window.MZ_DATA = {
    "file": ""
   },
   {
-   "date": "2025.06",
+   "date": "2025.06.30",
    "kind": "안내서",
    "title": "『제로 웨이스트 도시를 위한 안내서』 공식 한국어판",
    "href": "",
@@ -372,15 +378,7 @@ window.MZ_DATA = {
   },
   {
    "date": "2025.06.30",
-   "text": "마포자원순환네트워크 발족식 (마포구의회 다목적실)"
-  },
-  {
-   "date": "2025.06",
-   "text": "『제로 웨이스트 도시를 위한 안내서』 공식 한국어판 발간"
-  },
-  {
-   "date": "2025.06.30",
-   "text": "포럼 ‘소각장 너머 제로웨이스트 도시로’ 공동 주최"
+   "text": "마포자원순환네트워크 발족식\n포럼 ‘소각장 너머 제로웨이스트 도시로’ 공동 주최\n『제로 웨이스트 도시를 위한 안내서』 공식 한국어판 발간"
   },
   {
    "date": "2025.07.17",
@@ -388,23 +386,19 @@ window.MZ_DATA = {
   },
   {
    "date": "2025.09.04",
-   "text": "#BFFP 멤버 가입"
-  },
-  {
-   "date": "2025.11.14",
-   "text": "성명 ‘소각은 재활용에서 제외하겠다는 정부의 입장을 환영한다’ 발표"
+   "text": "#BFFP 핵심 멤버 가입"
   },
   {
    "date": "2026.01.30",
    "text": "국회 토론회 ‘제로웨이스트로 가는 길: 예산으로 보는 자원순환정책’ 주관"
   },
   {
-   "date": "2026.02.25",
-   "text": "서울환경연합 ‘환경디딤돌상’ 수상"
-  },
-  {
    "date": "2026.02",
    "text": "서울 자치구 연대 ‘모두!자원순환네트워크’ 첫 모임"
+  },
+  {
+   "date": "2026.02.25",
+   "text": "서울환경연합 ‘환경디딤돌상’ 수상"
   },
   {
    "date": "2026.03",
@@ -433,9 +427,10 @@ window.MZ_DATA = {
   "알맹상점",
   "울림두레생협",
   "지구샵",
-  "에코라미"
+  "에코라미",
+  "제로웨이스트도시랩"
  ],
- "persons": 6,
+ "persons": 7,
  "partners": [
   {
    "name": "서울환경연합",
@@ -447,7 +442,7 @@ window.MZ_DATA = {
   },
   {
    "name": "#BFFP",
-   "role": "멤버 (2025.9.4), 슈퍼마켓 감사 협력"
+   "role": "핵심 멤버 (2025.9.4), 슈퍼마켓 감사 협력"
   },
   {
    "name": "마포구",
@@ -458,6 +453,18 @@ window.MZ_DATA = {
    "role": "‘다정한 기금’으로 슈퍼마켓 감사 지원"
   }
  ],
+ "logos": {
+  "해빗투게더협동조합": "assets/logos/habit-together.png",
+  "마포FM": "assets/logos/mapofm.png",
+  "쓸모업사이클": "assets/logos/sslmo-upcycle.png",
+  "무지개의원": "assets/logos/rainbow-clinic.png",
+  "성미산학교": "assets/logos/sungmisan-school.png",
+  "지구샵": "assets/logos/jigushop.png",
+  "발달장애청년허브 사부작 사회적협동조합": "assets/logos/sabujak.png",
+  "백의민족": "assets/logos/baekuiminjok.png",
+  "제로웨이스트도시랩": "assets/logos/zerowaste-city-lab.png",
+  "민트협동조합 봄봄마을정원사모임": "assets/logos/mint-bombom.png"
+ },
  "guide": {
   "about": "https://seoulkfem.or.kr/notice/?bmode=view&idx=167096804",
   "download": "",
