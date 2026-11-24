@@ -2,6 +2,8 @@
 (function () {
   var CFG = window.MZ_CONFIG || {};
   var D = window.MZ_DATA || {};
+  var DEFAULT_CAT = {};
+  (D.activities || []).forEach(function (x) { if (x.cat) DEFAULT_CAT[x.title] = x.cat; });
   var page = document.body.getAttribute('data-page') || '';
 
   var NAV = [
@@ -105,6 +107,7 @@
         n.info = n.info ? n.info.split('\n').filter(Boolean).map(function (l) { var i = l.indexOf(':'); return i > 0 ? [l.slice(0, i).trim(), l.slice(i + 1).trim()] : ['', l.trim()]; }) : null;
         if (!n.id) n.id = (n.date + '-' + n.title).replace(/[^0-9A-Za-z가-힣-]+/g, '-');
       });
+      if (key === 'activities') out.forEach(function (a) { if (!a.cat) a.cat = DEFAULT_CAT[a.title] || ''; });
       if (key === 'statements' || key === 'docs' || key === 'press') out.forEach(function (n, i) {
         n.body = n.body ? n.body.split(/\n\s*\n|\n/) : null;
         if (!n.id) n.id = key + '-' + (i + 1);
