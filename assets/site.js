@@ -4,6 +4,10 @@
   var D = window.MZ_DATA || {};
   var DEFAULT_CAT = {};
   (D.activities || []).forEach(function (x) { if (x.cat) DEFAULT_CAT[x.title] = x.cat; });
+  // 시트에 링크·사진 칸이 비어 있으면 기본값(data.js)의 것을 씁니다.
+  var DEFAULT_ACT_LINK = {}, DEFAULT_NEWS = {};
+  (D.activities || []).forEach(function (x) { if (x.link) DEFAULT_ACT_LINK[x.title] = x.link; });
+  (D.news || []).forEach(function (x) { if (x.link || x.photo) DEFAULT_NEWS[x.id] = x; });
   var page = document.body.getAttribute('data-page') || '';
 
   var NAV = [
@@ -75,8 +79,8 @@
   /* ---------- 구글 시트 불러오기 (선택) ---------- */
   // 시트 탭 이름과 열 이름(첫 줄). 운영위원이 보기 쉽게 한글로 둡니다.
   var SHEETS = {
-    news: ['소식', { id: '아이디', date: '날짜', cat: '분류', title: '제목', text: '요약', body: '본문', info: '안내', photo: '사진', upcoming: '예정', when: '일시' }],
-    activities: ['활동', { cat: '구분', status: '상태', period: '기간', title: '사업명', text: '설명', meta: '함께한곳', photo: '사진' }],
+    news: ['소식', { id: '아이디', date: '날짜', cat: '분류', title: '제목', text: '요약', body: '본문', info: '안내', photo: '사진', upcoming: '예정', when: '일시', link: '링크' }],
+    activities: ['활동', { cat: '구분', status: '상태', period: '기간', title: '사업명', text: '설명', meta: '함께한곳', photo: '사진', link: '링크' }],
     statements: ['논평', { id: '아이디', date: '날짜', kind: '종류', title: '제목', summary: '요약', body: '본문', photo: '사진', file: '첨부', href: '링크' }],
     docs: ['자료', { id: '아이디', date: '날짜', kind: '종류', title: '제목', summary: '요약', body: '본문', photo: '사진', file: '첨부', href: '링크' }],
     press: ['언론', { id: '아이디', date: '날짜', kind: '매체', title: '제목', summary: '요약', body: '본문', photo: '사진', file: '첨부', href: '링크' }],
@@ -124,7 +128,8 @@
         n.info = n.info ? n.info.split('\n').filter(Boolean).map(function (l) { var i = l.indexOf(':'); return i > 0 ? [l.slice(0, i).trim(), l.slice(i + 1).trim()] : ['', l.trim()]; }) : null;
         if (!n.id) n.id = (n.date + '-' + n.title).replace(/[^0-9A-Za-z가-힣-]+/g, '-');
       });
-      if (key === 'activities') out.forEach(function (a) { if (!a.cat) a.cat = DEFAULT_CAT[a.title] || ''; });
+      if (key === 'activities') out.forEach(function (a) { if (!a.cat) a.cat = DEFAULT_CAT[a.title] || ''; if (!a.link) a.link = DEFAULT_ACT_LINK[a.title] || ''; });
+      if (key === 'news') out.forEach(function (n) { var d = DEFAULT_NEWS[n.id]; if (d) { if (!n.link) n.link = d.link || ''; if (!n.photo) n.photo = d.photo || ''; } });
       if (key === 'statements' || key === 'docs' || key === 'press') out.forEach(function (n, i) {
         n.body = n.body ? n.body.split(/\n\s*\n|\n/) : null;
         if (!n.id) n.id = key + '-' + (i + 1);
@@ -162,12 +167,13 @@
     if (/^[\w./-]+\.(jpe?g|png|webp|gif)$/i.test(v)) return v.indexOf('/') >= 0 ? v : 'assets/photos/' + v;
     return '';
   }
+  function linkAttrs(h) { return ' href="' + esc(safeHref(h)) + '"' + (/^https?:/i.test(h) ? ' target="_blank" rel="noopener"' : ''); }
   function photoList(v) {
     return String(v || '').split(/[\n,]+/).map(function (x) { return photoSrc(x); }).filter(Boolean);
   }
   function photoTag(v, cls, alt) {
     var src = photoList(v)[0];
-    return src ? '<img class="' + cls + '" src="' + esc(src) + '" alt="' + esc(alt || '') + '" loading="lazy" onerror="this.remove()">' : '';
+    return src ? '<img class="' + cls + '" src="' + esc(src) + '" alt="' + esc(alt || '') + '" loading="lazy" onerror="this.remove()"' + (cls === 'post-img' ? ' onload="if(this.naturalHeight>this.naturalWidth)this.classList.add(\'tall\')"' : '') + '>' : '';
   }
 
 
@@ -267,7 +273,7 @@
     'activity-rows': function (el) {
       var n = parseInt(el.getAttribute('data-limit') || '4', 10);
       el.innerHTML = (D.activities || []).slice(0, n).map(function (a) {
-        return '<article class="row"><h3>' + esc(a.title) + '</h3><div><p>' + esc(a.text) + '</p><a class="more" href="activities.html">활동 보기</a></div></article>';
+        return '<article class="row"><h3>' + esc(a.title) + '</h3><div><p>' + esc(a.text) + '</p><a class="more"' + (a.link ? linkAttrs(a.link) : ' href="activities.html"') + '>' + (a.link ? '자세히 보기' : '활동 보기') + '</a></div></article>';
       }).join('');
     },
     'activity-cards': function (el) {
@@ -328,7 +334,7 @@
           var tag = m ? '<span class="cat-tag c-' + m[2] + '"><span class="cat-ico c-' + m[2] + '">' + ico(m[0]) + '</span>' + esc(m[0]) + '</span>' : '';
           return '<article class="card act' + (src ? ' has-photo' : '') + '">' + (src ? photoTag(a.photo, 'card-img', '') : '') + tag +
             (a.period ? '<div class="meta"><span>' + esc(a.period) + '</span></div>' : '') +
-            '<h3>' + esc(a.title) + '</h3><p>' + esc(a.text) + '</p>' + (a.meta ? '<p class="foot">' + esc(a.meta) + '</p>' : '') + '</article>';
+            '<h3>' + esc(a.title) + '</h3><p>' + esc(a.text) + '</p>' + (a.meta ? '<p class="foot">' + esc(a.meta) + '</p>' : '') + (a.link ? '<a class="more"' + linkAttrs(a.link) + '>자세히 보기</a>' : '') + '</article>';
         }).join('') || '<p class="muted">준비 중인 활동입니다.</p>';
         el.innerHTML = tabs + panel + '<div class="grid" style="margin-top:28px">' + cards + '</div>';
       }
@@ -443,6 +449,7 @@
       el.innerHTML = '<nav aria-label="위치" class="muted"><a href="news.html">소식·일정</a> › ' + esc(n.cat) + '</nav>' +
         '<div class="meta" style="margin-top:28px"><span class="badge">' + esc(isUpcoming(n) ? '일정' : n.cat) + '</span><span>' + esc(n.date) + ' · 마포자원순환네트워크</span></div>' +
         '<h1>' + esc(n.title) + '</h1>' + photoTag(n.photo, 'post-img', n.title) + info + '<div class="body">' + body + '</div>' + (more ? '<div class="gallery">' + more + '</div>' : '') +
+        (n.link ? '<div class="guide-actions"><a class="btn lg"' + linkAttrs(n.link) + '>자세한 소식</a></div>' : '') +
         '<div class="nav-row"><a class="more" href="news.html">← 소식 목록</a><a class="more" href="join.html">연서명으로 함께하기 →</a></div>';
     }
   };

@@ -2,8 +2,8 @@ import sys, json
 sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__)))
 import importlib, content; importlib.reload(content)
 from content import *
-for n in NEWS: n['upcoming']=bool(n.get('upcoming')); n.setdefault('photo','')
-for a in ACTIVITIES: a.setdefault('photo','')
+for n in NEWS: n['upcoming']=bool(n.get('upcoming')); n.setdefault('photo',''); n.setdefault('link','')
+for a in ACTIVITIES: a.setdefault('photo',''); a.setdefault('link','')
 NEWS[0]['body']=['마포자원순환네트워크와 알맹상점이 「2026 BFFP 슈퍼마켓 감사 한국 결과 발표」 기자회견을 엽니다.',
  '슈퍼마켓 감사는 전 세계 2,700여 단체가 참여하는 국제 연대체 #BreakFreeFromPlastic(BFFP)의 시민과학 조사입니다. 시민이 직접 매장을 방문해 플라스틱 포장과 재사용 기반시설을 같은 조사표로 기록합니다. 한국은 올해 처음 참가해 전국 10개 시·도 53개 매장을 조사했고, 참가 51개국 가운데 조사 제출 건수 세계 5위·아시아 3위를 기록했습니다.',
  '조사 결과, 국내 5대 대형마트(이마트·롯데·홈플러스·농협하나로마트·GS더프레시)에서 포장을 줄이는 판매 방식은 찾아보기 어려웠습니다. 조사 매장의 92%가 육류·수산물 등에 스티로폼 포장을 사용했고, 농산물은 품목군 판정의 90%가 ‘주로’ 또는 ‘전부’ 포장된 상태였습니다. 건식 벌크·리필 코너는 한 곳도 없었고(2025년 글로벌 14%), 빈용기보증금제가 시행 중인데도 반납 창구가 확인된 매장은 45%에 그쳤습니다.',
