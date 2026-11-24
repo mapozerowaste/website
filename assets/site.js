@@ -184,8 +184,8 @@
   function renderGated(el, id, n, G) {
     var title = n.title || '『제로 웨이스트 도시를 위한 안내서』 공식 한국어판';
     document.title = title + ' - 마포자원순환네트워크';
+    // 페이지를 열 때마다 입력 폼을 보여 줍니다. 신청을 마친 그 화면에서만 내려받기 버튼이 나타납니다.
     var done = false;
-    try { done = localStorage.getItem('mz-dl-' + id) === '1'; } catch (e) {}
     var body = (G.body || []).map(function (p) { return '<p>' + linkify(p) + '</p>'; }).join('');
     el.className = 'post gated';
     el.innerHTML = '<nav aria-label="위치" class="muted"><a href="statements.html">목소리와 기록</a> › <a href="statements.html#docs">자료집</a></nav>' +
@@ -231,7 +231,6 @@
     var form = el.querySelector('.dl-form'), ready = el.querySelector('.dl-ready'), msg = form.querySelector('.notice');
     function show(kind, text) { msg.className = 'notice ' + kind; msg.textContent = text; msg.hidden = false; msg.focus(); }
     function unlock() {
-      try { localStorage.setItem('mz-dl-' + id, '1'); } catch (e) {}
       form.hidden = true; ready.hidden = false;
       var a = ready.querySelector('a'); if (a) a.focus();
     }
