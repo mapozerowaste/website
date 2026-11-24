@@ -43,6 +43,7 @@ DOCS = [
  dict(date='2025.06.30', kind='안내서', title='『제로 웨이스트 도시를 위한 안내서』 공식 한국어판', href='#'),
 ]
 PRESS = [
+ dict(date='2026.10.14', kind='GAIA', title='GAIA ‘WHEN THEY WIN, THE WORLD WINS.’ — 마포 소각장 계획 철회 사례에 마포자원순환네트워크 소개', href='https://www.no-burn.org/gwa-victories/'),
  dict(date='2026.01.30', kind='에너지데일리', title='국회 토론회 ‘제로웨이스트로 가는 길’ 보도', href='http://www.energydaily.co.kr/news/articleView.html?idxno=164275'),
  dict(date='2025.11.14', kind='#BFFP', title='소각을 재활용 통계에서 제외하기로 한 정부 결정을 환영합니다', href='https://www.breakfreefromplastic.org/ko/2025/11/14/mapo-statement-recycling-statistics/'),
  dict(date='2025.07.10', kind='슬로우뉴스', title='“짐승(소각장)을 만들면 계속 먹이(쓰레기)를 줘야 한다.”', href='https://slownews.kr/140752'),
@@ -58,6 +59,7 @@ HISTORY = [
  ('2026.02','서울 자치구 연대 ‘모두!자원순환네트워크’ 첫 모임'),
  ('2026.02.25','서울환경연합 ‘환경디딤돌상’ 수상'),
  ('2026.03','제로웨이스트 공동주택 모델 만들기 사업 (마포구 발주)'),
+ ('2026.04.03','플라스틱 문제를 뿌리뽑는 연대(플뿌리연대) 가입'),
  ('2026.06','#BFFP와 함께 슈퍼마켓 감사 진행 (다정한 재단 ‘다정한 기금’ 지원)'),
 ]
 PARTNERS = [

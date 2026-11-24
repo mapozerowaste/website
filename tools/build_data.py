@@ -12,13 +12,14 @@ NEWS[0]['body']=['마포자원순환네트워크와 알맹상점이 「2026 BFFP
 NEWS[0]['info']=[['일시','2026년 11월 25일(수) 오전 11시'],['장소','이마트 본사 앞 (서울 중구 세종대로7길 37, 시청역 인근)'],['주최','마포자원순환네트워크 · 알맹상점'],['사회','박정음 (수리상점 곰손)'],['발언','오현주 (제로웨이스트도시랩 대표) · 최인자 (노동환경건강연구소 박사) · 고금숙 (알맹상점 공동대표) · 성미산학교 교사·학생'],['지원','다정한 재단 ‘다정한 기금’'],['문의','mapozerowaste@gmail.com']]
 ids = {'statements':['court-statement','gaia-bffp-letter','statement-251114','comment-250910'],
        'docs':['assembly-forum-book','launch-declaration','launch-forum-book','ppf30-forum-book','zw-city-guide'],
-       'press':['energydaily-260130','bffp-251114','slownews-250710','hankooki-250630','energydaily-250625']}
+       'press':['gaia-win-261014','energydaily-260130','bffp-251114','slownews-250710','hankooki-250630','energydaily-250625']}
 lists = {'statements':STATEMENTS,'docs':DOCS,'press':PRESS}
 for k,L in lists.items():
     for x,i in zip(L, ids[k]):
         x['id']=i; x.setdefault('summary',''); x.setdefault('body',None); x.setdefault('photo',''); x.setdefault('file','')
         if x['href']=='#': x['href']=''
-PRESS[0]['summary']='국회 토론회 ‘제로웨이스트로 가는 길: 예산으로 보는 자원순환정책’을 다룬 기사입니다.'
+PRESS[0]['summary']='GAIA가 지난 25년간 소각장을 막아 낸 사례를 소개하는 시리즈에 서울시의 마포 소각장 계획 철회가 실렸습니다. 이 승리에 함께한 회원단체로 마포자원순환네트워크가 올라 있습니다.'
+PRESS[1]['summary']='국회 토론회 ‘제로웨이스트로 가는 길: 예산으로 보는 자원순환정책’을 다룬 기사입니다.'
 D=dict(news=NEWS,activities=ACTIVITIES,statements=STATEMENTS,docs=DOCS,press=PRESS,history=[dict(date=d,text=t) for d,t in HISTORY],orgs=ORGS,persons=PERSONS,partners=PARTNERS,logos=LOGOS,
        guide={'about':'record.html#zw-city-guide','download':'','cover':'assets/guide-cover.png'},
        gated={'zw-city-guide': {

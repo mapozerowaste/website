@@ -347,6 +347,17 @@ window.MZ_DATA = {
  ],
  "press": [
   {
+   "date": "2026.10.14",
+   "kind": "GAIA",
+   "title": "GAIA ‘WHEN THEY WIN, THE WORLD WINS.’ — 마포 소각장 계획 철회 사례에 마포자원순환네트워크 소개",
+   "href": "https://www.no-burn.org/gwa-victories/",
+   "id": "gaia-win-261014",
+   "summary": "GAIA가 지난 25년간 소각장을 막아 낸 사례를 소개하는 시리즈에 서울시의 마포 소각장 계획 철회가 실렸습니다. 이 승리에 함께한 회원단체로 마포자원순환네트워크가 올라 있습니다.",
+   "body": null,
+   "photo": "",
+   "file": ""
+  },
+  {
    "date": "2026.01.30",
    "kind": "에너지데일리",
    "title": "국회 토론회 ‘제로웨이스트로 가는 길’ 보도",
@@ -434,6 +445,10 @@ window.MZ_DATA = {
   {
    "date": "2026.03",
    "text": "제로웨이스트 공동주택 모델 만들기 사업 (마포구 발주)"
+  },
+  {
+   "date": "2026.04.03",
+   "text": "플라스틱 문제를 뿌리뽑는 연대(플뿌리연대) 가입"
   },
   {
    "date": "2026.06",
