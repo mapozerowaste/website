@@ -24,7 +24,7 @@ N('assembly-forum')['info']=[['일시','2026년 1월 30일(금) 오전 10시'],[
 N('kickoff-meeting')['body']=['마포 곳곳에서 자원순환 도시를 만들기 위해 애쓰는 분들께 ‘마포자원순환네트워크’ 구성을 제안하는 첫 준비모임을 열었습니다.','알맹상점, 울림두레생협, 쓸모업사이클이 제안했고, 함께하실 분들을 기다렸습니다.']
 N('kickoff-meeting')['info']=[['일시','2024년 12월 17일 오후 2시'],['장소','모두의놀이터 5층 콕스테이 숨:다']]
 
-ids = {'statements':['court-statement','gaia-bffp-letter','statement-251114','comment-250910'],
+ids = {'statements':['court-statement','statement-251114','comment-250910'],
        'docs':['assembly-forum-book','launch-declaration','launch-forum-book','ppf30-forum-book','zw-city-guide'],
        'press':['gaia-win-261014','energydaily-260130','bffp-251114','slownews-250710','hankooki-250630','energydaily-250625']}
 lists = {'statements':STATEMENTS,'docs':DOCS,'press':PRESS}
@@ -38,7 +38,7 @@ R(DOCS,'ppf30-forum-book').update(date='2025.06.25', summary='', file='')
 R(DOCS,'launch-declaration').update(summary='', file='')
 R(DOCS,'launch-forum-book').update(summary='', file='')
 R(DOCS,'assembly-forum-book').update(summary='2026년 1월 30일 국회 토론회 ‘제로웨이스트로 가는 길: 예산으로 보는 자원순환정책’ 자료집입니다.', file='assets/files/assembly-forum-book.pdf')
-R(STATEMENTS,'statement-251114').update(photo='statement-251114.jpg', summary='', file='assets/files/statement-251114.pdf', body=[
+R(STATEMENTS,'statement-251114').update(photo='statement-251114.jpg', summary='', file='', body=[
  '재활용 지표에서 쓰레기 ‘소각’은 제외하겠다는 정부의 입장을 적극 환영한다.',
  '대한민국 정부가 드디어 국가 재활용율 통계를 바로잡기 위해 나섰다. 시멘트 소성로에서 폐기물 ‘소각’을 통해 얻는 열에너지를 재활용에 포함시켜 온 잘못된 관행을 종식시키겠다고 지난 22일 발표했다. ‘소각은 재활용이 아니다’라는 OECD 국가의 상식이 드디어 한국에서도 통하게 되었다. 마포자원순환네트워크는 정부의 입장을 진심으로 환영하는 바이다.',
  '2022년 기준으로 대한민국은 OECD 국가 중 재활용율 1위(약57%)를 기록하고 있다. 하지만 폐기물을 소각해서 얻는 이른바 ‘열적 재활용’ 수치를 제외하면 10% 이상 재활용 수치는 떨어진다. 대부분의 OECD 국가는 진즉에 쓰레기를 태워 에너지를 얻는 이른바 ‘열적 재활용’은 재활용에 포함시키고 있지 않다. 따라서 그동안 재활용 1위 국가의 영광은 ‘그린워싱’에 지나지 않는다는 비판이 끊임없이 제기되었다. 이제라도 잘못된 관행을 바로잡고 순환경제의 길로 나아가고자 하는 정부의 의지에 박수를 보낸다.',

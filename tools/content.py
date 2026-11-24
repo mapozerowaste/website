@@ -10,7 +10,6 @@ NEWS = [
  dict(id='modu-network', date='2026.02', cat='연대', title='‘모두!자원순환네트워크’ 첫 모임', text='서울 자치구의 자원순환 네트워크가 함께하는 연대체 이름을 정하고 첫 모임을 열었습니다.'),
  dict(id='award', date='2026.02.25', cat='수상', title='서울환경연합 ‘환경디딤돌상’ 수상', text='서울환경연합이 마포자원순환네트워크에 환경디딤돌상을 수여했습니다.', photo='award-certificate.jpg'),
  dict(id='assembly-forum', date='2026.01.30', cat='토론회', title='국회 토론회 ‘제로웨이스트로 가는 길: 예산으로 보는 자원순환정책’', text='예산으로 자원순환정책을 짚어 보는 국회 토론회를 주관했습니다.', photo='assembly-poster.jpg', link='record.html#assembly-forum-book', linkText='토론회 자료집 보기'),
- dict(id='gaia-letter', date='2025.11.24', cat='연대', title='GAIA·#BFFP 국제 공동서명 참여', text='소각을 ‘폐기물 에너지화’로 정당화하는 흐름에 항의하는 공동서명에 이름을 올렸습니다.'),
  dict(id='bffp', date='2025.09.04', cat='연대', title='#BFFP 핵심 멤버 가입', text=''),
  dict(id='gaia', date='2025.07.17', cat='연대', title='세계소각대안연맹(GAIA) 회원단체 승인', text=''),
  dict(id='launch', date='2025.06.30', cat='행사', title='마포자원순환네트워크 발족식과 포럼 ‘소각장 너머 제로웨이스트 도시로’', text='마포구의회 다목적실에서 발족을 선언하고 포럼을 열었습니다.', photo='launch-ceremony.jpg,launch-declaration.jpg,launch-forum-group.jpg,launch-forum-talk.jpg'),
@@ -28,9 +27,8 @@ ACTIVITIES = [
 ]
 
 STATEMENTS = [
- dict(date='2026.02.12', kind='성명', title='추가 소각장 ‘설치 취소 판결’을 환영한다', href='#'),
- dict(date='2025.11.24', kind='공동서명', title='GAIA·#BFFP 국제 공동서한 연명', href='#'),
- dict(date='2025.11.14', kind='성명', title='‘소각’은 ‘재활용’에서 제외하겠다는 정부의 입장을 환영한다 (국문·영문)', href='#'),
+ dict(date='2026.02.12', kind='성명', title='서울 마포구 추가 소각장, 2심 “설치 취소” 판결을 환영한다', href='#'),
+ dict(date='2025.11.14', kind='성명', title='‘소각’은 ‘재활용’에서 제외하겠다는 정부의 입장을 환영한다', href='#'),
  dict(date='2025.09.10', kind='논평', title='마포구는 폐기물 감량에 대한 종합대책을 수립해야', href='#'),
 ]
 DOCS = [

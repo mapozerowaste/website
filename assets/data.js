@@ -172,17 +172,6 @@ window.MZ_DATA = {
    ]
   },
   {
-   "id": "gaia-letter",
-   "date": "2025.11.24",
-   "cat": "연대",
-   "title": "GAIA·#BFFP 국제 공동서명 참여",
-   "text": "소각을 ‘폐기물 에너지화’로 정당화하는 흐름에 항의하는 공동서명에 이름을 올렸습니다.",
-   "upcoming": false,
-   "photo": "",
-   "link": "",
-   "linkText": ""
-  },
-  {
    "id": "bffp",
    "date": "2025.09.04",
    "cat": "연대",
@@ -351,7 +340,7 @@ window.MZ_DATA = {
   {
    "date": "2026.02.12",
    "kind": "성명",
-   "title": "추가 소각장 ‘설치 취소 판결’을 환영한다",
+   "title": "서울 마포구 추가 소각장, 2심 “설치 취소” 판결을 환영한다",
    "href": "",
    "id": "court-statement",
    "summary": "",
@@ -367,20 +356,9 @@ window.MZ_DATA = {
    "file": ""
   },
   {
-   "date": "2025.11.24",
-   "kind": "공동서명",
-   "title": "GAIA·#BFFP 국제 공동서한 연명",
-   "href": "",
-   "id": "gaia-bffp-letter",
-   "summary": "",
-   "body": null,
-   "photo": "",
-   "file": ""
-  },
-  {
    "date": "2025.11.14",
    "kind": "성명",
-   "title": "‘소각’은 ‘재활용’에서 제외하겠다는 정부의 입장을 환영한다 (국문·영문)",
+   "title": "‘소각’은 ‘재활용’에서 제외하겠다는 정부의 입장을 환영한다",
    "href": "",
    "id": "statement-251114",
    "summary": "",
@@ -393,7 +371,7 @@ window.MZ_DATA = {
     "2025년 11월 14일 · 마포자원순환네트워크"
    ],
    "photo": "statement-251114.jpg",
-   "file": "assets/files/statement-251114.pdf"
+   "file": ""
   },
   {
    "date": "2025.09.10",
