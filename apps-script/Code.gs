@@ -189,6 +189,66 @@ function monthlyGuideReport() {
 }
 
 // 설치 확인용: Apps Script 편집기에서 이 함수를 골라 [실행]하면 '신청' 탭에 시험 줄이 하나 생깁니다.
+// ---------- 지난 일정 알림: 소식 탭의 ‘예정=Y’ 일정이 지나면 내용을 고치라고 메일로 알려 줍니다 ----------
+// 설치: Apps Script 편집기에서 setupEventReminder 를 한 번 실행하고 권한을 허용합니다. 매일 오전 9시쯤 확인합니다.
+var CONTENT_SHEET_ID = '1i24yLSGl4WRKnW11hjZYUp4YwMKPXD4aPDgib-DytWQ';  // 홈페이지 콘텐츠 시트(assets/config.js 의 SHEET_ID 와 같음)
+var NEWS_TAB = '소식';
+var SITE_URL = 'https://mapozerowaste.github.io/website/';
+
+function setupEventReminder() {
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'eventReminder') ScriptApp.deleteTrigger(t);
+  });
+  ScriptApp.newTrigger('eventReminder').timeBased().everyDays(1).atHour(9).create();
+}
+
+// 일정 날짜의 다음 날 0시(한국 시간)를 돌려줍니다. 날짜를 읽지 못하면 null.
+function eventEnd_(when, date) {
+  var m = String(when || '').match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/) || String(date || '').trim().match(/^(\d{4})\.(\d{1,2})\.(\d{1,2})$/);
+  return m ? Date.UTC(+m[1], +m[2] - 1, +m[3] + 1, -9, 0) : null;
+}
+
+function eventReminder() {
+  var sh = SpreadsheetApp.openById(CONTENT_SHEET_ID).getSheetByName(NEWS_TAB);
+  if (!sh || sh.getLastRow() < 2) return;
+  var vals = sh.getDataRange().getDisplayValues();
+  var head = vals.shift().map(function (h) { return String(h).trim(); });
+  var col = function (n) { return head.indexOf(n); };
+  var props = PropertiesService.getScriptProperties();
+  var done = JSON.parse(props.getProperty('eventReminded') || '[]');
+  var now = Date.now(), passed = [], unknown = [];
+  vals.forEach(function (r, i) {
+    var yes = /^(y|yes|예|o)$/i.test(String(r[col('예정')] || '').trim());
+    var hide = /^(n|no|아니오|x)$/i.test(String(r[col('게시')] || '').trim());
+    if (!yes || hide) return;
+    var id = String(r[col('아이디')] || '').trim() || ('row' + (i + 2));
+    var item = { id: id, title: r[col('제목')], date: r[col('날짜')], row: i + 2 };
+    var end = eventEnd_(col('일시') >= 0 ? r[col('일시')] : '', r[col('날짜')]);
+    if (end === null) { if (done.indexOf('?' + id) < 0) unknown.push(item); }
+    else if (now >= end && done.indexOf(id) < 0) passed.push(item);
+  });
+  if (!passed.length && !unknown.length) return;
+  var url = SpreadsheetApp.openById(CONTENT_SHEET_ID).getUrl();
+  var lines = [];
+  if (passed.length) {
+    lines.push('아래 일정이 지났습니다. 홈페이지에서는 자동으로 ‘지난 소식’으로 옮겨졌지만, 본문은 예고 문구 그대로입니다.', '결과 보고 내용으로 고쳐 주세요.', '');
+    passed.forEach(function (x) {
+      lines.push('■ ' + x.title + ' (' + x.date + ', 소식 탭 ' + x.row + '번째 줄)', '  보기: ' + SITE_URL + 'post.html#' + encodeURIComponent(x.id));
+    });
+    lines.push('', '고칠 곳 (소식 탭):', '- 요약·본문: “개최합니다” → “열렸습니다” 와 결과·현장 이야기로', '- 안내: 일시·장소 줄은 그대로 두거나 지우기', '- 사진: 현장 사진 링크 넣기', '- 예정 칸: N 으로 바꾸기 (비워 두어도 화면은 이미 지난 소식으로 나옵니다)', '');
+  }
+  if (unknown.length) {
+    lines.push('날짜를 읽지 못한 ‘예정’ 일정입니다. 날짜 칸을 2026.11.25 꼴로 쓰면 지난 뒤 자동으로 넘어갑니다.', '');
+    unknown.forEach(function (x) { lines.push('■ ' + x.title + ' (날짜 칸: ' + (x.date || '비어 있음') + ', ' + x.row + '번째 줄)'); });
+    lines.push('');
+  }
+  lines.push('콘텐츠 시트: ' + url, '', '(이 메일은 일정마다 한 번만 갑니다.)');
+  MailApp.sendEmail({ to: NOTIFY_TO, subject: '[마포자원순환네트워크 홈페이지] 지난 일정의 내용을 고쳐 주세요 (' + (passed.length + unknown.length) + '건)', body: lines.join('\n') });
+  passed.forEach(function (x) { done.push(x.id); });
+  unknown.forEach(function (x) { done.push('?' + x.id); });
+  props.setProperty('eventReminded', JSON.stringify(done.slice(-200)));
+}
+
 function testWrite() {
   var sh = sheet_();
   sh.appendRow([new Date(), '시험', '시험', '시험 입력', '', '', '', '', '', '', '지워도 됩니다']);

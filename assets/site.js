@@ -25,15 +25,15 @@
   }
 
   /* ---------- 일정이 지나면 ‘다가오는 일정’에서 자동으로 빠지기 ---------- */
-  // 일시("2026-11-25 11:00", 한국 시간)가 있으면 시작 3시간 뒤, 날짜만 있으면 그날 자정에 지난 소식으로 넘어갑니다.
-  // 일시 칸이 없으면 날짜(2026.11.25 꼴)로 판단하고, 날짜를 알 수 없으면 ‘예정’ 칸(Y/N)을 따릅니다.
+  // 일정 날짜(`일시` 칸 또는 `날짜` 칸)의 다음 날 0시(한국 시간)에 지난 소식으로 넘어갑니다. 시간은 따지지 않습니다.
+  // 날짜를 알 수 없으면(예: 2026.11) ‘예정’ 칸(Y/N)을 따릅니다.
   function parseWhen(n) {
     var m = String(n.when || '').match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})(?:\D+(\d{1,2}):(\d{2}))?/);
     if (!m) m = String(n.date || '').trim().match(/^(\d{4})\.(\d{1,2})\.(\d{1,2})$/);
     if (!m) return null;
     var y = +m[1], mo = +m[2], d = +m[3], t = m[4] != null, h = t ? +m[4] : 0, mi = t ? +m[5] : 0;
     var start = Date.UTC(y, mo - 1, d, h - 9, mi);
-    return { y: y, mo: mo, d: d, h: h, mi: mi, hasTime: t, start: start, end: t ? start + 3 * 3600000 : Date.UTC(y, mo - 1, d + 1, -9, 0) };
+    return { y: y, mo: mo, d: d, h: h, mi: mi, hasTime: t, start: start, end: Date.UTC(y, mo - 1, d + 1, -9, 0) };
   }
   function isUpcoming(n) {
     if (!n.upcoming) return false;
