@@ -269,12 +269,14 @@
 
   /* ---------- 목록 그리기 ---------- */
   function newsHref(n) { return 'post.html#' + encodeURIComponent(n.id); }
+  // 상세 페이지가 있는 소식만 링크를 겁니다(본문·상세정보·관련 링크가 있을 때).
+  function hasDetail(n) { return !!((n.body && n.body.length) || (n.info && n.info.length) || n.link || isUpcoming(n)); }
   var R = {
     'news-cards': function (el) {
       var n = parseInt(el.getAttribute('data-limit') || '3', 10);
       el.innerHTML = (D.news || []).filter(function (x) { return !isUpcoming(x); }).slice(0, n).map(function (x, i) {
         return '<article class="card">' + photoTag(x.photo, 'card-img', '') + '<div class="meta"><span class="badge">' + esc(x.cat) + '</span><span>' + esc(x.date) + '</span></div>' +
-          '<h3>' + esc(x.title) + '</h3><p>' + esc(x.text) + '</p><a class="more" href="' + newsHref(x) + '">자세히 보기</a></article>';
+          '<h3>' + esc(x.title) + '</h3><p>' + esc(x.text) + '</p>' + (hasDetail(x) ? '<a class="more" href="' + newsHref(x) + '">자세히 보기</a>' : '') + '</article>';
       }).join('');
     },
     'activity-rows': function (el) {
@@ -293,9 +295,13 @@
       var list = D[el.getAttribute('data-key')] || [];
       var lim = parseInt(el.getAttribute('data-limit') || '99', 10);
       el.innerHTML = list.slice(0, lim).map(function (s) {
-        var href = s.id ? 'record.html#' + encodeURIComponent(s.id) : safeHref(s.href);
-        var ext = !s.id && /^https?:/.test(href);
-        return '<li><a href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '><span class="d">' + esc([s.date, s.kind].filter(Boolean).join(' · ')) + '</span><span class="t">' + esc(s.title) + '</span></a></li>';
+        var inner = '<span class="d">' + esc([s.date, s.kind].filter(Boolean).join(' · ')) + '</span><span class="t">' + esc(s.title) + '</span>';
+        var ext0 = s.href && s.href !== '#' ? safeHref(s.href) : '';
+        var hasPage = !!(s.id && ((D.gated || {})[s.id] || (s.body && s.body.length) || s.summary || s.file || s.photo));
+        if (!hasPage && !ext0) return '<li><span class="nolink">' + inner + '</span></li>';
+        var href = hasPage ? 'record.html#' + encodeURIComponent(s.id) : ext0;
+        var ext = !hasPage && /^https?:/.test(href);
+        return '<li><a href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' + inner + '</a></li>';
       }).join('');
     },
     'history': function (el) {
@@ -377,7 +383,6 @@
       if (!n) { el.innerHTML = '<p class="muted">찾는 글이 없습니다. <a href="statements.html">목소리와 기록 목록</a>으로 돌아가 주세요.</p>'; return; }
       document.title = n.title + ' - 마포자원순환네트워크';
       var body = (n.body && n.body.length ? n.body : (n.summary ? [n.summary] : [])).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
-      if (!body) body = '<p class="muted">[본문을 넣어 주세요]</p>';
       var more = photoList(n.photo).slice(1).map(function (src) { return '<img src="' + esc(src) + '" alt="" loading="lazy" onerror="this.remove()">'; }).join('');
       var btns = '';
       if (n.file) btns += '<a class="btn lg" href="' + esc(safeHref(n.file)) + '" target="_blank" rel="noopener">자료 내려받기</a>';
@@ -441,7 +446,7 @@
       var groups = { '사업': ['사업', '활동'], '입장': ['입장'], '연대': ['연대'], '행사': ['행사', '토론회', '수상', '기자회견'] };
       var list = (D.news || []).filter(function (n) { return !isUpcoming(n) && (!cat || (groups[cat] || [cat]).indexOf(n.cat) >= 0); });
       el.innerHTML = list.map(function (n) {
-        return '<li><div class="when"><b>' + esc(n.date) + '</b><span class="badge">' + esc(n.cat) + '</span></div><div class="what"><h3><a href="' + newsHref(n) + '">' + esc(n.title) + '</a></h3>' + (n.text ? '<p>' + esc(n.text) + '</p>' : '') + '</div></li>';
+        return '<li><div class="when"><b>' + esc(n.date) + '</b><span class="badge">' + esc(n.cat) + '</span></div><div class="what"><h3>' + (hasDetail(n) ? '<a href="' + newsHref(n) + '">' + esc(n.title) + '</a>' : esc(n.title)) + '</h3>' + (n.text ? '<p>' + esc(n.text) + '</p>' : '') + '</div></li>';
       }).join('') || '<li><p class="muted">해당하는 소식이 없습니다.</p></li>';
     },
     'post': function (el) {

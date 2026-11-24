@@ -162,7 +162,7 @@ page('news.html', 'news', '소식·일정 - 마포자원순환네트워크', '�
 <section class="sec tight" id="upcoming-sec" hidden><div class="wrap">{eb('다가오는','일정')}<div data-render="upcoming"></div></div></section>
 <section class="sec"><div class="wrap">{eb('지난','소식')}
 <div class="filters" data-target="timeline" role="group" aria-label="소식 분류" style="margin-top:20px">
-<button type="button" aria-pressed="true" data-cat="">전체</button><button type="button" aria-pressed="false" data-cat="사업">사업·활동</button><button type="button" aria-pressed="false" data-cat="입장">입장</button><button type="button" aria-pressed="false" data-cat="연대">연대</button><button type="button" aria-pressed="false" data-cat="행사">행사·토론회</button>
+<button type="button" aria-pressed="true" data-cat="">전체</button><button type="button" aria-pressed="false" data-cat="사업">사업·활동</button><button type="button" aria-pressed="false" data-cat="연대">연대</button><button type="button" aria-pressed="false" data-cat="행사">행사·토론회</button>
 </div>
 <ol class="timeline" id="timeline" data-render="news-timeline"></ol>
 </div></section>''')
