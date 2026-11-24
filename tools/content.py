@@ -4,7 +4,7 @@ PERSONS = 7
 LOGOS = {'(사)사람과마을':'assets/logos/saram-maeul.png','동네책방 개똥이네 책놀이터':'assets/logos/gaeddong-books.png','개똥이네 문화놀이터':'assets/logos/gaeddong-culture.png','우리동네나무그늘협동조합':'assets/logos/woori-shade.png','(사)마포사회적경제네트워크':'assets/logos/mapo-sen.png','알맹상점':'assets/logos/almang.png','울림두레생협':'assets/logos/urim-dure.png','해빗투게더협동조합':'assets/logos/habit-together.png','마포FM':'assets/logos/mapofm.png','쓸모업사이클':'assets/logos/sslmo-upcycle.png','무지개의원':'assets/logos/rainbow-clinic.png','성미산학교':'assets/logos/sungmisan-school.png','지구샵':'assets/logos/jigushop.png','발달장애청년허브 사부작 사회적협동조합':'assets/logos/sabujak.png','백의민족':'assets/logos/baekuiminjok.png','제로웨이스트도시랩':'assets/logos/zerowaste-city-lab.png','민트협동조합 봄봄마을정원사모임':'assets/logos/mint-bombom.png'}
 
 NEWS = [
- dict(id='press-supermarket', date='2026.11.25', cat='기자회견', title='‘2026 BFFP 슈퍼마켓 감사’ 한국 결과 발표 기자회견', text='스티로폼 92%, 리필 코너 0곳 — 5대 대형마트에 포장 감축을 요구합니다. 11월 25일(수) 오전 11시, 이마트 본사 앞에서 엽니다.', upcoming=True, when='2026-11-25 11:00'),
+ dict(id='press-supermarket', date='2026.11.25', cat='기자회견', title='‘2026 BFFP 슈퍼마켓 감사’ 한국 결과 발표 기자회견', text='스티로폼 92%, 리필 코너 0곳 — 5대 대형마트에 포장 감축을 요구합니다. 11월 25일(수) 오전 11시, 이마트 본사 앞에서 엽니다.', upcoming=True, when='2026-11-25 11:00', photo='press-banner.jpg'),
  dict(id='supermarket-audit', date='2026.06', cat='활동', title='#BFFP와 함께 슈퍼마켓 감사를 진행했습니다', text='#BFFP와 함께 슈퍼마켓 감사를 진행했습니다. 다정한 재단 ‘다정한 기금’의 지원으로 진행했습니다.'),
  dict(id='apartment-model', date='2026.03', cat='사업', title='제로웨이스트 공동주택 모델 만들기', text='마포구가 발주한 2026년 제로웨이스트 공동주택 모델 만들기 사업을 마포자원순환네트워크 이름으로 진행했습니다.'),
  dict(id='modu-network', date='2026.02', cat='연대', title='‘모두!자원순환네트워크’ 첫 모임', text='서울 자치구의 자원순환 네트워크가 함께하는 연대체 이름을 정하고 첫 모임을 열었습니다.'),

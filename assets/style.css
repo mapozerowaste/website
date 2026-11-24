@@ -219,7 +219,7 @@ h1, h2, h3 { font-family: var(--head); margin: 0; letter-spacing: -0.01em; }
 
 /* 사진 */
 .card-img { display: block; max-width: none; width: calc(100% + 56px); margin: -28px -28px 6px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 18px 18px 0 0; background: var(--mint); }
-.post-img { display: block; width: 100%; margin-top: 32px; border-radius: 20px; aspect-ratio: 16 / 9; object-fit: cover; background: var(--mint); }
+.post-img { display: block; width: 100%; margin-top: 32px; border-radius: 20px; height: auto; background: var(--mint); }
 
 [hidden] { display: none !important; }
 .to-top { box-shadow: 0 0 0 2px #fff, 0 6px 18px rgba(18, 38, 27, .25); }
