@@ -454,6 +454,13 @@ window.MZ_DATA = {
   }
  ],
  "logos": {
+  "(사)사람과마을": "assets/logos/saram-maeul.png",
+  "동네책방 개똥이네 책놀이터": "assets/logos/gaeddong-books.png",
+  "개똥이네 문화놀이터": "assets/logos/gaeddong-culture.png",
+  "우리동네나무그늘협동조합": "assets/logos/woori-shade.png",
+  "(사)마포사회적경제네트워크": "assets/logos/mapo-sen.png",
+  "알맹상점": "assets/logos/almang.png",
+  "울림두레생협": "assets/logos/urim-dure.png",
   "해빗투게더협동조합": "assets/logos/habit-together.png",
   "마포FM": "assets/logos/mapofm.png",
   "쓸모업사이클": "assets/logos/sslmo-upcycle.png",
