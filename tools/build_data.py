@@ -29,7 +29,7 @@ for k,L in lists.items():
         if x['href']=='#': x['href']=''
 
 def R(L,i): return [x for x in L if x['id']==i][0]
-R(DOCS,'ppf30-forum-book').update(date='2025.06.25', summary='서울환경연합과 함께한 서울시 자원순환 정책 돌아보기: 종량제 30주년 포럼(2025.6.25) 자료집입니다. 파일이 커서(약 41MB) 구글 드라이브에서 열립니다.', file='https://drive.google.com/file/d/1okfomA8qJn273n1Mez3jqHZ8k1kL4XBR/view')
+R(DOCS,'ppf30-forum-book').update(date='2025.06.25', summary='서울환경연합과 함께한 서울시 자원순환 정책 돌아보기: 종량제 30주년 포럼(2025.6.25) 자료집입니다. 자료 링크는 추후 연결할 예정입니다.', file='')
 R(DOCS,'launch-declaration').update(summary='마포자원순환네트워크 발족 선언문입니다.', file='assets/files/launch-declaration.pdf')
 R(DOCS,'launch-forum-book').update(summary='2025년 6월 30일 포럼 ‘소각장 너머 제로 웨이스트 도시로’ 발제 자료집입니다.', file='assets/files/launch-forum-book.pdf')
 R(DOCS,'assembly-forum-book').update(summary='2026년 1월 30일 국회 토론회 ‘제로웨이스트로 가는 길: 예산으로 보는 자원순환정책’ 자료집입니다.', file='assets/files/assembly-forum-book.pdf')
