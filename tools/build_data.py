@@ -19,8 +19,11 @@ D=dict(news=NEWS,activities=ACTIVITIES,statements=STATEMENTS,docs=DOCS,press=PRE
        guide={'about':'record.html#zw-city-guide','download':'','cover':'assets/guide-cover.png'},
        gated={'zw-city-guide': {
          'image':'assets/guide-promo.jpg',
-         'lead':'제로 웨이스트 유럽의 마스터플랜 공식 한국어판',
-         'body':['마포자원순환네트워크와 서울환경연합은 유럽 도시들의 제로웨이스트 도시 전환을 이끌고 있는 제로웨이스트 유럽(Zero Waste Europe)이 발간한 「The Zero Waste Masterplan」을 함께 번역했습니다. 마포자원순환네트워크는 이 안내서를 한국과 지방정부의 현실에 맞게 옮겨 2025년 6월 30일 공식 한국어판으로 펴냈습니다.', '마포자원순환네트워크는 이 안내서가 소각과 매립에 기대지 않고 자립하는 도시를 고민하는 지방정부, 의회, 시민단체, 연구자, 시민 누구에게나 길잡이가 되기를 바랍니다.'],
+         'lead':'제로 웨이스트 유럽의 마스터플랜 「The Zero Waste Masterplan」 공식 한국어판',
+         'body':['마포자원순환네트워크는 우리나라의 도시들도 제로웨이스트 도시로 전환해야 한다고 생각합니다.',
+                 '제로 웨이스트 유럽(Zero Waste Europe)은 국제 환경 네트워크 [가이아(GAIA)](https://www.no-burn.org/ko/europe/)의 유럽 지부 역할을 하며 플라스틱 감축, 음식물 쓰레기 저감 등 다양한 캠페인과 연구를 이끌어 온 단체입니다. 이들이 유럽 도시들의 제로웨이스트 전환 경험을 모아 펴낸 것이 「The Zero Waste Masterplan」입니다.',
+                 '이 안내서를 더 많은 사람이 읽었으면 하는 마음으로 마포자원순환네트워크와 서울환경연합이 함께 우리말로 옮겨, 2025년 6월 30일 공식 한국어판 『제로 웨이스트 도시를 위한 안내서』로 펴냈습니다.',
+                 '소각과 매립에 기대지 않고 자립하는 도시를 고민하는 지방정부와 의회, 시민단체, 연구자, 그리고 시민 누구나 이 안내서를 읽고 제로웨이스트 도시로 가는 길에 함께해 주시기를 바랍니다. 그래서 누구나 무료로 내려받을 수 있도록 공개합니다.'],
          'quote':'제품, 포장재 및 원료를 책임감 있게 생산하고 소비하며 재사용하여 모든 자원을 보존하고, 그 어떤 것도 소각하지 않으며, 환경과 인체 건강에 해로운 물질을 토양, 물, 공기 중에 배출하지 않는다.',
          'quoteBy':'제로 웨이스트 국제연맹 (Zero Waste International Alliance)',
          'file':'https://drive.google.com/uc?export=download&id=1K-qHskdfvoKPCYP0Qld5ys-ILSM6CYsr',

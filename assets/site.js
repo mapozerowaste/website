@@ -155,12 +155,15 @@
 
 
   /* ---------- 신청 후 내려받는 자료 (안내서) ---------- */
+  function linkify(t) {
+    return esc(t).replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, function (m, a, u) { return '<a href="' + u + '" target="_blank" rel="noopener">' + a + '</a>'; });
+  }
   function renderGated(el, id, n, G) {
     var title = n.title || '『제로 웨이스트 도시를 위한 안내서』 공식 한국어판';
     document.title = title + ' - 마포자원순환네트워크';
     var done = false;
     try { done = localStorage.getItem('mz-dl-' + id) === '1'; } catch (e) {}
-    var body = (G.body || []).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+    var body = (G.body || []).map(function (p) { return '<p>' + linkify(p) + '</p>'; }).join('');
     el.className = 'post gated';
     el.innerHTML = '<nav aria-label="위치" class="muted"><a href="statements.html">목소리와 기록</a> › <a href="statements.html#docs">자료집</a></nav>' +
       '<div class="meta" style="margin-top:28px"><span class="badge">' + esc(n.kind || '안내서') + '</span><span>' + esc(n.date || '2025.06.30') + ' 발간</span></div>' +
@@ -170,17 +173,34 @@
       (G.quote ? '<blockquote class="gated-quote"><p>' + esc(G.quote) + '</p><cite>— ' + esc(G.quoteBy || '') + '</cite></blockquote>' : '') +
       '<section class="dl-box" id="download" aria-labelledby="dl-title">' +
         '<h2 id="dl-title">안내서 내려받기</h2>' +
-        '<p class="muted">이름과 이메일을 남겨 주시면 바로 내려받을 수 있습니다. 남겨 주신 정보는 안내서 활용 현황을 파악하고, 동의하신 경우 관련 소식을 전하는 데만 씁니다.</p>' +
+        '<p class="muted">아래 정보를 남겨 주시면 바로 내려받을 수 있습니다. 안내서가 어디에서 어떻게 쓰이는지 알아야 더 많은 도시와 함께할 수 있어 여쭙니다.</p>' +
         '<div class="dl-ready"' + (done ? '' : ' hidden') + '><a class="btn lg" href="' + esc(G.file) + '" target="_blank" rel="noopener">PDF 내려받기</a>' +
           '<a class="btn lg ghost" href="' + esc(G.fileView || G.file) + '" target="_blank" rel="noopener">바로 보기</a><p class="muted" style="margin:12px 0 0;font-size:14px">' + esc(G.fileName || '') + '</p></div>' +
         '<form class="form dl-form" novalidate' + (done ? ' hidden' : '') + '>' +
           '<div class="two"><div class="field"><label for="dl-name">이름 <span class="muted">(필수)</span></label><input id="dl-name" name="name" type="text" required autocomplete="name"></div>' +
           '<div class="field"><label for="dl-email">이메일 <span class="muted">(필수)</span></label><input id="dl-email" name="email" type="email" required autocomplete="email"></div></div>' +
-          '<div class="two"><div class="field"><label for="dl-org">소속 (선택)</label><input id="dl-org" name="org" type="text" autocomplete="organization"></div>' +
-          '<div class="field"><label for="dl-use">활용 목적 (선택)</label><select id="dl-use" name="use"><option value="">선택해 주세요</option><option>지방정부·의회</option><option>시민단체·활동</option><option>연구·교육</option><option>기업</option><option>개인 학습</option><option>기타</option></select></div></div>' +
+          '<div class="two"><div class="field"><label for="dl-org">소속 <span class="muted">(필수)</span></label><input id="dl-org" name="org" type="text" required autocomplete="organization" placeholder="소속이 없으면 ‘개인’이라고 적어 주세요" aria-describedby="dl-org-hint"><small id="dl-org-hint" class="muted">소속이 없으면 ‘개인’이라고 적어 주세요.</small></div>' +
+          '<div class="field"><label for="dl-use">활용 목적 <span class="muted">(필수)</span></label><select id="dl-use" name="use" required><option value="">선택해 주세요</option><option>지방정부·의회</option><option>시민단체·활동</option><option>연구·교육</option><option>기업</option><option>개인 학습</option><option>기타</option></select></div></div>' +
           '<div class="hp" aria-hidden="true"><label for="dl-web">웹사이트</label><input id="dl-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>' +
-          '<label class="check"><input type="checkbox" name="news">마포자원순환네트워크의 소식을 이메일로 받겠습니다. (선택)</label>' +
-          '<label class="check"><input type="checkbox" name="privacy">개인정보 수집·이용에 동의합니다. (필수) — 수집 항목: 이름, 이메일, 소속 / 목적: 안내서 배포 현황 파악과 소식 안내 / 보관: 삭제 요청 시까지</label>' +
+          '<fieldset class="consent"><legend>[필수] 개인정보 수집·이용 동의</legend>' +
+            '<table class="consent-table"><tbody>' +
+              '<tr><th scope="row">수집·이용 목적</th><td>안내서 내려받기 제공, 안내서 배포·활용 현황 파악(월별 집계)</td></tr>' +
+              '<tr><th scope="row">수집 항목</th><td>이름, 이메일, 소속, 활용 목적, 신청 일시</td></tr>' +
+              '<tr><th scope="row">보유·이용 기간</th><td><strong>수집일로부터 2년</strong>. 기간이 끝나거나 삭제를 요청하시면 지체 없이 파기합니다.</td></tr>' +
+              '<tr><th scope="row">동의 거부 권리</th><td>동의를 거부하실 수 있습니다. 다만 거부하시면 이 페이지에서 안내서를 내려받으실 수 없습니다.</td></tr>' +
+            '</tbody></table>' +
+            '<p class="consent-note">수집한 정보는 마포자원순환네트워크가 관리하는 구글 스프레드시트에 저장되며, 다른 곳에 제공하지 않습니다. 열람·정정·삭제 요청: mapozerowaste@gmail.com</p>' +
+            '<label class="check"><input type="checkbox" name="privacy" required>위 내용을 확인했으며 개인정보 수집·이용에 동의합니다.</label>' +
+          '</fieldset>' +
+          '<fieldset class="consent"><legend>[선택] 소식 받기 동의</legend>' +
+            '<table class="consent-table"><tbody>' +
+              '<tr><th scope="row">수집·이용 목적</th><td>마포자원순환네트워크의 활동·행사 소식 이메일 안내</td></tr>' +
+              '<tr><th scope="row">수집 항목</th><td>이름, 이메일</td></tr>' +
+              '<tr><th scope="row">보유·이용 기간</th><td>수신을 거부하실 때까지</td></tr>' +
+              '<tr><th scope="row">동의 거부 권리</th><td>동의하지 않으셔도 안내서는 그대로 내려받으실 수 있습니다.</td></tr>' +
+            '</tbody></table>' +
+            '<label class="check"><input type="checkbox" name="news">마포자원순환네트워크의 소식을 이메일로 받겠습니다.</label>' +
+          '</fieldset>' +
           '<button class="btn lg" type="submit">정보 남기고 내려받기</button>' +
           '<div class="notice" role="status" tabindex="-1" hidden></div>' +
         '</form>' +
@@ -197,6 +217,8 @@
       e.preventDefault();
       if (form.website.value) return;
       if (!form.name.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value.trim())) { show('err', '이름과 올바른 이메일을 입력해 주세요.'); return; }
+      if (!form.org.value.trim()) { show('err', '소속을 입력해 주세요. 소속이 없으면 ‘개인’이라고 적어 주세요.'); form.org.focus(); return; }
+      if (!form.use.value) { show('err', '활용 목적을 골라 주세요.'); form.use.focus(); return; }
       if (!form.privacy.checked) { show('err', '개인정보 수집·이용에 동의해 주셔야 내려받을 수 있습니다.'); return; }
       var data = new URLSearchParams();
       data.append('purpose', '안내서 내려받기');

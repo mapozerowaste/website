@@ -289,3 +289,13 @@ body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
 .dl-ready .btn.ghost { background: #fff; color: var(--green); box-shadow: inset 0 0 0 2px var(--green); }
 .field select { min-height: 52px; padding: 0 14px; border: 1.5px solid var(--field); border-radius: 12px; font: inherit; background: #fff; width: 100%; }
 @media (max-width: 600px) { .dl-box { padding: 24px 20px; } }
+
+/* 개인정보 동의 안내 */
+.consent { border: 1px solid #E3D79C; border-radius: 16px; background: #fff; padding: 18px 20px 8px; }
+.consent legend { padding: 0 6px; font-weight: 800; font-size: 16px; }
+.consent-table { width: 100%; border-collapse: collapse; font-size: 14.5px; line-height: 1.6; }
+.consent-table th, .consent-table td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.consent-table th { width: 120px; font-weight: 700; color: var(--ink); background: var(--mint); white-space: nowrap; }
+.consent-note { margin: 10px 0 4px; font-size: 13.5px; color: var(--muted); }
+.field small { font-size: 13px; }
+@media (max-width: 600px) { .consent-table th { width: 92px; white-space: normal; } }

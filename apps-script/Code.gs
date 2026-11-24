@@ -126,6 +126,68 @@ function tab_(name, headers) {
   return sh;
 }
 
+// ---------------------------------------------------------------
+// 안내서 내려받기 월간 요약 메일 (매달 10일 오전 9시)
+// 처음 한 번만: 편집기에서 setupMonthlyReport 를 골라 [실행]하고 권한을 승인하세요.
+// 프로젝트 설정 → 시간대가 '(GMT+09:00) 서울'인지 확인하세요.
+// ---------------------------------------------------------------
+var REPORT_TO = NOTIFY_TO;  // 요약 메일 받을 주소
+
+function setupMonthlyReport() {
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'monthlyGuideReport') ScriptApp.deleteTrigger(t);
+  });
+  ScriptApp.newTrigger('monthlyGuideReport').timeBased().onMonthDay(10).atHour(9).create();
+  Logger.log('매달 10일 오전 9시에 안내서 내려받기 요약 메일을 보냅니다.');
+}
+
+function monthlyGuideReport() {
+  var props = PropertiesService.getScriptProperties();
+  var now = new Date();
+  var last = props.getProperty('lastGuideReport');
+  var from;
+  if (last) from = new Date(Number(last));
+  else { from = new Date(now.getFullYear(), now.getMonth() - 1, 10, 9, 0, 0); }
+
+  var sh = tab_(DOWNLOAD_SHEET, DOWNLOAD_HEADERS);
+  var rows = sh.getLastRow() > 1 ? sh.getRange(2, 1, sh.getLastRow() - 1, DOWNLOAD_HEADERS.length).getValues() : [];
+  var fresh = rows.filter(function (r) { return r[0] instanceof Date && r[0] > from && r[0] <= now; });
+
+  var tz = Session.getScriptTimeZone();
+  var fmt = function (d) { return Utilities.formatDate(d, tz, 'yyyy.MM.dd'); };
+  var uses = {};
+  fresh.forEach(function (r) { var u = r[5] || '미입력'; uses[u] = (uses[u] || 0) + 1; });
+  var newsYes = fresh.filter(function (r) { return r[6] === '동의'; }).length;
+
+  var lines = [];
+  lines.push('『제로 웨이스트 도시를 위한 안내서』 내려받기 월간 요약');
+  lines.push('기간: ' + fmt(from) + ' ~ ' + fmt(now));
+  lines.push('');
+  lines.push('새로 내려받은 사람: ' + fresh.length + '명 (누적 ' + rows.length + '명)');
+  lines.push('소식 받기 동의: ' + newsYes + '명');
+  if (fresh.length) {
+    lines.push('');
+    lines.push('[활용 목적별]');
+    Object.keys(uses).sort(function (a, b) { return uses[b] - uses[a]; }).forEach(function (u) { lines.push('- ' + u + ': ' + uses[u] + '명'); });
+    lines.push('');
+    lines.push('[소속 · 이름]');
+    fresh.forEach(function (r) { lines.push('- ' + (r[4] || '소속 미입력') + ' · ' + r[2] + ' (' + fmt(r[0]) + ', ' + (r[5] || '목적 미입력') + ')'); });
+  } else {
+    lines.push('');
+    lines.push('이번 기간에는 새로 내려받은 사람이 없습니다.');
+  }
+  lines.push('');
+  lines.push('전체 목록: ' + book_().getUrl() + '#gid=' + sh.getSheetId());
+  lines.push('※ 개인정보 보유 기간(수집일로부터 2년)이 지난 줄은 시트에서 지워 주세요.');
+
+  MailApp.sendEmail({
+    to: REPORT_TO,
+    subject: '[마포자원순환네트워크] 안내서 내려받기 월간 요약 ' + Utilities.formatDate(now, tz, 'yyyy년 M월') + ' — 신규 ' + fresh.length + '명',
+    body: lines.join('\n')
+  });
+  props.setProperty('lastGuideReport', String(now.getTime()));
+}
+
 // 설치 확인용: Apps Script 편집기에서 이 함수를 골라 [실행]하면 '신청' 탭에 시험 줄이 하나 생깁니다.
 function testWrite() {
   var sh = sheet_();
