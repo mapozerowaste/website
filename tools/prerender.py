@@ -4,6 +4,9 @@
 사용: python3 tools/site.py && python3 tools/prerender.py   (site.py를 먼저 돌려야 함)
 """
 import os, re, subprocess, sys, time
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from browser import launch_opts
 from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -16,7 +19,7 @@ srv = subprocess.Popen([sys.executable, '-m', 'http.server', str(PORT)], cwd=ROO
 time.sleep(1)
 try:
     with sync_playwright() as p:
-        b = p.chromium.launch(executable_path=os.environ.get('CHROME_PATH', '/usr/bin/google-chrome'), args=['--no-sandbox'])
+        b = p.chromium.launch(**launch_opts())
         for fname in PAGES:
             pg = b.new_page(viewport={'width': 1200, 'height': 900})
             pg.route(re.compile(r'https://(docs\.google\.com|script\.google\.com|gc\.zgo\.at|mapozerowaste\.goatcounter\.com)/.*'), lambda r: r.abort())

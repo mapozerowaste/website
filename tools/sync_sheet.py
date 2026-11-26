@@ -7,6 +7,9 @@
 import json, os, re, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from static_ids import static_lists
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from browser import launch_opts
 from playwright.sync_api import sync_playwright
 from urllib.parse import unquote
 
@@ -18,7 +21,7 @@ srv = subprocess.Popen([sys.executable, '-m', 'http.server', str(PORT)], cwd=ROO
 time.sleep(1)
 try:
     with sync_playwright() as p:
-        b = p.chromium.launch(executable_path=os.environ.get('CHROME_PATH', '/usr/bin/google-chrome'), args=['--no-sandbox'])
+        b = p.chromium.launch(**launch_opts())
         pg = b.new_page()
         if MOCK:
             def mock(route):

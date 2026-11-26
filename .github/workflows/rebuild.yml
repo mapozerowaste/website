@@ -26,8 +26,6 @@ jobs:
           playwright install --with-deps chromium
       - name: 기본값 → 시트 합치기 → 페이지 만들기
         run: |
-          export CHROME_PATH="$(python3 -c 'from playwright.sync_api import sync_playwright as s
-with s() as p: print(p.chromium.executable_path)')"
           python3 tools/build_data.py
           python3 tools/sync_sheet.py
           python3 tools/site.py
