@@ -24,8 +24,9 @@
 </head>
 <body data-page="join">
 <a class="skip" href="#main">본문으로 건너뛰기</a>
-<header id="site-header" class="site-header"></header>
+<header id="site-header" class="site-header"><div class="wrap"><a class="logo" href="index.html" aria-label="마포자원순환네트워크 홈"><img src="assets/logo.png" alt="마포자원순환네트워크" width="60" height="52"></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="메뉴 열기"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button><nav class="nav" id="main-nav" aria-label="주 메뉴"><a href="about.html">소개</a><a href="activities.html">활동</a><a href="statements.html">목소리와 기록</a><a href="news.html">소식·일정</a><a href="people.html">함께하는 사람들</a><a class="cta" href="join.html" aria-current="page">연서명 참여</a></nav></div></header>
 <main id="main">
+
 <section class="wave hero"><div class="wrap">
 <div class="kicker"><span>함께</span><i aria-hidden="true"></i><span>하기</span></div>
 <h1>이름을 올리는 것으로<br>연대가 시작됩니다</h1>
@@ -46,34 +47,35 @@
 <li><b>02</b><span><strong>소식과 일정을 받습니다</strong><span>회의, 포럼, 토론회, 공동 행동 소식을 전해 드립니다.</span></span></li>
 <li><b>03</b><span><strong>뜻이 맞는 만큼 참여합니다</strong><span>성명 연명, 정책 제안, 현장 조사, 국제 연대 활동에 원하는 만큼 함께합니다.</span></span></li>
 </ol></div>
-<form id="join-form" class="form" aria-labelledby="join-title" style="flex:1 1 440px" novalidate>
+<form id="join-form" class="form" aria-labelledby="join-title" style="flex:1 1 440px" novalidate="">
 <h2 id="join-title">참여 신청·제안</h2>
 <fieldset><legend>무엇을 하시나요?</legend><div class="radios">
-<label><input type="radio" name="purpose" value="연서명 참여" checked>연서명 참여</label>
+<label><input type="radio" name="purpose" value="연서명 참여" checked="">연서명 참여</label>
 <label><input type="radio" name="purpose" value="현장·활동 제안">현장·활동 제안</label>
 </div></fieldset>
 <fieldset><legend>참여 유형</legend><div class="radios">
-<label><input type="radio" name="kind" value="단체" checked>단체</label>
+<label><input type="radio" name="kind" value="단체" checked="">단체</label>
 <label><input type="radio" name="kind" value="기업">기업</label>
 <label><input type="radio" name="kind" value="개인">개인</label>
 </div></fieldset>
-<div class="field"><label for="f-name">단체·기업명 또는 이름 <span class="muted">(필수)</span></label><input id="f-name" name="name" type="text" required autocomplete="organization"></div>
+<div class="field"><label for="f-name">단체·기업명 또는 이름 <span class="muted">(필수)</span></label><input id="f-name" name="name" type="text" required="" autocomplete="organization"></div>
 <div class="two">
 <div class="field"><label for="f-contact">담당자 이름</label><input id="f-contact" name="contact" type="text" autocomplete="name"></div>
 <div class="field"><label for="f-tel">연락처</label><input id="f-tel" name="tel" type="tel" autocomplete="tel"></div>
 </div>
-<div class="field"><label for="f-email">이메일 <span class="muted">(필수)</span></label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
+<div class="field"><label for="f-email">이메일 <span class="muted">(필수)</span></label><input id="f-email" name="email" type="email" required="" autocomplete="email"></div>
 <div class="field"><label for="f-msg" id="f-msg-label">함께하고 싶은 활동이나 한마디 (선택)</label><textarea id="f-msg" name="message" rows="3"></textarea></div>
 <div class="hp" aria-hidden="true"><label for="f-web">웹사이트</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 <label class="check"><input type="checkbox" name="publish">(단체·기업) 함께하는 사람들 명단에 이름을 공개하는 데 동의합니다.</label>
 <label class="check"><input type="checkbox" name="privacy">개인정보 수집·이용에 동의합니다. (필수) — 수집 항목: 이름, 담당자, 연락처, 이메일 / 목적: 연서명 확인과 소식 안내 / 보관: 탈퇴 요청 시까지</label>
 <button class="btn lg" type="submit">보내기</button>
-<div id="join-msg" class="notice" role="status" tabindex="-1" hidden></div>
+<div id="join-msg" class="notice" role="status" tabindex="-1" hidden=""></div>
 <p class="muted" style="margin:0;font-size:14px">보내 주시면 운영위원이 확인한 뒤 연락드립니다. 개인은 이름을 공개하지 않고 인원수로만 표시합니다.</p>
 </form>
 </div></section>
+
 </main>
-<footer id="site-footer" class="site-footer"></footer>
+<footer id="site-footer" class="site-footer"><div class="wrap"><div><strong>마포자원순환네트워크</strong><p>서울특별시 마포구 월드컵북로 75 4층<br><a href="mailto:mapozerowaste@gmail.com">mapozerowaste@gmail.com</a></p></div><nav aria-label="하단 메뉴"><a href="about.html">소개</a><a href="activities.html">활동</a><a href="statements.html">목소리와 기록</a><a href="news.html">소식·일정</a><a href="people.html">함께하는 사람들</a><a href="join.html">함께하기</a></nav></div></footer>
 <script src="assets/config.js"></script>
 <script src="assets/data.js"></script>
 <script src="assets/site.js"></script>

@@ -8,9 +8,8 @@ from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _sp = os.path.join(ROOT, 'tools', '.static_pages.txt')
-PAGES = sys.argv[1:] or (['index.html'] + (open(_sp).read().split() if os.path.exists(_sp) else []))
+PAGES = sys.argv[1:] or (['index.html', 'about.html', 'activities.html', 'statements.html', 'news.html', 'people.html', 'join.html'] + (open(_sp).read().split() if os.path.exists(_sp) else []))
 PORT = 8791
-HIDE_UPCOMING = 'index.html'   # 곧 열리는 일정은 시간이 지나면 바뀌므로 미리 그린 본문에서는 숨김
 
 srv = subprocess.Popen([sys.executable, '-m', 'http.server', str(PORT)], cwd=ROOT,
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -23,8 +22,8 @@ try:
             pg.route(re.compile(r'https://(docs\.google\.com|script\.google\.com|gc\.zgo\.at|mapozerowaste\.goatcounter\.com)/.*'), lambda r: r.abort())
             pg.goto(f'http://localhost:{PORT}/{fname}')
             pg.wait_for_timeout(1500)
-            if fname == HIDE_UPCOMING:
-                pg.evaluate("var u=document.getElementById('home-upcoming'); if(u){u.hidden=true; u.innerHTML='';}")
+            # 곧 열리는 일정 구역은 시간이 지나면 바뀌므로 숨기고 비워 둠(열면 site.js가 다시 계산)
+            pg.evaluate("['home-upcoming','upcoming-sec'].forEach(function(i){var u=document.getElementById(i); if(u){u.hidden=true; var d=u.querySelector('[data-render=upcoming]'); if(d) d.innerHTML='';}})")
             parts = pg.evaluate("""() => ({
               header: document.getElementById('site-header').innerHTML,
               main: document.getElementById('main').innerHTML,
