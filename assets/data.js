@@ -1,4 +1,4 @@
-// 기본 콘텐츠에 구글 시트 내용을 합쳐 굳힌 값입니다(tools/sync_sheet.py). 시트가 바뀌면 다시 만들어집니다.
+// 기본 콘텐츠에 구글 시트 내용을 합쳐 굳힌 값입니다(tools/sync_sheet.py, fetch_photos.py). 시트가 바뀌면 다시 만들어집니다.
 window.MZ_DATA = {
  "news": [
   {
@@ -695,5 +695,6 @@ window.MZ_DATA = {
    "energydaily-260130",
    "zw-city-guide"
   ]
- }
+ },
+ "driveLocal": {}
 };
