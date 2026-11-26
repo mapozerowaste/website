@@ -26,7 +26,7 @@
   }
   function safeHref(h) {
     h = String(h || '').trim();
-    return /^(https?:|mailto:|#|assets\/[\w./%-]+$|[a-z0-9_-]+\.html)/i.test(h) ? h : '#';
+    return /^(https?:|mailto:|#|assets\/[\w./%-]+$|\/(news|record)\/[^\s"<>]+\.html$|[a-z0-9_-]+\.html)/i.test(h) ? h : '#';
   }
 
   /* ---------- 일정이 지나면 ‘다가오는 일정’에서 자동으로 빠지기 ---------- */
