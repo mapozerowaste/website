@@ -1,4 +1,12 @@
+BASE = 'https://mapozerowaste.org/'
+SITEMAP = []
+ORG_LD = '{"@context":"https://schema.org","@type":"Organization","name":"마포자원순환네트워크","alternateName":"Mapo Resource Circulation Network","url":"https://mapozerowaste.org/","logo":"https://mapozerowaste.org/assets/logo.png","email":"mapozerowaste@gmail.com","areaServed":"서울특별시 마포구","description":"마포의 자원순환과 제로웨이스트 도시를 만들기 위해 연대하는 단체·기업·시민의 네트워크"}'
+
 def page(fname, key, title, desc, main):
+    url = BASE if fname == 'index.html' else BASE + fname
+    if fname not in ('post.html', 'record.html'):
+        SITEMAP.append(url)
+    extra = f'<script type="application/ld+json">{ORG_LD}</script>\n' if fname == 'index.html' else ''
     html = f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,8 +16,15 @@ def page(fname, key, title, desc, main):
 <meta name="description" content="{desc}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="assets/logo.png">
+<link rel="canonical" href="{url}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="마포자원순환네트워크">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="{url}">
+<meta property="og:image" content="{BASE}assets/logo.png">
+<meta name="twitter:card" content="summary">
 <link rel="icon" href="assets/logo.png">
+{extra}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -227,4 +242,8 @@ page('join.html', 'join', '함께하기 - 마포자원순환네트워크', '연�
 <p class="muted" style="margin:0;font-size:14px">보내 주시면 운영위원이 확인한 뒤 연락드립니다. 개인은 이름을 공개하지 않고 인원수로만 표시합니다.</p>
 </form>
 </div></section>''')
+import datetime
+today = datetime.date.today().isoformat()
+open('sitemap.xml', 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{u}</loc><lastmod>{today}</lastmod></url>\n' for u in SITEMAP) + '</urlset>\n')
+open('robots.txt', 'w').write('User-agent: *\nAllow: /\n\nSitemap: ' + BASE + 'sitemap.xml\n')
 print('pages ok')
