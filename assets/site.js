@@ -130,6 +130,10 @@
         if (!n.id) n.id = (n.date + '-' + n.title).replace(/[^0-9A-Za-z가-힣-]+/g, '-');
       });
       if (key === 'activities') out.forEach(function (a) { if (!a.cat) a.cat = DEFAULT_CAT[a.title] || ''; if (!a.link) a.link = DEFAULT_ACT_LINK[a.title] || ''; });
+      if (key === 'statements' || key === 'docs' || key === 'press') out.forEach(function (n, i) {
+        n.body = n.body ? n.body.split(/\n\s*\n|\n/) : null;
+        if (!n.id) n.id = key + '-' + (i + 1);
+      });
       // 시트에서 비워 둔 사진·링크·본문·첨부 칸은 기본값(data.js)으로 채웁니다.
       if (key === 'news' || key === 'statements' || key === 'docs' || key === 'press') out.forEach(function (n) {
         var d = DEF_REC[key + ':' + n.id]; if (!d) return;
@@ -137,10 +141,6 @@
         if (!n.summary && d.summary) n.summary = d.summary;
         if ((!n.body || !n.body.length) && d.body) n.body = d.body;
         if (!n.info && d.info) n.info = d.info;
-      });
-      if (key === 'statements' || key === 'docs' || key === 'press') out.forEach(function (n, i) {
-        n.body = n.body ? n.body.split(/\n\s*\n|\n/) : null;
-        if (!n.id) n.id = key + '-' + (i + 1);
       });
       if (key === 'orgs') { D.logos = D.logos || {}; out.forEach(function (o) { if (o.logo) D.logos[o.name] = o.logo; }); }
       if (key === 'orgs') out = out.filter(function (o) { return o.kind !== '개인' && o.name; }).map(function (o) { return o.name; });
@@ -160,7 +160,7 @@
   function loadAll() {
     if (!CFG.SHEET_ID || !window.fetch) return Promise.resolve();
     return Promise.all(Object.keys(SHEETS).map(function (k) {
-      return loadSheet(k).catch(function () { /* 시트를 못 읽으면 기본 내용을 그대로 씁니다 */ });
+      return loadSheet(k).then(function () { window.__mzSheetOk = (window.__mzSheetOk || 0) + 1; }).catch(function () { /* 시트를 못 읽으면 기본 내용을 그대로 씁니다 */ });
     }));
   }
 
@@ -269,8 +269,8 @@
 
   /* ---------- 목록 그리기 ---------- */
   var ST = D.static || { news: [], record: [] };
-  function newsHref(n) { return ST.news.indexOf(n.id) >= 0 ? '/news/' + n.id + '.html' : 'post.html#' + encodeURIComponent(n.id); }
-  function recHref(id) { return ST.record.indexOf(id) >= 0 ? '/record/' + id + '.html' : 'record.html#' + encodeURIComponent(id); }
+  function newsHref(n) { return ST.news.indexOf(n.id) >= 0 ? '/news/' + encodeURIComponent(n.id) + '.html' : 'post.html#' + encodeURIComponent(n.id); }
+  function recHref(id) { return ST.record.indexOf(id) >= 0 ? '/record/' + encodeURIComponent(id) + '.html' : 'record.html#' + encodeURIComponent(id); }
   // 글 주소: 고정 주소 페이지는 data-id, 예전 post.html#아이디 주소는 해시에서 읽습니다.
   function pageId() { return document.body.getAttribute('data-id') || decodeURIComponent((location.hash || '').slice(1)); }
   // 상세 페이지가 있는 소식만 링크를 겁니다(본문·상세정보·관련 링크가 있을 때).
@@ -570,5 +570,5 @@
     var p = document.querySelector('[data-render="post"]'); if (p) R.post(p);
     var r = document.querySelector('[data-render="record"]'); if (r) { R.record(r); window.scrollTo(0, 0); }
   });
-  loadAll().then(function () { if (CFG.SHEET_ID) renderAll(); });
+  loadAll().then(function () { if (CFG.SHEET_ID) renderAll(); window.__mzReady = true; });
 })();

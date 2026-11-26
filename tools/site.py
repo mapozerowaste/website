@@ -1,9 +1,10 @@
+from urllib.parse import quote
 BASE = 'https://mapozerowaste.org/'
 SITEMAP = []
 ORG_LD = '{"@context":"https://schema.org","@type":"Organization","name":"마포자원순환네트워크","alternateName":"Mapo Resource Circulation Network","url":"https://mapozerowaste.org/","logo":"https://mapozerowaste.org/assets/logo.png","email":"mapozerowaste@gmail.com","areaServed":"서울특별시 마포구","description":"마포의 자원순환과 제로웨이스트 도시를 만들기 위해 연대하는 단체·기업·시민의 네트워크"}'
 
 def page(fname, key, title, desc, main, did='', ogimg='', ld='', lastmod=''):
-    url = BASE if fname == 'index.html' else BASE + fname
+    url = BASE if fname == 'index.html' else BASE + quote(fname)
     if fname not in ('post.html', 'record.html'):
         SITEMAP.append((url, lastmod))
     extra = f'<script type="application/ld+json">{ORG_LD}</script>\n' if fname == 'index.html' else ''
@@ -267,6 +268,9 @@ def _desc(x, fallback):
     t = x.get('summary') or x.get('text') or (x.get('body') or [''])[0] or fallback
     if isinstance(t, list): t = t[0]
     return _h.escape(re.sub(r'\s+', ' ', t)[:150], quote=True)
+import glob
+for _f in glob.glob('news/*.html') + glob.glob('record/*.html'):   # 없어진 글의 옛 페이지 정리
+    os.remove(_f)
 os.makedirs('news', exist_ok=True); os.makedirs('record', exist_ok=True)
 import datetime
 STATIC_PAGES = []
@@ -276,7 +280,7 @@ for i in _D['static']['news']:
     title = _h.escape(n['title'] + ' - 마포자원순환네트워크', quote=True)
     ld = json.dumps({"@context": "https://schema.org", "@type": "NewsArticle", "headline": n['title'], "datePublished": _iso(n['date']),
         "author": {"@type": "Organization", "name": "마포자원순환네트워크"}, "publisher": {"@type": "Organization", "name": "마포자원순환네트워크", "logo": {"@type": "ImageObject", "url": BASE + "assets/logo.png"}},
-        "mainEntityOfPage": BASE + 'news/' + i + '.html'}, ensure_ascii=False)
+        "mainEntityOfPage": BASE + 'news/' + quote(i) + '.html'}, ensure_ascii=False)
     page(f'news/{i}.html', 'news', title, _desc(n, '마포자원순환네트워크 소식'), '<article class="post" data-render="post"></article>', did=i, ogimg=_photo(n), ld=ld, lastmod=_iso(n['date']))
     STATIC_PAGES.append(f'news/{i}.html')
 _recs = {x['id']: x for k in ('statements', 'docs', 'press') for x in _D[k] if x.get('id')}

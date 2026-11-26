@@ -16,7 +16,7 @@ srv = subprocess.Popen([sys.executable, '-m', 'http.server', str(PORT)], cwd=ROO
 time.sleep(1)
 try:
     with sync_playwright() as p:
-        b = p.chromium.launch(executable_path='/usr/bin/google-chrome', args=['--no-sandbox'])
+        b = p.chromium.launch(executable_path=os.environ.get('CHROME_PATH', '/usr/bin/google-chrome'), args=['--no-sandbox'])
         for fname in PAGES:
             pg = b.new_page(viewport={'width': 1200, 'height': 900})
             pg.route(re.compile(r'https://(docs\.google\.com|script\.google\.com|gc\.zgo\.at|mapozerowaste\.goatcounter\.com)/.*'), lambda r: r.abort())

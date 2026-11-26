@@ -63,8 +63,8 @@ D=dict(news=NEWS,activities=ACTIVITIES,statements=STATEMENTS,docs=DOCS,press=PRE
          'file':'https://drive.google.com/uc?export=download&id=1K-qHskdfvoKPCYP0Qld5ys-ILSM6CYsr',
          'fileView':'https://drive.google.com/file/d/1K-qHskdfvoKPCYP0Qld5ys-ILSM6CYsr/view',
          'fileName':'[KOR] 제로 웨이스트 도시를 위한 안내서.pdf (약 9.8MB)'}})
-D['static']=dict(
-  news=[n['id'] for n in NEWS if n.get('body') or n.get('info') or n.get('link') or n.get('upcoming')],
-  record=[x['id'] for x in STATEMENTS+DOCS+PRESS if x.get('id') and (x.get('body') or x.get('summary') or x.get('file') or x.get('photo'))]+list(D['gated'].keys()))
+import sys; sys.path.insert(0, 'tools')
+from static_ids import static_lists
+D['static']=static_lists(D)
 open('assets/data.js','w').write('// 기본 콘텐츠. 구글 시트를 연결하면(config.js) 시트 내용이 이 값을 덮어씁니다.\nwindow.MZ_DATA = ' + json.dumps(D, ensure_ascii=False, indent=1) + ';\n')
 print('data ok')
