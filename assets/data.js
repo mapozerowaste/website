@@ -244,7 +244,7 @@ window.MZ_DATA = {
    "title": "『제로 웨이스트 도시를 위한 안내서』 공식 한국어판 발간",
    "text": "마포자원순환네트워크와 서울환경연합이 제로 웨이스트 유럽(Zero Waste Europe)의 「The Zero Waste Masterplan」을 함께 번역해 공식 한국어판으로 펴냈습니다.",
    "photo": "assets/guide-cover.png",
-   "link": "record.html#zw-city-guide",
+   "link": "/record/zw-city-guide.html",
    "upcoming": false,
    "linkText": ""
   },
@@ -302,7 +302,7 @@ window.MZ_DATA = {
    "title": "『제로 웨이스트 도시를 위한 안내서』 공식 한국어판",
    "text": "제로 웨이스트 유럽(Zero Waste Europe)이 펴낸 「The Zero Waste Masterplan」을 서울환경연합과 함께 번역했습니다. 유럽 도시들의 제로웨이스트 전환 경험을 담은 안내서를 누구나 내려받을 수 있습니다.",
    "meta": "함께 옮긴 곳: 서울환경연합 · 원저: Zero Waste Europe",
-   "link": "record.html#zw-city-guide",
+   "link": "/record/zw-city-guide.html",
    "photo": ""
   },
   {
@@ -627,7 +627,7 @@ window.MZ_DATA = {
   "민트협동조합 봄봄마을정원사모임": "assets/logos/mint-bombom.png"
  },
  "guide": {
-  "about": "record.html#zw-city-guide",
+  "about": "/record/zw-city-guide.html",
   "download": "",
   "cover": "assets/guide-cover.png"
  },
@@ -647,5 +647,24 @@ window.MZ_DATA = {
    "fileView": "https://drive.google.com/file/d/1K-qHskdfvoKPCYP0Qld5ys-ILSM6CYsr/view",
    "fileName": "[KOR] 제로 웨이스트 도시를 위한 안내서.pdf (약 9.8MB)"
   }
+ },
+ "static": {
+  "news": [
+   "press-supermarket",
+   "supermarket-audit",
+   "assembly-forum",
+   "launch",
+   "guide",
+   "kickoff-meeting"
+  ],
+  "record": [
+   "court-statement",
+   "statement-251114",
+   "comment-250910",
+   "assembly-forum-book",
+   "gaia-win-261014",
+   "energydaily-260130",
+   "zw-city-guide"
+  ]
  }
 };

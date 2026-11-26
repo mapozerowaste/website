@@ -50,7 +50,7 @@ R(STATEMENTS,'comment-250910').update(photo='comment-250910.jpg', body=['마포�
 PRESS[0]['summary']='GAIA가 지난 25년간 소각장을 막아 낸 사례를 소개하는 시리즈에 서울시의 마포 소각장 계획 철회가 실렸습니다. 이 승리에 함께한 회원단체로 마포자원순환네트워크가 올라 있습니다.'
 PRESS[1]['summary']='국회 토론회 ‘제로웨이스트로 가는 길: 예산으로 보는 자원순환정책’을 다룬 기사입니다.'
 D=dict(news=NEWS,activities=ACTIVITIES,statements=STATEMENTS,docs=DOCS,press=PRESS,history=[dict(date=d,text=t) for d,t in HISTORY],orgs=ORGS,persons=PERSONS,partners=PARTNERS,logos=LOGOS,
-       guide={'about':'record.html#zw-city-guide','download':'','cover':'assets/guide-cover.png'},
+       guide={'about':'/record/zw-city-guide.html','download':'','cover':'assets/guide-cover.png'},
        gated={'zw-city-guide': {
          'image':'assets/guide-promo.jpg',
          'lead':'제로 웨이스트 유럽의 마스터플랜 「The Zero Waste Masterplan」 공식 한국어판',
@@ -63,5 +63,8 @@ D=dict(news=NEWS,activities=ACTIVITIES,statements=STATEMENTS,docs=DOCS,press=PRE
          'file':'https://drive.google.com/uc?export=download&id=1K-qHskdfvoKPCYP0Qld5ys-ILSM6CYsr',
          'fileView':'https://drive.google.com/file/d/1K-qHskdfvoKPCYP0Qld5ys-ILSM6CYsr/view',
          'fileName':'[KOR] 제로 웨이스트 도시를 위한 안내서.pdf (약 9.8MB)'}})
+D['static']=dict(
+  news=[n['id'] for n in NEWS if n.get('body') or n.get('info') or n.get('link') or n.get('upcoming')],
+  record=[x['id'] for x in STATEMENTS+DOCS+PRESS if x.get('id') and (x.get('body') or x.get('summary') or x.get('file') or x.get('photo'))]+list(D['gated'].keys()))
 open('assets/data.js','w').write('// 기본 콘텐츠. 구글 시트를 연결하면(config.js) 시트 내용이 이 값을 덮어씁니다.\nwindow.MZ_DATA = ' + json.dumps(D, ensure_ascii=False, indent=1) + ';\n')
 print('data ok')

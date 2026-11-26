@@ -7,7 +7,8 @@ import os, re, subprocess, sys, time
 from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGES = sys.argv[1:] or ['index.html']
+_sp = os.path.join(ROOT, 'tools', '.static_pages.txt')
+PAGES = sys.argv[1:] or (['index.html'] + (open(_sp).read().split() if os.path.exists(_sp) else []))
 PORT = 8791
 HIDE_UPCOMING = 'index.html'   # 곧 열리는 일정은 시간이 지나면 바뀌므로 미리 그린 본문에서는 숨김
 

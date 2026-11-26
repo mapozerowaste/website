@@ -2,16 +2,25 @@ BASE = 'https://mapozerowaste.org/'
 SITEMAP = []
 ORG_LD = '{"@context":"https://schema.org","@type":"Organization","name":"마포자원순환네트워크","alternateName":"Mapo Resource Circulation Network","url":"https://mapozerowaste.org/","logo":"https://mapozerowaste.org/assets/logo.png","email":"mapozerowaste@gmail.com","areaServed":"서울특별시 마포구","description":"마포의 자원순환과 제로웨이스트 도시를 만들기 위해 연대하는 단체·기업·시민의 네트워크"}'
 
-def page(fname, key, title, desc, main):
+def page(fname, key, title, desc, main, did='', ogimg='', ld='', lastmod=''):
     url = BASE if fname == 'index.html' else BASE + fname
     if fname not in ('post.html', 'record.html'):
-        SITEMAP.append(url)
+        SITEMAP.append((url, lastmod))
     extra = f'<script type="application/ld+json">{ORG_LD}</script>\n' if fname == 'index.html' else ''
+    if ld:
+        extra += f'<script type="application/ld+json">{ld}</script>\n'
+    if fname in ('post.html', 'record.html'):
+        extra += '<meta name="robots" content="noindex,follow">\n'
+    deep = '/' in fname
+    base = '<base href="/">\n' if deep else ''
+    skip = (url + '#main') if deep else '#main'
+    dattr = f' data-id="{did}"' if did else ''
+    ogimg = ogimg or BASE + 'assets/logo.png'
     html = f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+{base}<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <meta property="og:title" content="{title}">
@@ -21,7 +30,7 @@ def page(fname, key, title, desc, main):
 <meta property="og:site_name" content="마포자원순환네트워크">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:url" content="{url}">
-<meta property="og:image" content="{BASE}assets/logo.png">
+<meta property="og:image" content="{ogimg}">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="assets/logo.png">
 {extra}
@@ -31,8 +40,8 @@ def page(fname, key, title, desc, main):
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 </head>
-<body data-page="{key}">
-<a class="skip" href="#main">본문으로 건너뛰기</a>
+<body data-page="{key}"{dattr}>
+<a class="skip" href="{skip}">본문으로 건너뛰기</a>
 <header id="site-header" class="site-header"></header>
 <main id="main">
 {main}
@@ -95,7 +104,7 @@ page('index.html', 'home', '마포자원순환네트워크 — 제로웨이스�
 <div class="eyebrow"><span>2025.06.30</span><i aria-hidden="true"></i><span>발간</span></div>
 <h2 id="guide-title">『제로 웨이스트 도시를 위한 안내서』<br>공식 한국어판을 펴냈습니다</h2>
 <p>국제 환경 네트워크 가이아(GAIA)의 유럽 지부 역할을 하는 제로 웨이스트 유럽(Zero Waste Europe)이 유럽 도시들의 제로웨이스트 전환 경험을 담아 펴낸 마스터플랜입니다. 마포자원순환네트워크와 서울환경연합이 함께 번역해, 누구나 무료로 내려받을 수 있도록 공개했습니다.</p>
-<div class="guide-actions"><a class="btn lg" href="record.html#zw-city-guide">발간 소식 보기</a></div>
+<div class="guide-actions"><a class="btn lg" href="/record/zw-city-guide.html">발간 소식 보기</a></div>
 </div>
 </div></section>
 <section class="bg-cream sec"><div class="wrap">
@@ -242,8 +251,45 @@ page('join.html', 'join', '함께하기 - 마포자원순환네트워크', '연�
 <p class="muted" style="margin:0;font-size:14px">보내 주시면 운영위원이 확인한 뒤 연락드립니다. 개인은 이름을 공개하지 않고 인원수로만 표시합니다.</p>
 </form>
 </div></section>''')
+# ---- 개별 글 고정 주소 페이지 (/news/아이디.html, /record/아이디.html)
+import json, re, os, html as _h
+_D = json.loads(re.search(r'MZ_DATA = (.*);', open('assets/data.js', encoding='utf-8').read(), re.S).group(1))
+def _iso(d):
+    p = (re.findall(r'\d+', d or '') + ['1', '1'])[:3]
+    try: return datetime.date(int(p[0]), int(p[1]), int(p[2])).isoformat()
+    except Exception: return datetime.date.today().isoformat()
+def _photo(x):
+    f = (x.get('photo') or '').split(',')[0].strip()
+    if not f: return ''
+    if re.match(r'https?://', f): return ''
+    return BASE + (f if f.startswith('assets/') else 'assets/photos/' + f)
+def _desc(x, fallback):
+    t = x.get('summary') or x.get('text') or (x.get('body') or [''])[0] or fallback
+    if isinstance(t, list): t = t[0]
+    return _h.escape(re.sub(r'\s+', ' ', t)[:150], quote=True)
+os.makedirs('news', exist_ok=True); os.makedirs('record', exist_ok=True)
 import datetime
+STATIC_PAGES = []
+_news = {n['id']: n for n in _D['news']}
+for i in _D['static']['news']:
+    n = _news[i]
+    title = _h.escape(n['title'] + ' - 마포자원순환네트워크', quote=True)
+    ld = json.dumps({"@context": "https://schema.org", "@type": "NewsArticle", "headline": n['title'], "datePublished": _iso(n['date']),
+        "author": {"@type": "Organization", "name": "마포자원순환네트워크"}, "publisher": {"@type": "Organization", "name": "마포자원순환네트워크", "logo": {"@type": "ImageObject", "url": BASE + "assets/logo.png"}},
+        "mainEntityOfPage": BASE + 'news/' + i + '.html'}, ensure_ascii=False)
+    page(f'news/{i}.html', 'news', title, _desc(n, '마포자원순환네트워크 소식'), '<article class="post" data-render="post"></article>', did=i, ogimg=_photo(n), ld=ld, lastmod=_iso(n['date']))
+    STATIC_PAGES.append(f'news/{i}.html')
+_recs = {x['id']: x for k in ('statements', 'docs', 'press') for x in _D[k] if x.get('id')}
+for i in _D['static']['record']:
+    x = _recs.get(i, {})
+    if i == 'zw-city-guide':
+        t0 = '『제로 웨이스트 도시를 위한 안내서』 공식 한국어판'; d0 = '제로 웨이스트 유럽의 「The Zero Waste Masterplan」을 마포자원순환네트워크와 서울환경연합이 함께 번역한 공식 한국어판 안내서입니다.'
+        x = dict(x, title=t0, summary=d0)
+    title = _h.escape((x.get('title') or '목소리와 기록') + ' - 마포자원순환네트워크', quote=True)
+    page(f'record/{i}.html', 'statements', title, _desc(x, '마포자원순환네트워크의 성명·논평, 자료집, 언론 보도'), '<article class="post" data-render="record"></article>', did=i, ogimg=_photo(x), lastmod=_iso(x.get('date', '2025.06.30')))
+    STATIC_PAGES.append(f'record/{i}.html')
+open('tools/.static_pages.txt', 'w').write('\n'.join(STATIC_PAGES))
 today = datetime.date.today().isoformat()
-open('sitemap.xml', 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{u}</loc><lastmod>{today}</lastmod></url>\n' for u in SITEMAP) + '</urlset>\n')
+open('sitemap.xml', 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{u}</loc><lastmod>{m or today}</lastmod></url>\n' for u, m in SITEMAP) + '</urlset>\n')
 open('robots.txt', 'w').write('User-agent: *\nAllow: /\n\nSitemap: ' + BASE + 'sitemap.xml\n')
-print('pages ok')
+print('pages ok', len(STATIC_PAGES), 'static')

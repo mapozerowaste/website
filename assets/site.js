@@ -268,7 +268,11 @@
   }
 
   /* ---------- 목록 그리기 ---------- */
-  function newsHref(n) { return 'post.html#' + encodeURIComponent(n.id); }
+  var ST = D.static || { news: [], record: [] };
+  function newsHref(n) { return ST.news.indexOf(n.id) >= 0 ? '/news/' + n.id + '.html' : 'post.html#' + encodeURIComponent(n.id); }
+  function recHref(id) { return ST.record.indexOf(id) >= 0 ? '/record/' + id + '.html' : 'record.html#' + encodeURIComponent(id); }
+  // 글 주소: 고정 주소 페이지는 data-id, 예전 post.html#아이디 주소는 해시에서 읽습니다.
+  function pageId() { return document.body.getAttribute('data-id') || decodeURIComponent((location.hash || '').slice(1)); }
   // 상세 페이지가 있는 소식만 링크를 겁니다(본문·상세정보·관련 링크가 있을 때).
   function hasDetail(n) { return !!((n.body && n.body.length) || (n.info && n.info.length) || n.link || isUpcoming(n)); }
   var R = {
@@ -299,7 +303,7 @@
         var ext0 = s.href && s.href !== '#' ? safeHref(s.href) : '';
         var hasPage = !!(s.id && ((D.gated || {})[s.id] || (s.body && s.body.length) || s.summary || s.file || s.photo));
         if (!hasPage && !ext0) return '<li><span class="nolink">' + inner + '</span></li>';
-        var href = hasPage ? 'record.html#' + encodeURIComponent(s.id) : ext0;
+        var href = hasPage ? recHref(s.id) : ext0;
         var ext = !hasPage && /^https?:/.test(href);
         return '<li><a href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' + inner + '</a></li>';
       }).join('');
@@ -374,7 +378,7 @@
       el.innerHTML = (D.orgs || []).map(function (o) { return '<li>' + esc(o) + '</li>'; }).join('');
     },
     'record': function (el) {
-      var id = decodeURIComponent((location.hash || '').slice(1));
+      var id = pageId();
       var groups = [['statements', '성명·논평', '#statements'], ['docs', '자료집', '#docs'], ['press', '언론 보도', '#press']];
       var n, g;
       groups.forEach(function (gr) { (D[gr[0]] || []).forEach(function (x) { if (!n && x.id === id) { n = x; g = gr; } }); });
@@ -450,7 +454,7 @@
       }).join('') || '<li><p class="muted">해당하는 소식이 없습니다.</p></li>';
     },
     'post': function (el) {
-      var id = decodeURIComponent((location.hash || '').slice(1));
+      var id = pageId();
       var list = D.news || [];
       var n = list.filter(function (x) { return x.id === id; })[0] || list[0];
       if (!n) return;
@@ -553,7 +557,16 @@
   bindFilters();
   bindForm();
   addTopButton();
+  // 예전 주소(post.html#아이디, record.html#아이디)는 고정 주소 페이지로 보냅니다.
+  (function () {
+    if (document.body.getAttribute('data-id')) return;
+    var id = decodeURIComponent((location.hash || '').slice(1));
+    if (!id) return;
+    var dir = /post\.html$/.test(location.pathname) ? 'news' : /record\.html$/.test(location.pathname) ? 'record' : '';
+    if (dir && ST[dir].indexOf(id) >= 0) location.replace('/' + dir + '/' + encodeURIComponent(id) + '.html');
+  })();
   window.addEventListener('hashchange', function () {
+    if (document.body.getAttribute('data-id')) return;
     var p = document.querySelector('[data-render="post"]'); if (p) R.post(p);
     var r = document.querySelector('[data-render="record"]'); if (r) { R.record(r); window.scrollTo(0, 0); }
   });
