@@ -262,6 +262,10 @@ def _iso(d):
 def _photo(x):
     f = (x.get('photo') or '').split(',')[0].strip()
     if not f: return ''
+    m = re.search(r'/d/([\w-]{20,})', f) or re.search(r'[?&]id=([\w-]{20,})', f)
+    if m:
+        loc = (_D.get('driveLocal') or {}).get(m.group(1))
+        return BASE + loc if loc else ''
     if re.match(r'https?://', f): return ''
     return BASE + (f if f.startswith('assets/') else 'assets/photos/' + f)
 def _desc(x, fallback):

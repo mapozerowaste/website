@@ -170,7 +170,7 @@
     v = String(v || '').trim();
     if (!v) return '';
     var m = v.match(/\/d\/([\w-]{20,})/) || v.match(/[?&]id=([\w-]{20,})/);
-    if (m) return 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w1600';
+    if (m) return (D.driveLocal && D.driveLocal[m[1]]) || ('https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w1600');
     if (/^https?:\/\//.test(v)) return v;
     if (/^[\w./-]+\.(jpe?g|png|webp|gif)$/i.test(v)) return v.indexOf('/') >= 0 ? v : 'assets/photos/' + v;
     return '';
